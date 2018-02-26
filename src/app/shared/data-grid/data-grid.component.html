@@ -1,0 +1,97 @@
+
+<table class="table table-bordered table-striped table-sm table-responsive-md">
+  <thead>
+    <tr>
+      <th *ngFor="let column of gridConfig.columns;" [ngClass]="column.head_align?column.head_align:'text-left'">
+        <span *ngIf="column?.sort" style="cursor:pointer" (click)="onClickSort(column);"><i class="fa" [ngClass]="column.sortConfig.value==='asc'?'fa-sort-desc':column.sortConfig.value==='desc'?'fa-sort-asc':'fa-sort'" aria-hidden="true"></i>&nbsp;</span>
+        {{column.name}}
+        <input *ngIf="column.column_type === 'check_box'" type="checkbox" (change)="onChangeCheckAll()" [(ngModel)]="gridConfig.isCheckAll">
+        <span *ngIf="column?.filter;" #FilterBoxList>
+          &nbsp;
+          <div class="btn-group filter-dropdown" dropdown [autoClose]="false" [isOpen]="column.isOpen" (isOpenChange)="change($event,column)" style="margin-top: -5px;">
+            [ <a href="javascript:void(0);" class="dropdown-toggle" (click)="onClickOpenFilter(column);" dropdownToggle [ngClass]="column.filtered?'active':''"><i class="fa fa-filter" aria-hidden="true"></i></a> ]
+            <div *dropdownMenu class="dropdown-menu row" role="menu">
+              <div class="row">
+                <div class="col-md-12" style="padding-bottom: 3px;">
+                  <select id="select" name="select" class="form-control form-control-sm" [(ngModel)]="column.filterConfig.selected_operator">
+                    <option *ngIf="column.filterConfig?.operators.like" value="like">Like</option>
+                    <option *ngIf="column.filterConfig?.operators.eq" value="eq">Equal to</option>
+                    <option *ngIf="column.filterConfig?.operators.gt" value="gt">Greater Than</option>
+                    <option *ngIf="column.filterConfig?.operators.gte" value="gte">Greater Than or Equal</option>
+                    <option *ngIf="column.filterConfig?.operators.lt" value="lt">Less Than</option>
+                    <option *ngIf="column.filterConfig?.operators.lte" value="lte">Less Than or Equal</option>
+                  </select>
+                </div>
+                <div class="col-md-12" style="padding-bottom: 3px;">
+                    <span *ngIf="column.filterConfig.type !== 'option';">
+                      <input [(ngModel)]="column.filterConfig.value" [myFocus]="column.isOpen" type="{{column.filterConfig.type?column.filterConfig.type:'text'}}" class="form-control form-control-sm">
+                    </span>
+                    <span *ngIf="column.filterConfig.type === 'option';" class="form-group">
+                      <select class="form-control form-control-sm" [(ngModel)]="column.filterConfig.value" [myFocus]="column.isOpen">
+                        <option value=""> -Select- </option>
+                        <option *ngFor="let option of column.filterConfig.options;" value="{{option.value}}">{{option.text}}</option>
+                      </select>
+                    </span>
+                </div>
+                <div class="col-md-6" style="padding-right: 5px;">
+                  <button type="button" class="btn btn-success btn-block btn-sm" (click)="onClickFilter($event,column);">Filter</button>
+                </div>
+                <div class="col-md-6" style="padding-left: 5px;">
+                  <button type="button" class="btn btn-secondary btn-block btn-sm" (click)="onClickFilterClear($event,column);">Clear</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="(gridConfig?.records.length > 0)">
+      <tr *ngFor="let record of gridConfig.records; let i = index" [ngClass]="record.tr_class?record.tr_class:''">
+        <td *ngFor="let column of gridConfig.columns"
+            [ngClass]="column.filtered || column.sorted?'active-cell':''"
+            attr.width="{{column.width?column.width:''}}"
+            attr.align="{{column.data_align?column.data_align:'left'}}"
+            [ngStyle]="column.style?column.style:''">
+              <span *ngIf="column.column_type ==='check_box'">
+                <input type="checkbox" [(ngModel)]="record.isCheck" (change)="onChangeCheckOne()">
+              </span>
+              <span *ngIf="column.column_type ==='data'" [ngStyle]="record.style_format? record.style_format[column.key]?record.style_format[column.key]:'' : '' ">
+                {{record.display_format[column.key]}}
+              </span>
+              <span *ngIf="column.column_type ==='number'">
+                {{record.display_format[column.key] | number:'1.2-2'}}
+              </span>
+              <span *ngIf="column.column_type ==='img'">
+                <img attr.src="{{record.display_format[column.key]}}" alt="no image" class="img-thumbnail">
+              </span>
+              <span *ngIf="column.column_type ==='action'">
+                <button title="{{column.title}}" [disabled]="column.disabled_property?(column.disabled_property.condition_values.indexOf(record[column.disabled_property.condition_key]) > -1):false" class="btn action-btn btn-sm" [ngClass]="column.btn_type?column.btn_type:'btn-default'" (click)="onClickRecord(column.key,record);"><i class="fa fa-lg" [ngClass]="column.icon?column.icon:''"></i></button>
+              </span>
+        </td>
+      </tr>
+    </ng-container>
+    <tr *ngIf="gridConfig.waitingHttpSve">
+      <td attr.colspan="{{gridConfig.columns.length}}" style="text-align: center">
+        <i *ngFor="let column of gridConfig.columns" class="fa fa-spinner fa-pulse"></i>
+      </td>
+    </tr>
+    <tr *ngIf="!(gridConfig?.records?.length > 0) && !(gridConfig?.waitingHttpSve)">
+      <td attr.colspan="{{gridConfig.columns.length}}" style="text-align: center">No record found !</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-6">
+    <pagination [totalItems]="gridConfig.pagination.bigTotalItems" [itemsPerPage]="gridConfig.pagination.itemsPerPage" [(ngModel)]="gridConfig.pagination.bigCurrentPage" [maxSize]="gridConfig.pagination.maxSize" class="pagination-sm"
+                [boundaryLinks]="true" [rotate]="false" (pageChanged)="onPageChange($event)"></pagination>
+    <!--(pageChanged)="onPageChange($event)"-->
+    <!--(click)="onPageClick()"-->
+  </div>
+  <div class="col text-right">
+    <label style="color: #0275d8;">(Total Items {{gridConfig.pagination.bigTotalItems}})</label>
+    <button type="button" class="btn btn-primary btn-sm" (click)="onClickRefresh();"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+  </div>
+</div>

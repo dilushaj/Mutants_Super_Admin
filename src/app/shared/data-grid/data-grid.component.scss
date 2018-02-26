@@ -1,0 +1,54 @@
+$active-cell-color: #dc35450f;
+$border-color: #9bcce5;
+
+.active-cell{
+  background-color: $active-cell-color;
+}
+
+.table-bordered thead th {
+  //border-bottom-width: 2px;
+}
+
+th{
+  font-weight: unset;
+}
+
+.filter-dropdown .dropdown-menu {
+  background-color: #b5d6e7;
+}
+
+.filter-dropdown a {
+  color: #000000;
+}
+
+.filter-dropdown a:hover {
+  color: #000000;
+}
+
+thead{
+  background-color: #b5d6e7;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f5f6;
+}
+
+.table thead th {
+  border-bottom: 2px solid $border-color;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid $border-color;
+}
+
+.filter-dropdown .active{
+  color: #dc3545;
+}
+
+.table-sm th, .table-sm td {
+  padding: 0.15rem;
+}
+
+td .btn-sm, .btn-group-sm > .btn {
+  padding: 0.15rem 0.3rem;
+}

@@ -1,0 +1,38 @@
+<header class="app-header navbar">
+  <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" [routerLink]="['/']" style="background-image: url('assets/images/logo.png');">
+    <!--<img src="assets/images/logo-symbol.png" style="width: 150px;" alt="logo"/>-->
+  </a>
+  <button class="navbar-toggler d-md-down-none" type="button" appSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item px-3">
+      <a class="nav-link" href="javascript:void(0)">{{globalData.authObject.shopName}}</a>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <!--<a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">-->
+        <!--<i class="icon-bell"></i><span class="badge badge-pill badge-danger">0</span>-->
+      <!--</a>-->
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right" style="padding-right: 10px;">
+      <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <!--<img src="assets/images/avatars/1.jpg" class="img-avatar" alt="User"/> Nevil-->
+        {{globalData.authObject.name}} <i class="fa fa-user-circle-o fa-lg"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" href="javascript:void(0)" (click)="onClickProfile();"><i class="fa fa-user"></i> Profile</a>
+        <a class="dropdown-item" href="javascript:void(0)" (click)="onClickChangePassword();"><i class="fa fa-wrench"></i> Change Password</a>
+        <div class="divider"></div>
+        <a class="dropdown-item" href="javascript:void(0)" (click)="onLogOut();"><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+    <!--<button class="navbar-toggler d-md-down-none" type="button" appAsideMenuToggler>-->
+      <!--<span class="navbar-toggler-icon"></span>-->
+    <!--</button>-->
+  </ul>
+</header>
