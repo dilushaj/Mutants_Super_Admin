@@ -69,8 +69,8 @@ export class ApiService {
 
   private setHeader (header_value: any) {
     var header = new HttpHeaders().set('Content-Type', 'application/json');
-    if(this.globalData.LoginResponse.session){
-      header = header.set('sessionid', this.globalData.LoginResponse.session);
+    if(this.globalData.authObject.session){
+      header = header.set('sessionid', this.globalData.authObject.session);
     }else{
       header = header.set('sessionid', "null");
     }
