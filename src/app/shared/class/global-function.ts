@@ -1,4 +1,15 @@
 export class GlobalFunction {
+
+    public getEntitlementAvailability(allEntitlementList : any, availableEntitlementList : any, checkList : any){
+        let elementsObject : any = {};
+        elementsObject.AT_LEAST_ONE = false;
+        for(var key in checkList){
+            elementsObject[checkList[key]] = availableEntitlementList.indexOf(allEntitlementList[checkList[key]].ENTITLEMENT_ID) > -1;
+            elementsObject.AT_LEAST_ONE = elementsObject[checkList[key]] ? true : elementsObject.AT_LEAST_ONE;
+        }
+        return elementsObject;
+    }
+
     public getStatusObject(STATUS : number, STATUS_LIST : any){
         let object = {
             name : STATUS,

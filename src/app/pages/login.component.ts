@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { GuardService } from '../shared';
+import { GuardService, EmitterService } from '../shared';
 import { AuthenticationService } from '../module-services';
 
 @Component({
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit{
   loginReq : any = {};
   forgotPasswordReq : any = {};
 
-  constructor(private guard : GuardService, private authSev : AuthenticationService) { }
+  constructor(private guard : GuardService,private onEmit: EmitterService, private authSev : AuthenticationService) { }
 
   isLoginForm : boolean = true;
 
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit{
             //console.log(response);
             if(response){
                 this.guard.createAuthSession(response);
+                this.onEmit.broadcastLoginSucceedEventEmitter(null);
             }
         });
     }
