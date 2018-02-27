@@ -13,7 +13,11 @@ export class ShopViewComponent implements OnInit {
 
   bsModalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService) {
+      this.modalService.onHide.subscribe((reason: string) => {
+          console.log(reason)
+      });
+  }
 
   ngOnInit() {
   }
@@ -23,17 +27,15 @@ export class ShopViewComponent implements OnInit {
     }
 
     openModalWithComponent() {
-        const initialState : any = {
-            list: [
-                'Open a modal with component',
-                'Pass your data',
-                'Do something else',
-                '...'
-            ],
-            title: 'Modal with component'
+        let modelConfig : any = {
+            class : 'modal-lg',
+            animated : true,
+            keyboard : true,
+            backdrop : true,
+            ignoreBackdropClick : true
         };
-
-        this.bsModalRef = this.modalService.show(ShopFormComponent);
+        this.bsModalRef = null;
+        this.bsModalRef = this.modalService.show(ShopFormComponent, modelConfig);
         this.bsModalRef.content.title = 'Modal with component';
         this.bsModalRef.content.list = [
             'Open a modal with component',
