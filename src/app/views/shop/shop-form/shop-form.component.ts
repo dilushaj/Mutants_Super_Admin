@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-shop-form',
@@ -12,6 +13,7 @@ export class ShopFormComponent implements OnInit {
     title: string;
     closeBtnName: string;
     list: any[] = [];
+    adminUser : any = {};
 
     constructor(public bsModalRef: BsModalRef, private modalService: BsModalService) {}
 
