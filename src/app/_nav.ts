@@ -18,19 +18,19 @@ export const navigation = [
             {
                 entitlements: ["VIEW_SHOP_PROFILE", "UPDATE_SHOP_PROFILE"],
                 name: 'Manage Business',
-                url: '/shop/details',
+                url: '/admin/shop',
                 icon: 'icon-basket'
             },
             {
                 entitlements: ["VIEW_BRANCH_LIST", "ADD_NEW_BRANCH", "UPDATE_NEW_BRANCH"],
                 name: 'Manage Branches',
-                url: '/branch/branches',
+                url: '/admin/branch',
                 icon: 'icon-briefcase'
             },
             {
                 entitlements: ["VIEW_SHOP_CORNER_LIST", "CREATE_SHOP_CORNER"],
                 name: 'Manage WFP',
-                url: '/shop-corner/manage',
+                url: '/admin/shop-corner',
                 icon: 'icon-people'
             },
             {
@@ -44,7 +44,7 @@ export const navigation = [
     {
         menu: true,
         entitlements: ["VIEW_SUPPLIER_LISTS"],
-        name: 'Management',
+        name: 'Supplier Management',
         url: '/commission',
         icon: 'icon-briefcase'
     },

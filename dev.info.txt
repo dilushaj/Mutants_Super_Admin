@@ -1,2 +1,6 @@
+
+ng generate module SomeModule --routing
+ng g c shop --flat
+
 http://coreui.io/demo/Angular2_Demo
 https://valor-software.com/ngx-bootstrap/old/1.9.3/#/
