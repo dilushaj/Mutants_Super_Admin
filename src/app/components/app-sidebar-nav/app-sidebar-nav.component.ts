@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 // Import navigation elements
-import { navigation } from './../../_nav';
+import { GlobalData } from './../../shared';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import { navigation } from './../../_nav';
 })
 export class AppSidebarNavComponent {
 
-  public navigation = navigation;
+  public navigation : any = [];
 
   public isDivider(item) {
     return item.divider ? true : false
@@ -41,7 +41,9 @@ export class AppSidebarNavComponent {
     return item.title ? true : false
   }
 
-  constructor() { }
+  constructor(private globalData : GlobalData) {
+      this.navigation = this.globalData.navigationMenuList;
+  }
 }
 
 import { Router } from '@angular/router';

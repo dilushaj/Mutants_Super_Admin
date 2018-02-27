@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.guard.canActivate();
         // example: NavigationStart, RoutesRecognized, NavigationEnd
         let url = ['/login', '/register'];
         this.router.events
@@ -52,11 +53,18 @@ export class AppComponent implements OnInit {
                 if (event instanceof NavigationStart) {
                     //console.log('NavigationStart:', event.url);
                     if (url.indexOf(event.url) === -1) {
-                        this.guard.canActivate();
+                        //this.guard.canActivate();
+                        if(!this.globalData.authObject.isAuthorized){
+                            this.router.navigate(['/login']);
+                            return false;
+                        }
                     }
                 }
             });
 
+        if(this.globalData.authObject.isAuthorized){
+            this.analyzeNavigation();
+        }
         //this.socketInit();
         this.openHttpErrorEvent();
         this.openLoginSucceedEvent();
@@ -109,11 +117,32 @@ export class AppComponent implements OnInit {
     }
 
     private analyzeNavigation(){
-        //console.log(this.globalFn.getEntitlementAvailability(EntitlementConfig.ENTITLEMENTS,this.globalData.authObject.entitlements,["VIEW_USER_PROFILE","UPDATE_USER_PROFILE"]));
-
-        this.navigation.forEach(obj => {
-            console.log(obj);
+        let menuList : any = [];
+        let childrenList : any = [];
+        this.navigation.forEach((obj : any) => {
+            if(obj.menu){
+                if(obj.children){
+                    childrenList = [];
+                    obj.children.forEach((childrenObj : any) => {
+                        if(this.globalFn.getEntitlementAvailability(EntitlementConfig.ENTITLEMENTS, this.globalData.authObject.entitlements, childrenObj.entitlements).AT_LEAST_ONE){
+                            childrenList.push(childrenObj);
+                        }
+                    });
+                    if(childrenList.length > 0){
+                        obj.children = childrenList;
+                        menuList.push(obj);
+                    }
+                }else{
+                    if(this.globalFn.getEntitlementAvailability(EntitlementConfig.ENTITLEMENTS, this.globalData.authObject.entitlements, obj.entitlements).AT_LEAST_ONE){
+                        menuList.push(obj);
+                    }
+                }
+            }else{
+                menuList.push(obj);
+            }
         });
+        //console.log(menuList);
+        this.globalData.setNavigationMenu(menuList);
     }
 
     socketInit() {

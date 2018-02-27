@@ -9,9 +9,9 @@ export class GuardService implements CanActivate{
 
   canActivate(){
     try{
-      let auth_response = localStorage.getItem('auth_object');
-      if(auth_response !== null && JSON.parse(auth_response).isAuthorized){
-        this.globalData.setAuthObject(JSON.parse(auth_response));
+      let auth_object = localStorage.getItem('auth_object');
+      if(auth_object !== null && JSON.parse(auth_object).isAuthorized){
+        this.globalData.setAuthObject(JSON.parse(auth_object));
         return true;
       }else{
         this.router.navigate(['/login']);

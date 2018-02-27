@@ -10,34 +10,41 @@ export const navigation = [
     },
     {
         menu: true,
-        key: 'admin',
+        entitlements: [],
         name: 'Admin',
         url: '/admin',
         icon: 'icon-star',
         children: [
             {
-                key: 'admin-shop',
+                entitlements: ["VIEW_SHOP_PROFILE", "UPDATE_SHOP_PROFILE"],
                 name: 'Manage Business',
-                url: '/reports/sales',
+                url: '/shop/details',
                 icon: 'icon-basket'
             },
             {
-                key: 'admin-branch',
+                entitlements: ["VIEW_BRANCH_LIST", "ADD_NEW_BRANCH", "UPDATE_NEW_BRANCH"],
                 name: 'Manage Branches',
-                url: '/reports/commission',
+                url: '/branch/branches',
                 icon: 'icon-briefcase'
             },
             {
-                key: 'admin-wfp',
+                entitlements: ["VIEW_SHOP_CORNER_LIST", "CREATE_SHOP_CORNER"],
                 name: 'Manage WFP',
-                url: '/reports/customer',
+                url: '/shop-corner/manage',
+                icon: 'icon-people'
+            },
+            {
+                entitlements: ["VIEW_SHOP_CORNER_LIST", "CREATE_SHOP_CORNER"],
+                name: 'Manage Users',
+                url: '/admin/users',
                 icon: 'icon-people'
             }
         ]
     },
     {
         menu: true,
-        name: 'Commission',
+        entitlements: ["VIEW_SUPPLIER_LISTS"],
+        name: 'Management',
         url: '/commission',
         icon: 'icon-briefcase'
     },
