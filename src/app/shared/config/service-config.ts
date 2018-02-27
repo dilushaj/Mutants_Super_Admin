@@ -5,9 +5,9 @@ export class SevConfig {
     ROUTE_PATH : '/online-shop/admin_service'
   };
 
-  public static COMMISSION_SEV = {
-    NAME : 'commission-controller',
-    ROUTE_PATH : '/commission'
+  public static IMG_SEV = {
+    NAME : 'Image-Management-services',
+    ROUTE_PATH : '/online-shop/image_service'
   };
 
 }
