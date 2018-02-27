@@ -44,7 +44,7 @@ export const navigation = [
     {
         menu: true,
         entitlements: ["VIEW_SUPPLIER_LISTS"],
-        name: 'Supplier Management',
+        name: 'Supplier',
         url: '/commission',
         icon: 'icon-briefcase'
     },
