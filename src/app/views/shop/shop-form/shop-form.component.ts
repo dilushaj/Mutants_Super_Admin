@@ -6,17 +6,13 @@ import { NgForm } from '@angular/forms';
 import { AppConfig, MainConfig, SevConfig, ApiService, GlobalFunction, GlobalData } from './../../../shared';
 
 @Component({
-  selector: 'app-shop-form',
-  templateUrl: './shop-form.component.html',
-  styleUrls: []
+    selector: 'app-shop-form',
+    templateUrl: './shop-form.component.html',
+    styleUrls: []
 })
 export class ShopFormComponent implements OnInit {
 
-    title: string;
-    closeBtnName: string;
-    list: any[] = [];
-    adminUser : any = {};
-
+    public shopDetail : any = {};
     public fileUploadConfig : any = {};
 
     constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private apiSev : ApiService, private globalData: GlobalData) {}
@@ -29,20 +25,18 @@ export class ShopFormComponent implements OnInit {
             "type" : "shop",
             "imgUrl" : AppConfig.IMAGE_URL
         };
-
-        this.list.push('PROFIT!!!');
+        setTimeout(()=>{
+            console.log(this.shopDetail);
+        },0);
     }
 
     onCloseModal(){
-        let data : any = {
-            class : 'modal-lg',
-            animated : "123"
-        };
-        this.modalService.setDismissReason(data);
+        let response : any = this.shopDetail;
+        this.modalService.setDismissReason(response);
         this.bsModalRef.hide();
     }
 
     onFileUploadEvent($event){
-        console.log($event)
+        console.log($event);
     }
 }

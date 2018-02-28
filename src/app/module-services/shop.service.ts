@@ -15,13 +15,17 @@ export class ShopService {
         const records : any = [];
         let promise = new Promise((resolve, reject) => {
             return this.apiSev.httpPost(SevConfig.SHOP_SEV,"/shop/findByCriteria",formattedReq,null).then((data : any) => {
-                console.log(data)
+                //console.log(data);
                 if(data){
                     data.data.forEach((obj : any) => {
-                        console.log(obj)
+                        const row = this.shopObj.analyzeShop(obj);
+                        const statusAnalyzeObj : any = this.global.getStatusObject(row.status, MainConfig.STATUS_LIST);
+                        row.statusName = statusAnalyzeObj.name;
+                        row.rowStyle.status = statusAnalyzeObj.style
+                        records.push(row);
                     });
+                    data.data = records;
                 }
-                //data.data = records;
                 resolve(data);
             }).catch(error => {
                 resolve(null);

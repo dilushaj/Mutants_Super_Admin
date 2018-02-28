@@ -23,6 +23,7 @@ export class Shop {
 
     public analyzeShop(data:any) {
         let shop : any = {
+            "_id":  data._id || 0,
             "address": data.address || null,
             "address1":  data.address1 || null,
             "details":  data.details || {},
@@ -42,7 +43,10 @@ export class Shop {
             "telephone":  data.telephone || "",
             "telephone2":  data.telephone2 || "",
             "vat":  data.vat || 0,
-            "_id":  data._id || 0
+            "statusName":  data.statusName || null,
+            "rowStyle":  {
+                "status" : {}
+            }
         };
         return shop;
     }

@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ShopFormComponent } from './../shop-form/shop-form.component';
 import { ShopService } from './../../../module-services';
+import { Shop } from './../../../module-classes';
 import { AppConfig, MainConfig, GlobalFunction, GlobalData } from './../../../shared';
 
 @Component({
@@ -14,8 +15,13 @@ import { AppConfig, MainConfig, GlobalFunction, GlobalData } from './../../../sh
 export class ShopViewComponent implements OnInit {
 
     bsModalRef:BsModalRef;
+    public shopDetail : any = {};
 
-    constructor(private modalService:BsModalService, private shopSev : ShopService, public globalData : GlobalData) {
+    constructor(
+        private modalService:BsModalService,
+        private shopSev : ShopService,
+        private shopObj : Shop,
+        public globalData : GlobalData) {
 
         this.modalService.onHide.subscribe((reason:string) => {
             console.log(reason);
@@ -23,6 +29,7 @@ export class ShopViewComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.shopDetail = this.shopObj.analyzeShop({});
         this.getShopById();
     }
 
@@ -34,12 +41,19 @@ export class ShopViewComponent implements OnInit {
         let req = {
             "shopId":this.globalData.authObject.shopId,
             "branchId":this.globalData.authObject.branchId,
-            "statuses":[0,1,2,6],
+            "statuses":[
+                MainConfig.STATUS_LIST.CREATED.ID,
+                MainConfig.STATUS_LIST.PENDING.ID,
+                MainConfig.STATUS_LIST.APPROVED.ID,
+                MainConfig.STATUS_LIST.SUSPENDED.ID
+            ],
             "offset":0,
             "limit":1
         };
         this.shopSev.shopFindByCriteria(req).then((response : any) => {
-
+            if(response){
+                this.shopDetail = response.data[0];
+            }
         });
     }
 
@@ -53,14 +67,7 @@ export class ShopViewComponent implements OnInit {
         };
         this.bsModalRef = null;
         this.bsModalRef = this.modalService.show(ShopFormComponent, modelConfig);
-        this.bsModalRef.content.title = 'Modal with component';
-        this.bsModalRef.content.list = [
-            'Open a modal with component',
-            'Pass your data',
-            'Do something else',
-            '...'
-        ];
-        this.bsModalRef.content.closeBtnName = 'Close';
+        this.bsModalRef.content.shopDetail = this.shopDetail;
     }
 
 }
