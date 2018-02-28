@@ -35,21 +35,29 @@ const APP_CONTAINERS = [
 
 // Import module-services
 import {
-    AuthenticationService
+    AuthenticationService,
+    MasterDataService,
+    ShopService
 } from './module-services';
 
 const APP_MODULE_SERVICES = [
-    AuthenticationService
+    AuthenticationService,
+    MasterDataService,
+    ShopService
 ];
 
 // Import module-classes
 import {
     Authentication,
+    Shop,
+    MasterData,
     Branch
 } from './module-classes';
 
 const APP_MODULE_CLASSES = [
     Authentication,
+    Shop,
+    MasterData,
     Branch
 ];
 

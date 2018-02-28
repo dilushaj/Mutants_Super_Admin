@@ -1,1 +1,3 @@
 export * from './authentication.service';
+export * from './shop.service';
+export * from './master-data.service';
