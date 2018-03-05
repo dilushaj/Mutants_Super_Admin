@@ -34,7 +34,7 @@ export const navigation = [
                 icon: 'icon-people'
             },
             {
-                entitlements: ["VIEW_SHOP_CORNER_LIST", "CREATE_SHOP_CORNER"],
+                entitlements: ["VIEW_USER_PROFILE", "UPDATE_USER_PROFILE"],
                 name: 'Manage Users',
                 url: '/admin/users',
                 icon: 'icon-people'

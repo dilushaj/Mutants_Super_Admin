@@ -45,7 +45,8 @@ const APP_MODULE_SERVICES = [
     AuthenticationService,
     MasterDataService,
     ShopService,
-    CornerService
+    CornerService,
+    UsersService
 ];
 
 // Import module-classes
@@ -62,7 +63,8 @@ const APP_MODULE_CLASSES = [
     Shop,
     MasterData,
     Branch,
-    Corner
+    Corner,
+    Users
 ];
 
 // Import components
@@ -117,6 +119,8 @@ import {
   GlobalData,
   GlobalFunction
 } from './shared';
+import {UsersService} from './module-services/users.service';
+import {Users} from './module-classes/users';
 
 const APP_SHARED = [
   GuardService,
