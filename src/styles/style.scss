@@ -18,5 +18,7 @@
 // Import core styles
 @import "core/core";
 
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 // Custom styles
 @import "custom";

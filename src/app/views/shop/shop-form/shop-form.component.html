@@ -75,17 +75,13 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Address Line 2<span class="required-field">*</span></label>
-                                    <input type="text" class="form-control form-control-sm"
-                                           placeholder="Enter address line 02"
-                                           required
-                                           [(ngModel)]="shopDetail.address2" name="address2" #address2="ngModel">
-
-                                    <div *ngIf="address2.invalid && (f.submitted || address2.dirty || address2.touched)"
-                                         class="required-alert alert alert-danger">
-                          <span *ngIf="address2.errors.required">
-                            This field is required.
-                          </span>
-                                    </div>
+                                    <ng-select [items]="cities"
+                                               bindLabel="name"
+                                               bindValue="id"
+                                               placeholder="Select city"
+                                               [typeahead]="typeahead"
+                                               [(ngModel)]="selectedCityId"  name="selectedCityId2" #selectedCityId2="ngModel">
+                                    </ng-select>
                                 </div>
                             </div>
                         </div>

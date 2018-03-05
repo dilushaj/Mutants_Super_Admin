@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule }   from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { MessageBoxModule, FileUploadModule } from './../../shared';
 import { ShopRoutingModule } from './shop-routing.module';
@@ -18,7 +19,8 @@ import { ShopFormComponent } from './shop-form/shop-form.component';
     ShopRoutingModule,
     TabsModule,
       MessageBoxModule,
-      FileUploadModule
+      FileUploadModule,
+      NgSelectModule
   ],
   declarations: [ShopComponent, ShopViewComponent, ShopInfoViewComponent, ShopFormComponent],
   entryComponents: [

@@ -124,3 +124,29 @@
 .navbar-nav .open > .nav-link,.navbar-nav .open > .nav-link:hover,.navbar-nav .open > .nav-link:focus{
   color: #ffffff;
 }
+
+.ng-select.ng-single .ng-control {
+  height: 30px;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.765625rem;
+  line-height: 1.5;
+  color: #3e515b;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #c2cfd6;
+  border-radius: 0;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.ng-dropdown-panel.bottom {
+  border-radius: 0;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  padding: 0.25rem 0.5rem;
+}
+
+.ng-select .ng-control {
+  min-height: 30px;
+}
