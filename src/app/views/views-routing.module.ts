@@ -14,7 +14,8 @@ const routes:Routes = [
             {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
             {path: 'admin/shop', loadChildren: './shop/shop.module#ShopModule'},
             {path: 'admin/wfp', loadChildren: './corner/corner.module#CornerModule'},
-            {path: 'admin/users', loadChildren: './manage-user/manage-user.module#ManageUserModule'}
+            {path: 'admin/users', loadChildren: './manage-user/manage-user.module#ManageUserModule'},
+            {path: 'admin/manage-branch', loadChildren: './manage-branch/manage-branch.module#ManageBranchModule'}
         ]
     }
 ];

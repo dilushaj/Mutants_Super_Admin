@@ -24,7 +24,7 @@ export const navigation = [
             {
                 entitlements: ["VIEW_BRANCH_LIST", "ADD_NEW_BRANCH", "UPDATE_NEW_BRANCH"],
                 name: 'Manage Branches',
-                url: '/admin/branch',
+                url: '/admin/manage-branch',
                 icon: 'icon-briefcase'
             },
             {
