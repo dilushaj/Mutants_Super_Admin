@@ -37,13 +37,15 @@ const APP_CONTAINERS = [
 import {
     AuthenticationService,
     MasterDataService,
-    ShopService
+    ShopService,
+    CornerService
 } from './module-services';
 
 const APP_MODULE_SERVICES = [
     AuthenticationService,
     MasterDataService,
-    ShopService
+    ShopService,
+    CornerService
 ];
 
 // Import module-classes
@@ -51,14 +53,16 @@ import {
     Authentication,
     Shop,
     MasterData,
-    Branch
+    Branch,
+    Corner
 } from './module-classes';
 
 const APP_MODULE_CLASSES = [
     Authentication,
     Shop,
     MasterData,
-    Branch
+    Branch,
+    Corner
 ];
 
 // Import components

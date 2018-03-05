@@ -12,7 +12,8 @@ const routes:Routes = [
         children: [
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
-            {path: 'admin/shop', loadChildren: './shop/shop.module#ShopModule'}
+            {path: 'admin/shop', loadChildren: './shop/shop.module#ShopModule'},
+            {path: 'admin/wfp', loadChildren: './corner/corner.module#CornerModule'}
         ]
     }
 ];

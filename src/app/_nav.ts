@@ -30,7 +30,7 @@ export const navigation = [
             {
                 entitlements: ["VIEW_SHOP_CORNER_LIST", "CREATE_SHOP_CORNER"],
                 name: 'Manage WFP',
-                url: '/admin/shop-corner',
+                url: '/admin/wfp',
                 icon: 'icon-people'
             },
             {

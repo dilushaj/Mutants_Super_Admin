@@ -8,7 +8,7 @@ export class ShopService {
 
     constructor( private apiSev : ApiService,
                  private shopObj : Shop,
-                 private global : GlobalFunction) { }
+                 private globalFun : GlobalFunction) { }
 
     public shopFindByCriteria (req : any){
         let formattedReq = this.shopObj.analyzeFindByCriteriaReq(req);
@@ -19,9 +19,9 @@ export class ShopService {
                 if(data){
                     data.data.forEach((obj : any) => {
                         const row = this.shopObj.analyzeShop(obj);
-                        const statusAnalyzeObj : any = this.global.getStatusObject(row.status, MainConfig.STATUS_LIST);
+                        const statusAnalyzeObj : any = this.globalFun.getStatusObject(row.status, MainConfig.STATUS_LIST);
                         row.statusName = statusAnalyzeObj.name;
-                        row.rowStyle.status = statusAnalyzeObj.style
+                        row.rowStyle.statusName = statusAnalyzeObj.style
                         records.push(row);
                     });
                     data.data = records;

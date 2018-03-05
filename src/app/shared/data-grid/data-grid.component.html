@@ -57,14 +57,14 @@
               <span *ngIf="column.column_type ==='check_box'">
                 <input type="checkbox" [(ngModel)]="record.isCheck" (change)="onChangeCheckOne()">
               </span>
-              <span *ngIf="column.column_type ==='data'" [ngStyle]="record.style_format? record.style_format[column.key]?record.style_format[column.key]:'' : '' ">
-                {{record.display_format[column.key]}}
+              <span *ngIf="column.column_type ==='data'" [ngStyle]="record.rowStyle? record.rowStyle[column.key]?record.rowStyle[column.key]:'' : '' ">
+                {{record[column.key]}}
               </span>
               <span *ngIf="column.column_type ==='number'">
-                {{record.display_format[column.key] | number:'1.2-2'}}
+                {{record[column.key] | number:'1.2-2'}}
               </span>
               <span *ngIf="column.column_type ==='img'">
-                <img attr.src="{{record.display_format[column.key]}}" alt="no image" class="img-thumbnail">
+                <img attr.src="{{record[column.key]}}" alt="no image" class="img-thumbnail">
               </span>
               <span *ngIf="column.column_type ==='action'">
                 <button title="{{column.title}}" [disabled]="column.disabled_property?(column.disabled_property.condition_values.indexOf(record[column.disabled_property.condition_key]) > -1):false" class="btn action-btn btn-sm" [ngClass]="column.btn_type?column.btn_type:'btn-default'" (click)="onClickRecord(column.key,record);"><i class="fa fa-lg" [ngClass]="column.icon?column.icon:''"></i></button>
