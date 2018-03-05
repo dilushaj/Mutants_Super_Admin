@@ -1,0 +1,17 @@
+<div bsModal #expandSalesReport="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg form-model" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">{{title}}</h6>
+        <button type="button" class="close" (click)="onCloseSalesReportViewModal();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <app-data-grid [gridConfig]="gridConfig" (onGridEvent)="onGridEvent($event)"></app-data-grid>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

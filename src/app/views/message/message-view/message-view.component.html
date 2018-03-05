@@ -1,0 +1,60 @@
+<div bsModal #messageView="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg form-model" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Message View</h6>
+          <div class="col-sm-10 text-right">
+            <button type="button" class="close" (click)="onCloseMessageViewModal();" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+      </div>
+      <div class="modal-body">
+        <div class="row view-data">
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-sm-5 text-align">Name <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+              <div class="col-sm-7 text-left">{{displayValue.firstName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 text-align">Email <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+              <div class="col-sm-7 text-left">{{displayValue.email}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 text-align">Mobile <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+              <div class="col-sm-7 text-left">{{displayValue.mobile}}</div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-sm-5 text-align">Created Date <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+              <div class="col-sm-7 text-left">{{displayValue.createdDate}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 text-align">Status <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+              <div class="col-sm-7 text-left">{{displayValue.status}}</div>
+            </div>
+          </div>
+        </div>
+        <hr>
+          <div class="col-lg-12" align="center">
+             <p>Message</p>
+            <div class="ow view-data" style="width:900px;border: solid;border-color: #9aaec1" align="">
+                <div class="col-sm-12 text-left"><p>{{displayValue.messageBody}}</p></div>
+            </div>
+          </div>
+        <br/>
+        <div class="row" style="padding-top: 5px;">
+          <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-sm btn-success"  (click)="onChangeStatus(config.STATUS_LIST.ACCEPTED.ID)">Accept</button>
+            <!--<button type="button" class="btn btn-sm btn-warning"  (click)="onChangeStatus(config.STATUS_LIST.RELEASED.ID)">Release</button>-->
+            <button type="button" class="btn btn-sm btn-danger"  (click)="onChangeStatus(config.STATUS_LIST.DELETED.ID)">Delete</button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+
+<message-box-confirm-view #messageBoxConfirm [body]="msgBody" [object]="msgObject" (onMsgBoxEvent)="onMsgBoxEvent($event)"></message-box-confirm-view>
+
