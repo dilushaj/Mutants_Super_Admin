@@ -1,4 +1,27 @@
 export class Branch {
+
+  public analyzeFindByCriteriaReq(data:any) {
+
+    let findByCriteriaReq:any = {
+      "channel": data.channel || null,
+      "shopId": data.shopId || 0,
+      "branchId": data.branchId || 0,
+      "PKs": data.PKs || [],
+      "offset": data.offset || 0,
+      "limit": data.limit || 1,
+      "searchKeys": data.searchKeys || [],
+      "values": data.values || [],
+      "operators": data.operators || [],
+      "fromDate": data.fromDate || null,
+      "toDate": data.toDate || null,
+      "orderByKey": data.orderByKey || null,
+      "orderByValue": data.orderByValue || null,
+      "groupBy": data.groupBy || [],
+      "statuses": data.statuses || []
+    };
+    return findByCriteriaReq;
+  }
+
     public analyzeBranch(data : any){
         let branch : any = {
             "channel": data.channel || 0,
@@ -27,6 +50,13 @@ export class Branch {
             "contactPersonMobile": data.contactPersonMobile || null,
             "contactPersonTelephone": data.contactPersonTelephone || null,
             "contactPersonEmail": data.contactPersonEmail || null,
+            "open":data.open || false,
+            "openName":data.open || null,
+            "status":  data.status || 0,
+            "statusName":  data.statusName || null,
+            "rowStyle":  {
+              "status" : {}
+            }
         };
         return branch;
     }

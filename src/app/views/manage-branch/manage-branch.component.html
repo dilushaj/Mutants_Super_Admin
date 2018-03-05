@@ -1,0 +1,20 @@
+<div class="animated fadeIn">
+  <!--/.row-->
+  <div class="row" id="fullScreenElement">
+    <div class="col-lg-12">
+      <tabset>
+        <tab *ngFor="let tab of tabs"
+             [heading]="tab.title"
+             [active]="tab.active"
+             (select)="onSelectTab(tab);"
+             (deselect)="tab.active = false">
+        </tab>
+        <div style="padding-left: 1rem; padding-right: 1rem;">
+          <router-outlet></router-outlet>
+        </div>
+      </tabset>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
