@@ -38,14 +38,19 @@ import {
     AuthenticationService,
     MasterDataService,
     ShopService,
-    CornerService
+    CornerService,
+    BranchService,
+    UsersService
+
 } from './module-services';
 
 const APP_MODULE_SERVICES = [
     AuthenticationService,
     MasterDataService,
     ShopService,
-    CornerService
+    CornerService,
+    BranchService,
+    UsersService
 ];
 
 // Import module-classes
@@ -54,7 +59,8 @@ import {
     Shop,
     MasterData,
     Branch,
-    Corner
+    Corner,
+    Users
 } from './module-classes';
 
 const APP_MODULE_CLASSES = [
@@ -62,7 +68,8 @@ const APP_MODULE_CLASSES = [
     Shop,
     MasterData,
     Branch,
-    Corner
+    Corner,
+    Users
 ];
 
 // Import components
