@@ -92,7 +92,7 @@
 
         <div class="row" style="padding-top: 5px;">
             <div class="col-md-12 text-right">
-                <button type="submit" [disabled]="!user_availability || waitHttpResponse"
+                <button type="submit" [disabled]="waitHttpResponse"
                         class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit
                 </button>
                 <button type="button" class="btn btn-sm btn-danger" (click)="onClickReset(f);"><i class="fa fa-ban"></i>

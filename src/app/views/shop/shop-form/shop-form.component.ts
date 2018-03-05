@@ -17,6 +17,7 @@ export class ShopFormComponent implements OnInit {
 
     public shopDetail : any = {};
     public fileUploadConfig : any = {};
+    public waitHttpResponse = false;
 
     cities = [];
     selectedCityId: any;
@@ -28,9 +29,10 @@ export class ShopFormComponent implements OnInit {
                 private apiSev : ApiService,
                 private globalData: GlobalData,
                 private cd: ChangeDetectorRef) {
+
         this.typeahead
             .pipe(switchMap(term => this.loadGithubUsers(term)))
-            .subscribe(items => {
+            .subscribe((items : any) => {
                 this.cities = items;
             }, (err) => {
                 this.cities = [];
@@ -73,7 +75,11 @@ export class ShopFormComponent implements OnInit {
         console.log($event);
     }
 
-    onNgSelectKeyUp($event){
-        console.log($event)
+    onSubmit(form: NgForm) {
+
+    }
+
+    onClickReset(form: NgForm) {
+
     }
 }
