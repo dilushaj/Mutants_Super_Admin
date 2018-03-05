@@ -11,6 +11,7 @@ import {
     GlobalData,
     AppConfig,
     MainConfig,
+    DomainConfig,
     GlobalFunction,
     EntitlementConfig
 } from './shared';
@@ -150,7 +151,34 @@ export class AppComponent implements OnInit {
 
     private analyzeDomainConfig(){
         let shopCategory = MainConfig.SHOP_CATEGORIES[this.globalData.authObject.shopCategory];
-        console.log(shopCategory);
+
+        let domainFeatures = {};
+        let domainProperty = {};
+
+        for(var key in DomainConfig.FEATURES){
+            if(DomainConfig.FEATURES[key].indexOf(shopCategory) > -1){
+                domainFeatures[key] = true;
+            }
+        }
+
+        for(var key in DomainConfig.PROPERTY){
+            var property = DomainConfig.PROPERTY[key];
+            for(var sub_key in property){
+                if(sub_key === shopCategory){
+                    domainProperty[key] = property[sub_key];
+                    break;
+                }else if(sub_key === 'DEFAULT'){
+                    domainProperty[key] = property[sub_key];
+                    break;
+                }
+            }
+        }
+
+        this.globalData.setDomainFeatures(domainFeatures);
+        this.globalData.setDomainProperty(domainProperty);
+
+        //console.log(this.globalData.domainFeatures);
+        //console.log(this.globalData.domainProperty);
     }
 
     socketInit() {

@@ -84,13 +84,13 @@ export class MainConfig {
     };
 
     public static SHOP_CATEGORIES = {
-        "1" : "restaurant",
-        "2" : "electronics",
-        "3" : "vehicle",
-        "4" : "medical_equipment",
-        "5" : "furniture",
-        "6" : "mother_and_baby_care",
-        "7" : "fashion_stores"
+        "1" : "RESTAURANT",
+        "2" : "ELECTRONICS",
+        "3" : "VEHICLE",
+        "4" : "MEDICAL_EQUIPMENT",
+        "5" : "FURNITURE",
+        "6" : "MOTHER_AND_BABY_CARE",
+        "7" : "FASHION_STORES"
     };
 
 }
