@@ -83,44 +83,14 @@ export class MainConfig {
         }
     };
 
-    public static shopCategories = {
-        "product": [
-            {
-                "categoryId": 1,
-                "key": "restaurant",
-                "value": "Restaurants"
-            },
-            {
-                "categoryId": 2,
-                "key": "electronics",
-                "value": "Electronics"
-            },
-            {
-                "categoryId": 3,
-                "key": "vehicle",
-                "value": "Vehicle"
-            },
-            {
-                "categoryId": 4,
-                "key": "medical_equipment",
-                "value": "Medical Equipments"
-            },
-            {
-                "categoryId": 5,
-                "key": "furniture",
-                "value": "Furniture"
-            },
-            {
-                "categoryId": 6,
-                "key": "mother_and_baby_care",
-                "value": "Mother and  Baby Care"
-            },
-            {
-                "categoryId": 7,
-                "key": "fashion_stores",
-                "value": "Fashion Stores"
-            }
-        ]
+    public static SHOP_CATEGORIES = {
+        "1" : "restaurant",
+        "2" : "electronics",
+        "3" : "vehicle",
+        "4" : "medical_equipment",
+        "5" : "furniture",
+        "6" : "mother_and_baby_care",
+        "7" : "fashion_stores"
     };
 
 }

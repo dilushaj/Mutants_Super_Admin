@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { GuardService, EmitterService } from '../shared';
+import { GuardService, EmitterService, GlobalData } from '../shared';
 import { AuthenticationService } from '../module-services';
 
 @Component({
@@ -12,12 +13,19 @@ export class LoginComponent implements OnInit{
   loginReq : any = {};
   forgotPasswordReq : any = {};
 
-  constructor(private guard : GuardService,private onEmit: EmitterService, private authSev : AuthenticationService) { }
+  constructor(private guard : GuardService,
+              private onEmit: EmitterService,
+              private authSev : AuthenticationService,
+              private router:Router,
+              private globalData:GlobalData) { }
 
   isLoginForm : boolean = true;
 
   ngOnInit() {
-
+      if(this.globalData.authObject.isAuthorized){
+          this.router.navigate(['/']);
+          return false;
+      }
   }
 
   onLoggedIn(form: NgForm) {

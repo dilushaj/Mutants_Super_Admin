@@ -10,6 +10,7 @@ import {
     ToastNotificationService,
     GlobalData,
     AppConfig,
+    MainConfig,
     GlobalFunction,
     EntitlementConfig
 } from './shared';
@@ -64,6 +65,7 @@ export class AppComponent implements OnInit {
 
         if(this.globalData.authObject.isAuthorized){
             this.analyzeNavigation();
+            this.analyzeDomainConfig();
         }
         //this.socketInit();
         this.openHttpErrorEvent();
@@ -74,6 +76,7 @@ export class AppComponent implements OnInit {
     private openLoginSucceedEvent() {
         this.onEmit.loginSucceedEventEmitter.subscribe((response:any) => {
             this.analyzeNavigation();
+            this.analyzeDomainConfig();
         });
     }
 
@@ -143,6 +146,11 @@ export class AppComponent implements OnInit {
         });
         //console.log(menuList);
         this.globalData.setNavigationMenu(menuList);
+    }
+
+    private analyzeDomainConfig(){
+        let shopCategory = MainConfig.SHOP_CATEGORIES[this.globalData.authObject.shopCategory];
+        console.log(shopCategory);
     }
 
     socketInit() {

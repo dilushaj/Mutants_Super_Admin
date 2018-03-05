@@ -9,7 +9,7 @@ export class GuardService implements CanActivate{
 
   canActivate(){
     try{
-      let auth_object = localStorage.getItem('auth_object');
+      let auth_object = localStorage.getItem('auth_object_pk');
       if(auth_object !== null && JSON.parse(auth_object).isAuthorized){
         this.globalData.setAuthObject(JSON.parse(auth_object));
         return true;
@@ -26,12 +26,12 @@ export class GuardService implements CanActivate{
   createAuthSession(response : any){
     response.isAuthorized = true;
     this.globalData.setAuthObject(response);
-    localStorage.setItem('auth_object',JSON.stringify(response));
+    localStorage.setItem('auth_object_pk',JSON.stringify(response));
     this.router.navigate(['/dashboard']);
   }
 
   removeValidLogin(){
-    localStorage.removeItem('auth_object');
+    localStorage.removeItem('auth_object_pk');
     this.globalData.setAuthObject({});
     this.router.navigate(['/login']);
   }
