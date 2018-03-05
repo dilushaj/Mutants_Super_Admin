@@ -1,0 +1,215 @@
+<div bsModal #adminForm="bs-modal" [config]="modelConfig" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg form-model" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Create Admin User</h6>
+        <button type="button" class="close" (click)="onCloseAdminFormModal();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modal-date-input">
+        <form role="form" (ngSubmit)="onSubmit(f)" #f="ngForm" >
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>First Name <span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter first name"
+                               required
+                               [(ngModel)]="adminUser.firstName" name="firstName" #firstName="ngModel">
+
+                        <div *ngIf="firstName.invalid && (f.submitted || firstName.dirty || firstName.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="firstName.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Last Name <span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter last name"
+                               required
+                               [(ngModel)]="adminUser.lastName" name="lastName" #lastName="ngModel">
+
+                        <div *ngIf="lastName.invalid && (f.submitted || lastName.dirty || lastName.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="lastName.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!--/.row-->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Date Of Birth</label>
+                        <input readonly type="text" class="form-control form-control-sm" placeholder="yyyy-MM-dd"
+                               [maxDate]="maxDate"
+                               #dp="bsDatepicker"
+                               bsDatepicker [(bsValue)]="newVar" value="{{ newVar | date:'yyyy-MM-dd' }}"
+                               [(ngModel)]="adminUser.dateOfBirth" name="dateOfBirth" #dateOfBirth="ngModel">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Mobile <span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="07XXXXXXXXXX"
+                               required
+                               pattern="[0-9]{10}"
+                               [(ngModel)]="adminUser.mobile" name="mobile" #mobile="ngModel">
+
+                        <div *ngIf="mobile.invalid && (f.submitted || mobile.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="mobile.errors.required">
+                            This field is required.
+                          </span>
+                          <span *ngIf="mobile.errors.pattern">
+                            Mobile number is invalid.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!--/.row-->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Email <span class="required-field">*</span></label>
+                        <input type="email" class="form-control form-control-sm" placeholder="example@mail.com"
+                               required
+                               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                               [(ngModel)]="adminUser.email" name="email" #email="ngModel">
+
+                        <div *ngIf="email.invalid && (f.submitted || email.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="email.errors.required">
+                            This field is required.
+                          </span>
+                          <span *ngIf="email.errors.pattern">
+                            Email is invalid.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Username <span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter Username"
+                               required
+                               [disabled] = "action !== 'add'"
+                               [(ngModel)]="adminUser.loginName" name="loginName" #loginName="ngModel"
+                               (blur)="onBlurUsername(adminUser.loginName)">
+
+                        <div *ngIf="loginName.invalid && (f.submitted || loginName.dirty || loginName.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="loginName.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                        <div *ngIf="!user_availability" class="required-alert alert alert-danger">
+                          Username already exist.
+                        </div>
+                      </div>
+                    </div>
+                  </div><!--/.row-->
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Address Line 1<span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter address line 01"
+                               required
+                               [(ngModel)]="adminUser.address1" name="address1" #address1="ngModel">
+
+                        <div *ngIf="address1.invalid && (f.submitted || address1.dirty || address1.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="address1.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Address Line 2<span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter address line 02"
+                               required
+                               [(ngModel)]="adminUser.address2" name="address2" #address2="ngModel">
+
+                        <div *ngIf="address2.invalid && (f.submitted || address2.dirty || address2.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="address2.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!--/.row-->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Postal Code<span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter postal code"
+                               required
+                               [(ngModel)]="adminUser.postalCode" name="postalCode" #postalCode="ngModel">
+
+                        <div *ngIf="postalCode.invalid && (f.submitted || postalCode.dirty || postalCode.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="postalCode.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>City<span class="required-field">*</span></label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter city"
+                               required
+                               [(ngModel)]="adminUser.city" name="city" #city="ngModel">
+
+                        <div *ngIf="city.invalid && (f.submitted || city.dirty || city.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="city.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!--/.row-->
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Country<span class="required-field">*</span></label>
+                        <select class="form-control form-control-sm"
+                                required
+                                [(ngModel)]="adminUser.countryId" name="countryId" #countryId="ngModel">
+                          <option value = "" >- Select Country -</option>
+                          <option *ngFor="let c of countryList" [ngValue]="c.countryId">{{c.name}}</option>
+                        </select>
+                        <div *ngIf="countryId.invalid && (f.submitted || countryId.dirty || countryId.touched)" class="required-alert alert alert-danger">
+                          <span *ngIf="countryId.errors.required">
+                            This field is required.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 5px;">
+            <div class="col-md-12 text-right">
+              <button type="submit" [disabled]="!user_availability || waitHttpResponse" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> Submit</button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="onClickReset(f);"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
