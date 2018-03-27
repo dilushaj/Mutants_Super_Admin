@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, debounceTime, switchMap } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import { AppConfig, MainConfig, SevConfig, ApiService, GlobalFunction, GlobalData } from './../../../shared';
 
@@ -22,6 +23,8 @@ export class ShopFormComponent implements OnInit {
     cities = [];
     selectedCityId: any;
 
+    public onClose: Subject<boolean>;
+
     typeahead = new EventEmitter<string>();
 
     constructor(public bsModalRef: BsModalRef,
@@ -29,7 +32,7 @@ export class ShopFormComponent implements OnInit {
                 private apiSev : ApiService,
                 private globalData: GlobalData,
                 private cd: ChangeDetectorRef) {
-
+        this.onClose = new Subject();
         this.typeahead
             .pipe(switchMap(term => this.loadGithubUsers(term)))
             .subscribe((items : any) => {
@@ -67,7 +70,8 @@ export class ShopFormComponent implements OnInit {
 
     onCloseModal(){
         let response : any = this.shopDetail;
-        this.modalService.setDismissReason(response);
+        //this.modalService.setDismissReason(response);
+        this.onClose.next(response);
         this.bsModalRef.hide();
     }
 
