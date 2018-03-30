@@ -21,7 +21,61 @@ export class Users {
     return findByCriteriaReq;
   }
 
-  public analyzeCorner(data:any) {
+  public analyzeCreateUser(data:any) {
+    let users: any = {
+      "channel": data.channel || 0,
+      "shopId": data.shopId || 0,
+      "branchId": data.branchId || 0,
+      "firstName": data.firstName || "",
+      "lastName": data.lastName || "",
+      "middleName": data.middleName || "",
+      "loginName": data.loginName || "",
+      "password": data.password || "",
+      "address1": data.address1 || "",
+      "address2": data.address2 || "",
+      "email": data.email || "",
+      "mobile": data.mobile || "",
+      "dateOfBirth": data.dateOfBirth || "",
+      "city": data.city || "",
+      "postalCode": data.postalCode || "",
+      "superAdmin": data.superAdmin || false,
+      "roles": data.roles || [],
+      "countryId":  data.countryId || 0,
+      "preparationPoint": data.preparationPoint || 0,
+      "servingPoint": data.servingPoint || 0,
+      "consumingPoint": data.consumingPoint || 0,
+    };
+    return users;
+  }
+
+  public analyzeUpdateUser(data:any) {
+    let users: any = {
+      "channel": data.channel || 0,
+      "shopId": data.shopId || 0,
+      "branchId": data.branchId || 0,
+      "adminId": data.adminId || 0,
+      "firstName": data.firstName || "",
+      "lastName": data.lastName || "",
+      "middleName": data.middleName || "",
+      "password": data.password || "",
+      "address1": data.address1 || "",
+      "address2": data.address2 || "",
+      "email": data.email || "",
+      "mobile": data.mobile || "",
+      "dateOfBirth": data.dateOfBirth || "",
+      "city": data.city || "",
+      "postalCode": data.postalCode || "",
+      "superAdmin": data.superAdmin || false,
+      "roles": data.roles || [],
+      "countryId":  data.countryId || 0,
+      "preparationPoint": data.preparationPoint || 0,
+      "servingPoint": data.servingPoint || 0,
+      "consumingPoint": data.consumingPoint || 0,
+    };
+    return users;
+  }
+
+  public analyzeUser(data:any) {
     let users: any = {
       "adminId": data.adminId || 0,
       "channel": data.channel || 0,
@@ -30,7 +84,7 @@ export class Users {
       "firstName": data.firstName || "",
       "lastName": data.lastName || "",
       "middleName": data.middleName || "",
-      "userName": data.loginName || "",
+      "loginName": data.loginName || "",
       "address1": data.address1 || "",
       "address2": data.address2 || "",
       "email": data.email || "",
@@ -45,7 +99,11 @@ export class Users {
       "statusName":  data.statusName || null,
       "rowStyle":  {
         "status" : {}
-      }
+      },
+      "countryId":  data.countryId || 0,
+      "preparationPoint": data.preparationPoint || 0,
+      "servingPoint": data.servingPoint || 0,
+      "consumingPoint": data.consumingPoint || 0,
     };
     return users;
   }

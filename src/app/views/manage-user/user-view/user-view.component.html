@@ -1,0 +1,78 @@
+<div class="modal-dialog modal-lg form-model" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">User View</h6>
+        <button type="button" class="close" (click)="onCloseUserViewModal();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-sm-5 text-right">First Name <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.firstName}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Middle Name<i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.middleName}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Last Name<i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.lastName}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Date Of Birth<i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.dateOfBirth}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Super Admin<i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.superAdmin}}</div>
+              </div>
+              <div class="row" *ngFor="let corner of cornerTypes">
+                <div class="col-sm-5 text-right">{{corner.name}}<i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{corner.selected.name}}</div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-sm-5 text-right">Email <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.email}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Address <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.address1}}, {{userDetails.address2}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">City <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.city}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Postal Code <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.postalCode}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Country <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.countryId}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Mobile <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.mobile}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-5 text-right">Username <i class="fa fa-hand-o-right fa-1" aria-hidden="true"></i></div>
+                <div class="col-sm-7 text-left">{{userDetails.loginName}}</div>
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

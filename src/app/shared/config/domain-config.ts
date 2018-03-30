@@ -3,7 +3,11 @@ export class DomainConfig {
     public static FEATURES = {
         PRODUCT_PREPARATION : ["RESTAURANT"],
         PRODUCT_SERVING_POINT : ["RESTAURANT"],
-        PRODUCT_CONSUMING_POINT : ["RESTAURANT"]
+        PRODUCT_CONSUMING_POINT : ["RESTAURANT"],
+
+        USER_PREPARATION : ["RESTAURANT"],
+        USER_SERVING_POINT : ["RESTAURANT"],
+        USER_CONSUMING_POINT : ["RESTAURANT"]
     };
 
     public static PROPERTY = {

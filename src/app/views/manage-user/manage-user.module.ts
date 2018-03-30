@@ -7,6 +7,12 @@ import { UsersComponent } from './users/users.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {DataGridModule, MessageBoxModule} from '../../shared';
 import { UserRolesComponent } from './user-roles/user-roles.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { FormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import {NgxMaskModule} from 'ngx-mask';
+import { UserViewComponent } from './user-view/user-view.component';
 
 @NgModule({
   imports: [
@@ -14,8 +20,16 @@ import { UserRolesComponent } from './user-roles/user-roles.component';
     ManageUserRoutingModule,
     TabsModule,
     MessageBoxModule,
-    DataGridModule
+    DataGridModule,
+    FormsModule,
+    BsDatepickerModule.forRoot(),
+    MultiselectDropdownModule,
+    NgxMaskModule.forRoot()
   ],
-  declarations: [ManageUserComponent, UsersComponent, UserRolesComponent]
+  declarations: [ManageUserComponent, UsersComponent, UserRolesComponent, UserFormComponent, UserViewComponent],
+  entryComponents: [
+    UserFormComponent,
+    UserViewComponent
+  ]
 })
 export class ManageUserModule { }

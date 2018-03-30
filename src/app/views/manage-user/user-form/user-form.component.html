@@ -1,0 +1,246 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">User Create Form</h4>
+  <button type="button" class="close" (click)="cancel();" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form role="form" (ngSubmit)="onSubmitAdmin(f)" #f="ngForm">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="firstName">First Name</label><span class="required-field"> *</span>
+                  <input type="text" class="form-control form-control-sm" id="firstName" name="firstName" required
+                         [(ngModel)]="userDetails.firstName" #firstName="ngModel"/>
+                  <div *ngIf="firstName.invalid && (f.submitted || firstName.dirty || firstName.touched)"
+                       class="required-alert alert alert-danger">
+                      <span *ngIf="firstName.errors.required">
+                        This field is required.
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="txtmiddleName">Middle Name</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.middleName" id="txtmiddleName" name="middleName"/>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="lastName">Last Name</label><span class="required-field"> *</span>
+                  <input type="text" class="form-control form-control-sm" id="lastName" name="lastName" required
+                         [(ngModel)]="userDetails.lastName" #lastName="ngModel"/>
+                  <div *ngIf="lastName.invalid && (f.submitted || lastName.dirty || lastName.touched)"
+                       class="required-alert alert alert-danger">
+                      <span *ngIf="lastName.errors.required">
+                        This field is required.
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label >Date Of Birth</label>
+                  <div class="input-group">
+                    <div class="col-xs-12 col-12 col-md-6 form-group">
+                      <input type="text"
+                             class="form-control form-control-sm"
+                             [(ngModel)]="userDetails.dateOfBirth"
+                             name="dateOfBirth"
+                             [minDate]="minDate"
+                             #dp="bsDatepicker"
+                             [disabled]="mode === 'edit'"
+                             bsDatepicker />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group" ng-if="loginResponse.superAdmin">
+                  <label></label>
+                  <div flex-gt-sm="100">
+                    <input type="checkbox" aria-label="is Super User" [disabled]="mode === 'edit'"
+                           [(ngModel)]="userDetails.superAdmin" name="superAdmin" #superUser="ngModel" />
+                    is Super User
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label >System Role</label><span class="required-field"> *</span>
+                  <ss-multiselect-dropdown [options]="userRoles" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="userDetails.roles"
+                                           name="roles" id="roles" #roles="ngModel" required></ss-multiselect-dropdown>
+                  <div *ngIf="roles.invalid && (f.submitted)" class="required-alert alert alert-danger">
+                    <span *ngIf="roles.errors.required">
+                      This field is required.
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-12" *ngFor="let corner of cornerTypes" >
+                <label>{{corner.name}}</label>
+                <select class="form-control" [(ngModel)]="corner.selected" name="corner_"
+                        #corner_="ngModel" class="form-control form-control-sm">
+                  <!--<option disabled value="" selected>&#45;&#45; Select {{corner.name}} &#45;&#45;</option>-->
+                  <option *ngFor="let list of corner.points" [ngValue]="list">{{list.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="txtemail">Email</label><span class="required-field"> *</span>
+                  <input type="email" class="form-control form-control-sm" placeholder="example@mail.com" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" id="txtemail"  name="email" required
+                         [(ngModel)]="userDetails.email" #email="ngModel"/>
+                  <div *ngIf="email.invalid && (f.submitted || email.dirty || email.touched)"
+                       class="required-alert alert alert-danger">
+                      <span *ngIf="email.errors.required">
+                        This field is required.
+                      </span>
+                      <span *ngIf="email.errors.pattern">
+                        Email is invalid.
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Address</label><span class="required-field"> *</span>
+                  <input type="text" class="form-control form-control-sm" placeholder="Address Line 1" id="address1" name="address1" required
+                         [(ngModel)]="userDetails.address1" #address1="ngModel"/>
+                  <div *ngIf="address1.invalid && (f.submitted || address1.dirty || address1.touched)"
+                       class="required-alert alert alert-danger">
+                      <span *ngIf="address1.errors.required">
+                        This field is required.
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.address2"
+                         placeholder="Address Line 2 *" name="address2" required #address2="ngModel"/>
+                  <div *ngIf="address2.invalid && (f.submitted || address2.dirty || address2.touched)"
+                       class="required-alert alert alert-danger">
+                      <span *ngIf="address2.errors.required">
+                        This field is required.
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="form-group col-lg-7 leftrightpadding">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.city"
+                           placeholder="City *" name="city" required #city="ngModel"/>
+                    <div *ngIf="city.invalid && (f.submitted || city.dirty || city.touched)"
+                         class="required-alert alert alert-danger">
+                      <span *ngIf="city.errors.required">
+                        This field is required.
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-5 leftrightpadding">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.postalCode"
+                           placeholder="Postal Code *" name="postalCode" required #postalCode="ngModel"/>
+                    <div *ngIf="postalCode.invalid && (f.submitted || postalCode.dirty || postalCode.touched)"
+                         class="required-alert alert alert-danger">
+                      <span *ngIf="postalCode.errors.required">
+                        This field is required.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Country<span class="required-field"> *</span></label>
+                  <select class="form-control form-control-sm" required [(ngModel)]="userDetails.countryId" name="countryId"
+                          (ngModelChange)="changeCountry($event)" #countryId="ngModel">
+                    <option value = "" >- Select Gender -</option>
+                    <option *ngFor="let c of countryList" [ngValue]="c.countryId">{{c.name}}</option>
+                  </select>
+                  <div *ngIf="countryId.invalid && (f.submitted || countryId.dirty || countryId.touched)" class="required-alert alert alert-danger">
+                    <span *ngIf="countryId.errors.required">
+                      This field is required.
+                    </span>
+                  </div>
+                </div>
+            </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <!--<div class=" row">-->
+                    <label style="padding-left: 15px;" class="leftrightpadding">Telephone Number</label><span class="required-field leftrightpadding"> *</span>
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <div class="row">
+                      <div class="col-md-4 leftrightpadding bottomspace-new">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.formattedPhoneCode"
+                               name="phoneCode" id="phoneCode" placeholder="Code" required #phoneCode="ngModel" readonly/>
+                      </div>
+                      <div class="col-md-8 leftrightpadding" >
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.mobile"
+                               name="mobile"  id="mobile"
+                               required [mask]="'(99) 999 9999'" placeholder="(99) 999 9999" #mobile="ngModel"/>
+                          <div *ngIf="mobile.invalid && (f.submitted || mobile.dirty || mobile.touched)"
+                               class="required-alert alert alert-danger">
+                            <span *ngIf="mobile.errors.required">
+                              This field is required.
+                            </span>
+                            <span *ngIf="mobile.errors.mask">
+                              Enter a valid Mobile Number.
+                            </span>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                  <!--</div>-->
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="loginName">Username</label><span class="required-field"> *</span>
+                  <input type="text" [disabled]="mode === 'edit'" id="loginName" class="form-control form-control-sm" [(ngModel)]="userDetails.loginName"
+                         (blur)="onBlurUsername(userDetails.loginName);" name="loginName" autocomplete="off" required #loginName="ngModel"/>
+                  <div *ngIf="loginName.invalid && (f.submitted || loginName.dirty || loginName.touched)"
+                       class="required-alert alert alert-danger">
+                            <span *ngIf="loginName.errors.required">
+                              This field is required.
+                            </span>
+                  </div>
+                  <span class="required-alert alert alert-danger" *ngIf="!user_availability">
+                    User Name is already in use.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 5px;">
+      <div class="col-md-12 text-right">
+        <button type="submit"
+                class="btn btn-sm btn-success" [disabled]="!user_availability"><i class="fa fa-dot-circle-o"></i> Save
+        </button>
+        <button type="button" class="btn btn-sm btn-danger" (click)="cancel();"><i class="fa fa-ban"></i>
+          Cancel
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

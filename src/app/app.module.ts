@@ -40,7 +40,9 @@ import {
     ShopService,
     CornerService,
     BranchService,
-    UsersService
+    UsersService,
+    UserRolesService,
+    CountryService
 
 } from './module-services';
 
@@ -50,7 +52,9 @@ const APP_MODULE_SERVICES = [
     ShopService,
     CornerService,
     BranchService,
-    UsersService
+    UsersService,
+    UserRolesService,
+    CountryService
 ];
 
 // Import module-classes
@@ -60,7 +64,9 @@ import {
     MasterData,
     Branch,
     Corner,
-    Users
+    Users,
+    UserRoles,
+    Country
 } from './module-classes';
 
 const APP_MODULE_CLASSES = [
@@ -69,7 +75,9 @@ const APP_MODULE_CLASSES = [
     MasterData,
     Branch,
     Corner,
-    Users
+    Users,
+    UserRoles,
+    Country
 ];
 
 // Import components
