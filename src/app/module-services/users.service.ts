@@ -18,22 +18,22 @@ export class UsersService {
       return this.apiSev.httpPost(SevConfig.ADMIN_SEV,"/admin",formattedReq,null).then((data : any) => {
         if(data){
             const row = this.userObj.analyzeUser(data.data);
-            for(var key in this.globalData.domainProperty.CORNER){
-              if(this.globalData.domainProperty.CORNER[key].ID == row.type){
+            for (var key in this.globalData.domainProperty.CORNER) {
+              if (this.globalData.domainProperty.CORNER[key].ID == row.type) {
                 row.typeName = this.globalData.domainProperty.CORNER[key].NAME;
                 break;
               }
             }
-            if(row.superAdmin) {
+            if (row.superAdmin) {
               row.superAdminName = 'Yes';
-            }else {
+            } else {
               row.superAdminName = 'No';
             }
             const statusAnalyzeObj: any = this.globalFun.getStatusObject(row.status, MainConfig.STATUS_LIST);
             row.statusName = statusAnalyzeObj.name;
             row.rowStyle.statusName = statusAnalyzeObj.style;
             records.push(row);
-          data.data = records;
+            data.data = records;
         }
         resolve(data);
       }).catch(error => {
@@ -47,25 +47,9 @@ export class UsersService {
     let formattedReq = this.userObj.analyzeUpdateUser(req);
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpPost(SevConfig.ADMIN_SEV,"/admin",formattedReq,null).then((data : any) => {
+      return this.apiSev.httpPut(SevConfig.ADMIN_SEV,"/admin",formattedReq,null).then((data : any) => {
         if(data){
-          const row = this.userObj.analyzeUser(data.data);
-          for(var key in this.globalData.domainProperty.CORNER){
-            if(this.globalData.domainProperty.CORNER[key].ID == row.type){
-              row.typeName = this.globalData.domainProperty.CORNER[key].NAME;
-              break;
-            }
-          }
-          if(row.superAdmin) {
-            row.superAdminName = 'Yes';
-          }else {
-            row.superAdminName = 'No';
-          }
-          const statusAnalyzeObj: any = this.globalFun.getStatusObject(row.status, MainConfig.STATUS_LIST);
-          row.statusName = statusAnalyzeObj.name;
-          row.rowStyle.statusName = statusAnalyzeObj.style;
-          records.push(row);
-          data.data = records;
+          // console.log(data);
         }
         resolve(data);
       }).catch(error => {
@@ -96,7 +80,7 @@ export class UsersService {
             }
             const statusAnalyzeObj: any = this.globalFun.getStatusObject(row.status, MainConfig.STATUS_LIST);
             row.statusName = statusAnalyzeObj.name;
-            row.rowStyle.statusName = statusAnalyzeObj.style
+            row.rowStyle.statusName = statusAnalyzeObj.style;
             records.push(row);
           });
           data.data = records;
@@ -109,13 +93,13 @@ export class UsersService {
     return promise;
   }
 
-  public cheakUserAvailability (req){
+  public checkUserAvailability (req){
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
       return this.apiSev.httpPut(SevConfig.ADMIN_SEV,"/checkAvailability", req ,null).then((data : any) => {
-        if(data){
-          data.data = records;
-        }
+        // if(data){
+        //   data.data = records;
+        // }
         resolve(data);
       }).catch(error => {
         resolve(null);

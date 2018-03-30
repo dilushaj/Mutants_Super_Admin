@@ -1,5 +1,5 @@
 import { Component, OnInit, Output , EventEmitter } from '@angular/core';
-import {GlobalData, MainConfig} from '../../../shared';
+import {GlobalData, MainConfig, GlobalFunction} from '../../../shared';
 
 import { UsersService } from './../../../module-services';
 import { Users } from './../../../module-classes';
@@ -21,30 +21,23 @@ export class UsersComponent implements OnInit {
   bsModalRef: BsModalRef;
   public gridConfig: any = {};
   public userDetails: any = {};
-  public cornerTypes: any = [];
   private sveReq: any = {};
   private isCheck: boolean = true;
-  mode: string;
+  action: string;
 
-  constructor(public globalData: GlobalData,
-              private modalService:BsModalService,
-              private userSev: UsersService,
-              private cornerSev: CornerService,
-              private userObj: Users,
-              private datePipe: DatePipe
-  ) { }
+  constructor( public globalData: GlobalData, private modalService: BsModalService, private userSev: UsersService,
+              private cornerSev: CornerService, private userObj: Users, private datePipe: DatePipe,
+              private comFun: GlobalFunction )
+            { }
 
   ngOnInit() {
     this.initGritConfig();
     this.initFindByReq();
     this.getUserFindByCriteria();
-    // this.initCornerTypes();
-    // this.userDetails = this.userObj.analyzeUser({});
-    // console.log(this.globalData);
+
   }
 
   onGridEvent($event){
-    //console.log($event.record);
     switch($event.action) {
       case 'pageChange': {
         this.gridPageChange($event.record);
@@ -81,13 +74,12 @@ export class UsersComponent implements OnInit {
   }
 
   private gridPageChange(pagination : any){
-    this.sveReq.offset = (pagination.page - 1)*pagination.itemsPerPage;
+    this.sveReq.offset = (pagination.page - 1) * pagination.itemsPerPage;
     this.sveReq.limit = pagination.itemsPerPage;
     this.getUserFindByCriteria();
   }
 
   private checkList(){
-    // console.log(this.gridConfig.records);
     this.isCheck = true;
     for(let i = 0; i < this.gridConfig.records.length; i++){
       if(this.gridConfig.records[i].isCheck){
@@ -101,7 +93,6 @@ export class UsersComponent implements OnInit {
     this.gridConfig.records = [];
     this.gridConfig.waitingHttpSve = true;
     this.userSev.userFindByCriteria(this.sveReq).then((response : any) => {
-      //console.log(response.data);
       if(response){
         this.gridConfig.records = response.data;
         this.gridConfig.pagination.bigTotalItems = response.recordCount;
@@ -144,8 +135,7 @@ export class UsersComponent implements OnInit {
         MainConfig.STATUS_LIST.CREATED.ID,
         MainConfig.STATUS_LIST.PENDING.ID,
         MainConfig.STATUS_LIST.APPROVED.ID,
-        MainConfig.STATUS_LIST.SUSPENDED.ID,
-        MainConfig.STATUS_LIST.DELETED.ID
+        MainConfig.STATUS_LIST.SUSPENDED.ID
       ],
       "offset":0,
       "limit":this.gridConfig.pagination.itemsPerPage,
@@ -159,7 +149,6 @@ export class UsersComponent implements OnInit {
 
   private initGritConfig() {
     let cornerList = [];
-
     for(var key in this.globalData.domainProperty.CORNER){
       cornerList.push(
         {
@@ -278,89 +267,15 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  private initCornerTypes() {
-    for(let key in this.globalData.domainProperty.CORNER) {
-      if(this.globalData.domainFeatures['USER_'+this.globalData.domainProperty.CORNER[key].KEY]){
-        this.cornerTypes.push({
-          key : this.globalData.domainProperty.CORNER[key].KEY,
-          id: this.globalData.domainProperty.CORNER[key].ID,
-          name: this.globalData.domainProperty.CORNER[key].NAME,
-          points:[
-            {
-              "shopCornerId" : 0,
-              "name" : "All"
-            }
-          ]
-        });
-      }
-    }
-    for(var key in this.cornerTypes){
-      this.initWorkFlowPoints(this.cornerTypes[key].id,key);
-    }
-  }
-
-  private initWorkFlowPoints(id, key) {
-    let req = {
-      "shopId": this.globalData.authObject.shopId,
-      "branchId": this.globalData.authObject.branchId,
-      "statuses": [MainConfig.STATUS_LIST.APPROVED.ID],
-      "operators":["eq"],
-      "searchKeys":["type"],
-      "values":[id]
-    };
-    this.cornerSev.cornerFindByCriteria(req).then((response : any) => {
-      if(response){
-        for(var i in response.data){
-          this.cornerTypes[key].points.push(response.data[i]);
-        }
-
-      }
-    });
-    // console.log(this.cornerTypes);
-  }
-
   onClickAddNewBtn() {
     this.userDetails = {};
-    this.mode = "add";
-    this.cornerTypes = [];
-    this.initCornerTypes();
+    this.action = "add";
     this.openModalWithComponent();
   }
 
   private editRow( records : any){
-    this.cornerTypes = [];
-    this.initCornerTypes();
-    this.mode = "edit";
-    let record = Object.assign({}, records);
-
-    for(var key in this.cornerTypes){
-      for(var i in this.cornerTypes[key].points) {
-        switch (this.cornerTypes[key].key) {
-          case 'PREPARATION':
-            if (record.preparationPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            break;
-          case 'SERVING_POINT':
-            // if(this.cornerTypes[key].selected){
-            if (record.servingPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            // }
-            break;
-          case 'CONSUMING_POINT':
-            if (record.consumingPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            break;
-        }
-      }
-    }
-
-    record.formattedPhoneCode = record.mobile.split('(')[0];
-    record.mobile = "(" + record.mobile.split('(')[1] ;
-    record.dateOfBirth = new Date(record.dateOfBirth);
-    this.userDetails = record;
+    this.action = "edit";
+    this.userDetails = Object.assign({}, records);
     this.openModalWithComponent();
   }
 
@@ -374,47 +289,25 @@ export class UsersComponent implements OnInit {
     };
     this.bsModalRef = null;
     this.bsModalRef = this.modalService.show(UserFormComponent, modelConfig);
-    this.bsModalRef.content.mode = this.mode;
-    this.bsModalRef.content.cornerTypes = this.cornerTypes;
+    this.bsModalRef.content.action = this.action;
     this.bsModalRef.content.userDetails = this.userDetails;
-
+    this.bsModalRef.content.onClose.subscribe(result => {
+      // console.log('results', result);
+      let response = result;
+      response.display_format = this.recordFormat(Object.assign({}, result));
+      response.style_format = this.styleFormat(Object.assign({}, result));
+      if(this.action === "add"){
+        response.tr_class = 'table-success';
+        this.gridConfig.records.unshift(response);
+      }else{
+        this.updateGridRow(result);
+      }
+    });
   }
 
   private viewRow( recordView: any){
-    this.cornerTypes = [];
-    this.initCornerTypes();
-    let record = Object.assign({}, recordView);
-    this.mode = "view";
-
-    for(var key in this.cornerTypes){
-      for(var i in this.cornerTypes[key].points) {
-        switch (this.cornerTypes[key].key) {
-          case 'PREPARATION':
-            if (record.preparationPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            break;
-          case 'SERVING_POINT':
-            // if(this.cornerTypes[key].selected){
-            if (record.servingPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            // }
-            break;
-          case 'CONSUMING_POINT':
-            if (record.consumingPoint === this.cornerTypes[key].points[i].shopCornerId){
-              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
-            }
-            break;
-        }
-      }
-    }
-    if(record.superAdmin){
-      record.superAdmin = "Yes";
-    }else{
-      record.superAdmin = "No";
-    }
-    this.userDetails = record;
+    this.userDetails = Object.assign({}, recordView);
+    this.action = "view";
     this.openViewModalWithComponent();
   }
 
@@ -425,13 +318,42 @@ export class UsersComponent implements OnInit {
       keyboard: true,
       backdrop: true,
       ignoreBackdropClick: true
-
     };
     this.bsModalRef = null;
     this.bsModalRef = this.modalService.show(UserViewComponent, modelConfigs);
-    this.bsModalRef.content.mode = this.mode;
-    this.bsModalRef.content.cornerTypes = this.cornerTypes;
+    this.bsModalRef.content.action = this.action;
     this.bsModalRef.content.userDetails = this.userDetails;
+    this.bsModalRef.content.onClose.subscribe(result => {
+      // console.log('results', result);
+    });
+  }
+
+  private updateGridRow(updatedData : any){
+    for(let i = 0; i < this.gridConfig.records.length; i++){
+      if(this.gridConfig.records[i].adminId == updatedData.adminId){
+        let record = Object.assign({}, this.gridConfig.records[i], updatedData);
+        delete record.display_format;
+        delete record.style_format;
+        record.display_format = this.recordFormat(Object.assign({},record));
+        record.style_format = this.styleFormat(Object.assign({},record));
+        record.tr_class = 'table-warning';
+        this.gridConfig.records[i] = record;
+        break;
+      }
+    }
+  }
+
+  private recordFormat(record : any){
+    let status_object : any = this.comFun.getStatusObject(record.status, MainConfig.STATUS_LIST);
+    record.status = status_object.name;
+    return record;
+  }
+
+  private styleFormat(record : any){
+    let style_format : any = {};
+    let status_object : any = this.comFun.getStatusObject(record.status, MainConfig.STATUS_LIST);
+    style_format.status = status_object.style;
+    return style_format;
   }
 
 }

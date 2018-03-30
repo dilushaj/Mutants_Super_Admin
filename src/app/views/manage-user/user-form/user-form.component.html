@@ -49,14 +49,10 @@
                   <label >Date Of Birth</label>
                   <div class="input-group">
                     <div class="col-xs-12 col-12 col-md-6 form-group">
-                      <input type="text"
-                             class="form-control form-control-sm"
-                             [(ngModel)]="userDetails.dateOfBirth"
-                             name="dateOfBirth"
-                             [minDate]="minDate"
-                             #dp="bsDatepicker"
-                             [disabled]="mode === 'edit'"
-                             bsDatepicker />
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.dateOfBirth"
+                             name="dateOfBirth" [minDate]="minDate" #dp="bsDatepicker" [disabled]="action === 'edit'"
+                             bsDatepicker
+                             #dateOfBirth="ngModel"/>
                     </div>
                   </div>
                 </div>
@@ -65,7 +61,7 @@
                 <div class="form-group" ng-if="loginResponse.superAdmin">
                   <label></label>
                   <div flex-gt-sm="100">
-                    <input type="checkbox" aria-label="is Super User" [disabled]="mode === 'edit'"
+                    <input type="checkbox" aria-label="is Super User" [disabled]="action === 'edit'"
                            [(ngModel)]="userDetails.superAdmin" name="superAdmin" #superUser="ngModel" />
                     is Super User
                   </div>
@@ -87,7 +83,6 @@
                 <label>{{corner.name}}</label>
                 <select class="form-control" [(ngModel)]="corner.selected" name="corner_"
                         #corner_="ngModel" class="form-control form-control-sm">
-                  <!--<option disabled value="" selected>&#45;&#45; Select {{corner.name}} &#45;&#45;</option>-->
                   <option *ngFor="let list of corner.points" [ngValue]="list">{{list.name}}</option>
                 </select>
               </div>
@@ -170,7 +165,7 @@
                   <label>Country<span class="required-field"> *</span></label>
                   <select class="form-control form-control-sm" required [(ngModel)]="userDetails.countryId" name="countryId"
                           (ngModelChange)="changeCountry($event)" #countryId="ngModel">
-                    <option value = "" >- Select Gender -</option>
+                    <option value = "" >- Select Country -</option>
                     <option *ngFor="let c of countryList" [ngValue]="c.countryId">{{c.name}}</option>
                   </select>
                   <div *ngIf="countryId.invalid && (f.submitted || countryId.dirty || countryId.touched)" class="required-alert alert alert-danger">
@@ -193,7 +188,7 @@
                       <div class="col-md-8 leftrightpadding" >
                         <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.mobile"
                                name="mobile"  id="mobile"
-                               required [mask]="'(99) 999 9999'" placeholder="(99) 999 9999" #mobile="ngModel"/>
+                               required mask="(99) 999 9999" dropSpecialCharacters="false" restrict="reject"  placeholder="(99) 999 9999" #mobile="ngModel"/>
                           <div *ngIf="mobile.invalid && (f.submitted || mobile.dirty || mobile.touched)"
                                class="required-alert alert alert-danger">
                             <span *ngIf="mobile.errors.required">
@@ -212,7 +207,7 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="loginName">Username</label><span class="required-field"> *</span>
-                  <input type="text" [disabled]="mode === 'edit'" id="loginName" class="form-control form-control-sm" [(ngModel)]="userDetails.loginName"
+                  <input type="text" [disabled]="action === 'edit'" id="loginName" class="form-control form-control-sm" [(ngModel)]="userDetails.loginName"
                          (blur)="onBlurUsername(userDetails.loginName);" name="loginName" autocomplete="off" required #loginName="ngModel"/>
                   <div *ngIf="loginName.invalid && (f.submitted || loginName.dirty || loginName.touched)"
                        class="required-alert alert alert-danger">

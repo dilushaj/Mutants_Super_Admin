@@ -8,6 +8,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {CornerService} from '../../../module-services/corner.service';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { DatePipe } from '@angular/common';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-user-form',
@@ -24,7 +25,8 @@ export class UserFormComponent implements OnInit {
   minDate = new Date();
   user_availability = true;
   public cornerTypes: any = [];
-  mode: string;
+  action: string;
+  public onClose: Subject<boolean>;
   // settings configuration
   mySettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -46,21 +48,52 @@ export class UserFormComponent implements OnInit {
   };
 
 
-  constructor(public globalData: GlobalData,
-              private modalService:BsModalService,
-              private userSev: UsersService,
-              private userRoleSev: UserRolesService,
-              private countrySev: CountryService,
-              private cornerSev: CornerService,
-              public bsModalRef: BsModalRef,
-              private datePipe: DatePipe,
-              private toastNot: ToastNotificationService
-  ) { }
+  constructor(public globalData: GlobalData, private modalService: BsModalService, private userSev: UsersService,
+              private userRoleSev: UserRolesService, private countrySev: CountryService, private cornerSev: CornerService,
+              public bsModalRef: BsModalRef, private datePipe: DatePipe, private toastNot: ToastNotificationService)
+        {
+          this.onClose = new Subject();
+        }
 
   ngOnInit() {
-    this.userDetails.dateOfBirth = new Date();
     this.initUserRole();
     this.initCountryList();
+    this.initCornerTypes();
+
+    setTimeout(()=>{
+      if(this.action == "edit"){
+        this.initUserDetails();
+      }else{
+        this.userDetails = { countryId : "", dateOfBirth: new Date()};
+      }
+    },0);
+  }
+
+  private initUserDetails(){
+    for(var key in this.cornerTypes){
+      for(var i in this.cornerTypes[key].points) {
+        switch (this.cornerTypes[key].key) {
+          case 'PREPARATION':
+            if (this.userDetails.preparationPoint === this.cornerTypes[key].points[i].shopCornerId){
+              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
+            }
+            break;
+          case 'SERVING_POINT':
+            if (this.userDetails.servingPoint === this.cornerTypes[key].points[i].shopCornerId){
+              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
+            }
+            break;
+          case 'CONSUMING_POINT':
+            if (this.userDetails.consumingPoint === this.cornerTypes[key].points[i].shopCornerId){
+              this.cornerTypes[key].selected = this.cornerTypes[key].points[i];
+            }
+            break;
+        }
+      }
+    }
+    this.userDetails.formattedPhoneCode = this.userDetails.mobile.split('(')[0];
+    this.userDetails.mobile = "(" + this.userDetails.mobile.split('(')[1] ;
+    this.userDetails.dateOfBirth = new Date(this.userDetails.dateOfBirth);
   }
 
   private initUserRole(){
@@ -71,47 +104,44 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  // private initCornerTypes() {
-  //   for(let key in this.globalData.domainProperty.CORNER) {
-  //     if(this.globalData.domainFeatures['USER_'+this.globalData.domainProperty.CORNER[key].KEY]){
-  //       this.cornerTypes.push({
-  //         key : this.globalData.domainProperty.CORNER[key].KEY,
-  //         id: this.globalData.domainProperty.CORNER[key].ID,
-  //         name: this.globalData.domainProperty.CORNER[key].NAME,
-  //         points:[
-  //           {
-  //             "shopCornerId" : 0,
-  //             "name" : "All"
-  //           }
-  //         ]
-  //       });
-  //     }
-  //   }
-  //   for(var key in this.cornerTypes){
-  //     this.initWorkFlowPoints(this.cornerTypes[key].id,key);
-  //   }
-  // }
-  //
-  // private initWorkFlowPoints(id, key) {
-  //   let req = {
-  //     "shopId": this.globalData.authObject.shopId,
-  //     "branchId": this.globalData.authObject.branchId,
-  //     "statuses": [MainConfig.STATUS_LIST.APPROVED.ID],
-  //     "operators":["eq"],
-  //     "searchKeys":["type"],
-  //     "values":[id]
-  //   };
-  //   this.cornerSev.cornerFindByCriteria(req).then((response : any) => {
-  //     if(response){
-  //       for(var i in response.data){
-  //
-  //         this.cornerTypes[key].points.push(response.data[i]);
-  //       }
-  //
-  //     }
-  //   });
-  //   // console.log(this.cornerTypes)
-  // }
+  private initCornerTypes() {
+    for(let key in this.globalData.domainProperty.CORNER) {
+      if(this.globalData.domainFeatures['USER_'+this.globalData.domainProperty.CORNER[key].KEY]){
+        this.cornerTypes.push({
+          key : this.globalData.domainProperty.CORNER[key].KEY,
+          id: this.globalData.domainProperty.CORNER[key].ID,
+          name: this.globalData.domainProperty.CORNER[key].NAME,
+          points:[
+            {
+              "shopCornerId" : 0,
+              "name" : "All"
+            }
+          ]
+        });
+      }
+    }
+    for(var key in this.cornerTypes){
+      this.initWorkFlowPoints(this.cornerTypes[key].id,key);
+    }
+  }
+
+  private initWorkFlowPoints(id, key) {
+    let req = {
+      "shopId": this.globalData.authObject.shopId,
+      "branchId": this.globalData.authObject.branchId,
+      "statuses": [MainConfig.STATUS_LIST.APPROVED.ID],
+      "operators":["eq"],
+      "searchKeys":["type"],
+      "values":[id]
+    };
+    this.cornerSev.cornerFindByCriteria(req).then((response : any) => {
+      if(response){
+        for(var i in response.data){
+          this.cornerTypes[key].points.push(response.data[i]);
+        }
+      }
+    });
+  }
 
   private initCountryList(){
     this.countrySev.getCountryList().then((response : any) => {
@@ -135,13 +165,13 @@ export class UserFormComponent implements OnInit {
       let req = {
         "loginName": username
       };
-      this.userSev.cheakUserAvailability(req).then((response : any) => {
+      this.userSev.checkUserAvailability(req).then((response : any) => {
         if(response){
           this.user_availability = true;
         }else{
           this.user_availability = false;
         }
-      })
+      });
     }
   }
 
@@ -150,7 +180,7 @@ export class UserFormComponent implements OnInit {
       const req = form.value;
       req.shopId = this.globalData.authObject.shopId;
       req.branchId = this.globalData.authObject.branchId;
-      req.mobile = req.phoneCode+' '+req.mobile;
+      req.mobile = req.phoneCode+''+req.mobile;
       for(var key in this.cornerTypes){
         switch(this.cornerTypes[key].key){
           case 'PREPARATION':
@@ -172,32 +202,26 @@ export class UserFormComponent implements OnInit {
       }
       delete req.corner_;
       delete req.phoneCode;
-      // console.log(req);
-      if(this.mode === "add"){
-        req.dateOfBirth = this.datePipe.transform(form.value.dateOfBirth, 'yyyy-MM-dd');
-        // console.log(req);
-        this.userSev.createUser(req).then((response : any) => {
-          console.log(response)
-          if(response){
 
+      if(this.action === "add"){
+        req.dateOfBirth = this.datePipe.transform(form.value.dateOfBirth, 'yyyy-MM-dd');
+        this.userSev.createUser(req).then((response : any) => {
+          if(response){
             this.toastNot.toastSuccess('Data has been saved successfully.');
-            // this.modalService.setDismissReason(response);
+            this.onClose.next(req);
             this.bsModalRef.hide();
           }
         });
       } else{
         req.adminId = this.userDetails.adminId;
-        // console.log(req.dateOfBirth)
         req.dateOfBirth = this.datePipe.transform(this.userDetails.dateOfBirth, 'yyyy-MM-dd');
         delete req.loginName;
         delete req.superAdmin;
-        console.log(req);
-        this.userSev.updateUser(req).then((response : any) => {
-          console.log(response)
-          if(response){
 
+        this.userSev.updateUser(req).then((response : any) => {
+          if(response){
             this.toastNot.toastSuccess('Data has been updated successfully.');
-            // this.modalService.setDismissReason(response);
+            this.onClose.next(req);
             this.bsModalRef.hide();
           }
         });
@@ -207,7 +231,7 @@ export class UserFormComponent implements OnInit {
 
   cancel(){
     let response : any = this.userDetails;
-    this.modalService.setDismissReason(response);
+    this.onClose.next(response);
     this.bsModalRef.hide();
   }
 
