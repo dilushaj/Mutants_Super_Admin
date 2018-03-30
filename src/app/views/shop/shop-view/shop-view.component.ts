@@ -23,9 +23,9 @@ export class ShopViewComponent implements OnInit {
         private shopObj : Shop,
         public globalData : GlobalData) {
 
-        this.modalService.onHide.subscribe((reason:string) => {
-            console.log(reason);
-        });
+        //this.modalService.onHide.subscribe((reason:any) => {
+        //    console.log(reason);
+        //});
     }
 
     ngOnInit() {
@@ -68,6 +68,9 @@ export class ShopViewComponent implements OnInit {
         this.bsModalRef = null;
         this.bsModalRef = this.modalService.show(ShopFormComponent, modelConfig);
         this.bsModalRef.content.shopDetail = this.shopDetail;
+        this.bsModalRef.content.onClose.subscribe(result => {
+            console.log('results', result);
+        })
     }
 
 }
