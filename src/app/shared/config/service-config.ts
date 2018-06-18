@@ -15,4 +15,14 @@ export class SevConfig {
         ROUTE_PATH: '/online-shop/shop_service'
     };
 
+    public static ROLE_SEV = {
+        NAME: 'Role Management Services',
+        ROUTE_PATH: '/online-shop/role_service'
+    };
+
+    public static MASTER_SEV = {
+        NAME : 'Master Data Services',
+        ROUTE_PATH : '/online-shop/master_data_service'
+    };
+
 }

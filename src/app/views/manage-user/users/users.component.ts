@@ -1,35 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import {GlobalData, MainConfig} from '../../../shared';
+import { Component, OnInit, Output , EventEmitter } from '@angular/core';
+import {GlobalData, MainConfig, GlobalFunction} from '../../../shared';
 
 import { UsersService } from './../../../module-services';
 import { Users } from './../../../module-classes';
 import {BsModalService} from 'ngx-bootstrap/modal';
+import {UserFormComponent} from '../user-form/user-form.component';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {CornerService} from '../../../module-services/corner.service';
+import { DatePipe } from '@angular/common';
+import {UserViewComponent} from '../user-view/user-view.component';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [DatePipe]
 })
 export class UsersComponent implements OnInit {
 
+  bsModalRef: BsModalRef;
   public gridConfig: any = {};
+  public userDetails: any = {};
   private sveReq: any = {};
   private isCheck: boolean = true;
+  action: string;
 
-  constructor(public globalData: GlobalData,
-              private modalService:BsModalService,
-              private userSev: UsersService,
-              private userObj: Users) { }
+  constructor( public globalData: GlobalData, private modalService: BsModalService, private userSev: UsersService,
+              private cornerSev: CornerService, private userObj: Users, private datePipe: DatePipe,
+              private comFun: GlobalFunction )
+            { }
 
   ngOnInit() {
     this.initGritConfig();
     this.initFindByReq();
     this.getUserFindByCriteria();
-    // console.log(this.globalData);
+
   }
 
   onGridEvent($event){
-    //console.log($event.record);
     switch($event.action) {
       case 'pageChange': {
         this.gridPageChange($event.record);
@@ -48,7 +56,11 @@ export class UsersComponent implements OnInit {
         break;
       }
       case 'edit': {
-        // this.editRow($event.record);
+        this.editRow($event.record);
+        break;
+      }
+      case 'view': {
+        this.viewRow($event.record);
         break;
       }
       case 'check': {
@@ -62,13 +74,12 @@ export class UsersComponent implements OnInit {
   }
 
   private gridPageChange(pagination : any){
-    this.sveReq.offset = (pagination.page - 1)*pagination.itemsPerPage;
+    this.sveReq.offset = (pagination.page - 1) * pagination.itemsPerPage;
     this.sveReq.limit = pagination.itemsPerPage;
     this.getUserFindByCriteria();
   }
 
   private checkList(){
-    // console.log(this.gridConfig.records);
     this.isCheck = true;
     for(let i = 0; i < this.gridConfig.records.length; i++){
       if(this.gridConfig.records[i].isCheck){
@@ -81,8 +92,7 @@ export class UsersComponent implements OnInit {
   private getUserFindByCriteria(){
     this.gridConfig.records = [];
     this.gridConfig.waitingHttpSve = true;
-    this.userSev.cornerFindByCriteria(this.sveReq).then((response : any) => {
-      //console.log(response.data);
+    this.userSev.userFindByCriteria(this.sveReq).then((response : any) => {
       if(response){
         this.gridConfig.records = response.data;
         this.gridConfig.pagination.bigTotalItems = response.recordCount;
@@ -130,7 +140,7 @@ export class UsersComponent implements OnInit {
       "offset":0,
       "limit":this.gridConfig.pagination.itemsPerPage,
       "orderByKey": "asc",
-      "orderByValue": "shopCornerId",
+      "orderByValue": "adminId",
       "searchKeys": [],
       "operators": [],
       "values": []
@@ -139,7 +149,6 @@ export class UsersComponent implements OnInit {
 
   private initGritConfig() {
     let cornerList = [];
-
     for(var key in this.globalData.domainProperty.CORNER){
       cornerList.push(
         {
@@ -168,7 +177,7 @@ export class UsersComponent implements OnInit {
         },
         {
           "name":"Username",
-          "key":"userName",
+          "key":"loginName",
           "column_type":"data",
           "head_align":"text-left",
           "data_align":"left",
@@ -224,8 +233,23 @@ export class UsersComponent implements OnInit {
             "options":[
               {text:MainConfig.STATUS_LIST.PENDING.NAME,value:MainConfig.STATUS_LIST.PENDING.ID},
               {text:MainConfig.STATUS_LIST.APPROVED.NAME,value:MainConfig.STATUS_LIST.APPROVED.ID},
-              {text:MainConfig.STATUS_LIST.SUSPENDED.NAME,value:MainConfig.STATUS_LIST.SUSPENDED.ID}
+              {text:MainConfig.STATUS_LIST.SUSPENDED.NAME,value:MainConfig.STATUS_LIST.SUSPENDED.ID},
+              {text:MainConfig.STATUS_LIST.DELETED.NAME,value:MainConfig.STATUS_LIST.DELETED.ID}
             ]
+          }
+        },
+        {
+          "name":"",
+          "key":"edit",
+          "title":"Edit",
+          "column_type":"action",
+          "data_align":"center",
+          "btn_type":"btn-primary",
+          "icon":"fa-pencil-square-o",
+          "width":35,
+          "disabled_property" : {
+            "condition_key":"status",
+            "condition_values":[MainConfig.STATUS_LIST.DELETED.ID],
           }
         },
         {
@@ -241,6 +265,95 @@ export class UsersComponent implements OnInit {
       ],
       records:[]
     }
+  }
+
+  onClickAddNewBtn() {
+    this.userDetails = {};
+    this.action = "add";
+    this.openModalWithComponent();
+  }
+
+  private editRow( records : any){
+    this.action = "edit";
+    this.userDetails = Object.assign({}, records);
+    this.openModalWithComponent();
+  }
+
+  private openModalWithComponent() {
+    let modelConfig: any = {
+      class: 'modal-lg',
+      animated: true,
+      keyboard: true,
+      backdrop: true,
+      ignoreBackdropClick: true
+    };
+    this.bsModalRef = null;
+    this.bsModalRef = this.modalService.show(UserFormComponent, modelConfig);
+    this.bsModalRef.content.action = this.action;
+    this.bsModalRef.content.userDetails = this.userDetails;
+    this.bsModalRef.content.onClose.subscribe(result => {
+      // console.log('results', result);
+      let response = result;
+      response.display_format = this.recordFormat(Object.assign({}, result));
+      response.style_format = this.styleFormat(Object.assign({}, result));
+      if(this.action === "add"){
+        response.tr_class = 'table-success';
+        this.gridConfig.records.unshift(response);
+      }else{
+        this.updateGridRow(result);
+      }
+    });
+  }
+
+  private viewRow( recordView: any){
+    this.userDetails = Object.assign({}, recordView);
+    this.action = "view";
+    this.openViewModalWithComponent();
+  }
+
+  private openViewModalWithComponent() {
+    let modelConfigs: any = {
+      class: 'modal-lg',
+      animated: true,
+      keyboard: true,
+      backdrop: true,
+      ignoreBackdropClick: true
+    };
+    this.bsModalRef = null;
+    this.bsModalRef = this.modalService.show(UserViewComponent, modelConfigs);
+    this.bsModalRef.content.action = this.action;
+    this.bsModalRef.content.userDetails = this.userDetails;
+    this.bsModalRef.content.onClose.subscribe(result => {
+      // console.log('results', result);
+    });
+  }
+
+  private updateGridRow(updatedData : any){
+    for(let i = 0; i < this.gridConfig.records.length; i++){
+      if(this.gridConfig.records[i].adminId == updatedData.adminId){
+        let record = Object.assign({}, this.gridConfig.records[i], updatedData);
+        delete record.display_format;
+        delete record.style_format;
+        record.display_format = this.recordFormat(Object.assign({},record));
+        record.style_format = this.styleFormat(Object.assign({},record));
+        record.tr_class = 'table-warning';
+        this.gridConfig.records[i] = record;
+        break;
+      }
+    }
+  }
+
+  private recordFormat(record : any){
+    let status_object : any = this.comFun.getStatusObject(record.status, MainConfig.STATUS_LIST);
+    record.status = status_object.name;
+    return record;
+  }
+
+  private styleFormat(record : any){
+    let style_format : any = {};
+    let status_object : any = this.comFun.getStatusObject(record.status, MainConfig.STATUS_LIST);
+    style_format.status = status_object.style;
+    return style_format;
   }
 
 }

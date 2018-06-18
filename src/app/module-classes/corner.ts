@@ -7,7 +7,7 @@ export class Corner {
             "branchId": data.branchId || 0,
             "PKs": data.PKs || [],
             "offset": data.offset || 0,
-            "limit": data.limit || 1,
+            "limit": data.limit || 100,
             "searchKeys": data.searchKeys || [],
             "values": data.values || [],
             "operators": data.operators || [],
