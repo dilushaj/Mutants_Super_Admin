@@ -9,7 +9,7 @@ import { MyFocusModule } from './../../directives';
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, BsDropdownModule.forRoot(), PaginationModule.forRoot(),MyFocusModule
+    CommonModule, FormsModule, ReactiveFormsModule, BsDropdownModule.forRoot(), PaginationModule.forRoot(), MyFocusModule
   ],
   declarations: [DataGridComponent],
   exports: [DataGridComponent]

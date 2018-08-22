@@ -1,0 +1,130 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Add new Product Category</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="onCloseModal();">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form role="form" #f="ngForm">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <label>Shop Category<span class="required-field">*</span></label>
+                <ng-select [items]="shopChategories"
+                           bindLabel="name"
+                           bindValue="categoryId"
+                           placeholder="Select shop Category"
+                           [(ngModel)]="category.shopCategoryId" name="selectedCategory" #selectedCategory="ngModel"
+                           (change)="onChangeGetParentCategories()">
+                </ng-select>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Category Name<span class="required-field">*</span></label>
+                  <input type="text" class="form-control form-control-sm"
+                         placeholder="Enter category name"
+                         required
+                         [(ngModel)]="category.value" name="value" #value="ngModel">
+                  <div *ngIf="value.invalid && (f.submitted || value.dirty || value.touched)"
+                       class="required-alert alert alert-danger">
+                          <span *ngIf="value.errors.required">
+                            This field is required.
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Data Type<span class="required-field">*</span></label>
+                  <ng-select [items]="Data_Types"
+                             bindLabel="TypeValue"
+                             bindValue="dataType"
+                             placeholder="Select Data Type"
+                             [(ngModel)]="category.dataType" name="selectedDataType" #selectedDataType="ngModel">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Shop Type<span class="required-field">*</span></label>
+                  <ng-select [items]="Shop_Types"
+                             bindLabel="TypeName"
+                             bindValue="shopTypeId"
+                             placeholder="Select shop Category"
+                             [(ngModel)]="category.shopTypeId" name="selectedCategoryType" #selectedCategoryType="ngModel"
+                             (change)="onChangeGetParentCategories()">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Category Type<span class="required-field">*</span></label>
+                  <ng-select [items]="Product_Category_Types[category.shopCategoryId]"
+                             bindLabel="value"
+                             bindValue="key"
+                             placeholder="Select Product Category Type"
+                             [(ngModel)]="category.type" name="selectedCategory" #selectedCategory="ngModel">
+                  </ng-select>
+                </div>
+              </div>
+              <p>
+              <div class="col-sm-6">
+                <label>Is Parent</label>
+                <div class="col-md-6 text-left">
+                  <input type="checkbox" [(ngModel)]="category.parent" name="parent">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Root/ Child<span class="required-field">*</span></label>
+                  <ng-select [items]="Category_Types"
+                             bindLabel="value"
+                             bindValue="id"
+                             placeholder="Select Product Category Type"
+                             [(ngModel)]="categoryType" name="selectedCategoryTypes" #selectedCategoryTypes="ngModel"
+                             (change)="onChangeGetParentCategories()">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col-sm-6" *ngIf="categoryType === 2">
+                <div class="form-group">
+                  <label>Parent Category<span class="required-field">*</span></label>
+                  <ng-select [items]="Parent_Category_Types"
+                             bindLabel="value"
+                             bindValue="categoryId"
+                             placeholder="Select Parent Category Type"
+                             [(ngModel)]="category.parentCategoryId" name="selectedParentCategory"
+                             #selectedParentCategory="ngModel">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 5px;">
+      <div class="col-md-12 text-right">
+        <button type="submit" [disabled]="waitHttpResponse"
+                class="btn btn-sm btn-success" (click)=onSubmit()><i class="fa fa-dot-circle-o"></i> Submit
+        </button>
+        <button type="button" class="btn btn-sm btn-danger" (click)="onClickReset(f);"><i class="fa fa-ban"></i>
+          Reset
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

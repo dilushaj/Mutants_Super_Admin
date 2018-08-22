@@ -160,8 +160,7 @@ export class AppComponent implements OnInit {
                 domainFeatures[key] = true;
             }
         }
-
-        for(var key in DomainConfig.PROPERTY){
+        for (var key in DomainConfig.PROPERTY) {
             var property = DomainConfig.PROPERTY[key];
             for(var sub_key in property){
                 if(sub_key === shopCategory){

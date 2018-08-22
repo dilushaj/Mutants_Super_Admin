@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm,FormGroup,FormControl, Validators, FormBuilder } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { GuardService, EmitterService, GlobalData } from '../shared';
@@ -102,10 +102,12 @@ export class LoginComponent implements OnInit{
   isValid(question) { return this.form.controls[question.key].valid; }
 
   onLoggedIn(form: NgForm) {
+    console.log('form submitted');
     if(form.valid){
       let req = Object.assign({},form.value);
+      console.log('first attempt' + req.shopId);
         this.authSev.getLoginResponse(req).then((response : any) => {
-            //console.log(response);
+            console.log(response.toString());
             if(response){
                 this.guard.createAuthSession(response);
                 this.onEmit.broadcastLoginSucceedEventEmitter(null);

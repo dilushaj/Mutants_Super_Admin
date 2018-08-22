@@ -12,6 +12,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 //import websocketConnect from 'rxjs-websockets'
 
 import { AppComponent } from './app.component';
@@ -42,7 +43,8 @@ import {
     BranchService,
     UsersService,
     UserRolesService,
-    CountryService
+    CountryService,
+    MasterDataManagementService
 
 } from './module-services';
 
@@ -54,7 +56,8 @@ const APP_MODULE_SERVICES = [
     BranchService,
     UsersService,
     UserRolesService,
-    CountryService
+    CountryService,
+    MasterDataManagementService
 ];
 
 // Import module-classes

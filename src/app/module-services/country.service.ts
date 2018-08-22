@@ -30,5 +30,22 @@ export class CountryService {
     });
     return promise;
   }
+  public getCurrencyList(){
+    const currencies : any = [];
+    let promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpGet(SevConfig.MASTER_SEV,"/currencies",{},null).then((data : any) => {
+        if(data){
+          data.forEach((obj : any) => {
+            currencies.push(obj);
+          });
+          data = currencies.map((i) => { i.currencyDisplay = i.name + '-(' + i.symbol + ')'; return i; });
+        }
+        resolve(data);
+      }).catch(error => {
+        resolve(null);
+      });
+    });
+    return promise;
+  }
 
 }

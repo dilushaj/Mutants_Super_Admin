@@ -1,0 +1,28 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6">
+          <i class="fa fa-align-justify"></i> Product Category List
+        </div>
+        <div class="col-md-6 text-right">
+          <button class="btn btn-sm btn-primary pull-right btn-clear-cart ng-binding"
+                  data-ng-show="entitlement.add_new_user" (click)="onClickAddBtn();" aria-hidden="false">Add New
+          </button>
+          <button class="btn btn-sm btn-danger pull-right btn-clear-cart ng-binding"
+                  (click)="onConfirmUpdateStatus(STATUS_LIST.DELETED,'Deleted');" [disabled]="!(selectedRows>0)">Delete
+          </button>
+          <button class="btn btn-sm btn-warning pull-right btn-clear-cart ng-binding"
+                  (click)="onUpdateStatus(STATUS_LIST.SUSPENDED,'Suspend');" [disabled]="!(selectedRows>0)">Hold
+          </button>
+          <button class="btn btn-sm btn-success pull-right btn-clear-cart ng-binding"
+                  (click)="onUpdateStatus(STATUS_LIST.APPROVED,'Approved');" [disabled]="!(selectedRows>0)">Approve
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <app-data-grid [gridConfig]="gridConfig" (onGridEvent)="onGridEvent($event)"></app-data-grid>
+    </div>
+  </div>
+</div>

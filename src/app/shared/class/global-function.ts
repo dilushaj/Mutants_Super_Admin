@@ -1,96 +1,106 @@
 export class GlobalFunction {
 
-    public getEntitlementAvailability(allEntitlementList:any, availableEntitlementList:any, checkList:any) {
-        let elementsObject:any = {};
+    public getEntitlementAvailability(allEntitlementList: any, availableEntitlementList: any, checkList: any) {
+        const elementsObject: any = {};
         elementsObject.AT_LEAST_ONE = false;
-        for (var key in checkList) {
+        for (const key in checkList) {
             elementsObject[checkList[key]] = availableEntitlementList.indexOf(allEntitlementList[checkList[key]].ENTITLEMENT_ID) > -1;
             elementsObject.AT_LEAST_ONE = elementsObject[checkList[key]] ? true : elementsObject.AT_LEAST_ONE;
         }
         return elementsObject;
     }
+  public mapShopCategory (shopCategories: any, categoryId: any) {
+    let categoryName;
+    for (let i = 0; i < shopCategories.length; i++) {
+      if (shopCategories[i].categoryId === categoryId) {
+        categoryName = shopCategories[i].name;
+        break;
+      }
+    }
+    return categoryName;
+  }
 
-    public getStatusObject(STATUS:number, STATUS_LIST:any) {
-        let key : any = null;
+    public getStatusObject(STATUS: number, STATUS_LIST: any) {
+        let key: any = null;
         switch (STATUS) {
             case STATUS_LIST.CREATED.ID :
             {
-                key = "CREATED";
+                key = 'CREATED';
                 break;
             }
             case STATUS_LIST.PENDING.ID :
             {
-                key = "PENDING";
+                key = 'PENDING';
                 break;
             }
             case STATUS_LIST.APPROVED.ID :
             {
-                key = "APPROVED";
+                key = 'APPROVED';
                 break;
             }
             case STATUS_LIST.CANCELED.ID :
             {
-                key = "CANCELED";
+                key = 'CANCELED';
                 break;
             }
             case STATUS_LIST.REVERTED.ID :
             {
-                key = "REVERTED";
+                key = 'REVERTED';
                 break;
             }
             case STATUS_LIST.REJECTED.ID :
             {
-                key = "REJECTED";
+                key = 'REJECTED';
                 break;
             }
             case STATUS_LIST.SUSPENDED.ID :
             {
-                key = "SUSPENDED";
+                key = 'SUSPENDED';
                 break;
             }
             case STATUS_LIST.BLACKLISTED.ID :
             {
-                key = "BLACKLISTED";
+                key = 'BLACKLISTED';
                 break;
             }
             case STATUS_LIST.DELETED.ID :
             {
-                key = "DELETED";
+                key = 'DELETED';
                 break;
             }
             case STATUS_LIST.AMENDED.ID :
             {
-                key = "AMENDED";
+                key = 'AMENDED';
                 break;
             }
             case STATUS_LIST.ACCEPTED.ID :
             {
-                key = "ACCEPTED";
+                key = 'ACCEPTED';
                 break;
             }
             case STATUS_LIST.RELEASED.ID :
             {
-                key = "RELEASED";
+                key = 'RELEASED';
                 break;
             }
             case STATUS_LIST.DISPATCHED.ID :
             {
-                key = "DISPATCHED";
+                key = 'DISPATCHED';
                 break;
             }
             case STATUS_LIST.DELIVERED.ID :
             {
-                key = "DELIVERED";
+                key = 'DELIVERED';
                 break;
             }
             case STATUS_LIST.DELIVERY_ACCEPTED.ID :
             {
-                key = "DELIVERY_ACCEPTED";
+                key = 'DELIVERY_ACCEPTED';
                 break;
             }
             case STATUS_LIST.DELIVERY_REJECTED.ID :
             {
-                key = "DELIVERY_REJECTED";
+                key = 'DELIVERY_REJECTED';
                 break;
             }
             default:
@@ -100,15 +110,15 @@ export class GlobalFunction {
             }
         }
 
-        if(key){
+        if (key) {
             return {
                 name: STATUS_LIST[key].NAME,
                 style: {color: STATUS_LIST[key].COLOR}
             };
-        }else{
+        }else {
             return {
                 name: STATUS,
-                style: {color: "#000000"}
+                style: {color: '#000000'}
             };
         }
     }

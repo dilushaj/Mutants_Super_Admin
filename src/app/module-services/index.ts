@@ -6,3 +6,4 @@ export * from './users.service';
 export * from './branch.service';
 export * from './user-roles.service';
 export * from './country.service';
+export * from './master-data-management.service';

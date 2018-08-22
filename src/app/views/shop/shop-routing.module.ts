@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ShopComponent } from './shop.component';
-import { ShopViewComponent } from './shop-view/shop-view.component';
+import { ShopViewComponent } from './shop-list-view/shop-view.component';
 import { ShopInfoViewComponent } from './shop-info-view/shop-info-view.component';
 
 const routes: Routes = [

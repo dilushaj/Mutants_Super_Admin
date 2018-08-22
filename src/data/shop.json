@@ -1,0 +1,19 @@
+{
+  "user": {
+    "firstName":"First_",
+    "lastName":"Last_",
+    "loginName":"L",
+    "password":"fcea920f7412b5da7be0cf42b8c93759"
+  },
+  "email":"wrohanc@gmail.com",
+  "shopName":"Shop_ ",
+  "address1":"Address1_",
+  "address2":"Address_2",
+  "city":"City_",
+  "postalCode":"0000",
+  "telephone":"(00) 000 0000",
+  "shopCategory":6,
+  "countryId":1,
+  "currency":"LKR",
+  "shopType":1
+}

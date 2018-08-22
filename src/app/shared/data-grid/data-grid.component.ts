@@ -18,37 +18,37 @@ export class DataGridComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    //console.log(this.gridConfig);
+    // console.log(this.gridConfig);
     this.gridConfig.isCheckAll = false;
     this.resetColumnConfig();
   }
 
-  onClickRecord(key,record : any){
-    this.onGridEvent.emit({action:key,record:record});
+  onClickRecord(key, record: any){
+    this.onGridEvent.emit({action: key, record: record});
   }
 
-  onChangeCheckAll(){
+  onChangeCheckAll() {
     this.gridConfig.records.forEach((record: any) => {
       record.isCheck = this.gridConfig.isCheckAll;
     });
-    this.onGridEvent.emit({action:"check",record:this.gridConfig.records});
+    this.onGridEvent.emit({action: 'check', record: this.gridConfig.records});
   }
 
-  onChangeCheckOne(){
+  onChangeCheckOne() {
     this.gridConfig.isCheckAll = true;
-    for(let i = 0; i < this.gridConfig.records.length; i++){
-      if(!this.gridConfig.records[i].isCheck){
+    for (let i = 0; i < this.gridConfig.records.length; i++){
+      if (!this.gridConfig.records[i].isCheck) {
         this.gridConfig.isCheckAll = false;
         break;
       }
     }
-    this.onGridEvent.emit({action:"check",record:this.gridConfig.records});
+    this.onGridEvent.emit({action: 'check', record: this.gridConfig.records});
   }
 
-  onClickSort(column){
-    let value = column.sortConfig.value;
+  onClickSort(column) {
+    const value = column.sortConfig.value;
     this.resetSortConfig();
-    switch(value) {
+    switch (value) {
       case 'none': {
         column.sortConfig.value = 'asc';
         break;
@@ -68,7 +68,7 @@ export class DataGridComponent implements OnInit {
     }
     column.sorted = true;
     //console.log(column.sortConfig);
-    this.onGridEvent.emit({action:"sort",record:column.sortConfig});
+    this.onGridEvent.emit({action: 'sort', record: column.sortConfig});
   }
 
   onClickOpenFilter(column: any){
@@ -76,26 +76,26 @@ export class DataGridComponent implements OnInit {
     column.isOpen = !column.isOpen;
   }
 
-  onClickFilter($event,column){
-    var array = this.getFilteredObject();
+  onClickFilter($event, column){
+    const array = this.getFilteredObject();
     //console.log(array);
-    this.onGridEvent.emit({action:"filter",record:array});
-    this.toggleDropdown($event,column);
+    this.onGridEvent.emit({action: 'filter', record: array});
+    this.toggleDropdown($event, column);
   }
 
-  onClickFilterClear($event,column){
-    if(typeof column.filterConfig === 'object'){
-      column.filterConfig.value = "";
+  onClickFilterClear($event, column){
+    if (typeof column.filterConfig === 'object'){
+      column.filterConfig.value = '';
     }
-    var array = this.getFilteredObject();
+    const array = this.getFilteredObject();
     //console.log(array);
-    this.onGridEvent.emit({action:"filter",record:array});
-    this.toggleDropdown($event,column);
+    this.onGridEvent.emit({action: 'filter', record: array});
+    this.toggleDropdown($event, column);
   }
 
   onPageChange($event){
     //console.log($event);
-    this.onGridEvent.emit({action:"pageChange",record:{
+    this.onGridEvent.emit({action: 'pageChange', record: {
         page : $event.page,
         itemsPerPage : this.gridConfig.pagination.itemsPerPage,
       }
@@ -114,14 +114,14 @@ export class DataGridComponent implements OnInit {
     this.onChangeCheckAll();
     this.resetColumnConfig();
     this.resetSortConfig();
-    this.onGridEvent.emit({action:"refresh",record:{}});
+    this.onGridEvent.emit({action: 'refresh', record: {}});
   }
 
   @HostListener('document:click', ['$event']) clickout(event) {
     this.filter_box = this.FilterBoxList;
-    for(let i = 0; i<this.filter_box._results.length; i++){
-      if(this.filter_box._results[i].nativeElement.contains(event.target)) {
-        //console.log("clicked inside");
+    for (let i = 0; i < this.filter_box._results.length; i++){
+      if (this.filter_box._results[i].nativeElement.contains(event.target)) {
+        // console.log("clicked inside");
         return false;
       }
     }
@@ -129,11 +129,11 @@ export class DataGridComponent implements OnInit {
   }
 
   private getFilteredObject(): any{
-    var filterArray = [];
+    const filterArray = [];
     this.gridConfig.columns.forEach((column: any) => {
       column.filtered = false;
-      if(typeof column.filterConfig === 'object' && typeof column.filterConfig.value !== "undefined" && column.filterConfig.value !== ""){
-        filterArray.push({"key": column.key, "operators": column.filterConfig.selected_operator, "value": column.filterConfig.value});
+      if (typeof column.filterConfig === 'object' && typeof column.filterConfig.value !== 'undefined' && column.filterConfig.value !== ''){
+        filterArray.push({'key': column.key, 'operators': column.filterConfig.selected_operator, 'value': column.filterConfig.value});
         column.filtered = true;
       }
     });
@@ -163,9 +163,9 @@ export class DataGridComponent implements OnInit {
       column.sorted = false;
       column.filtered = false;
       column.isOpen = false;
-      column.sortConfig = {"key": column.key, "value": "none"};
-      if(typeof column.filterConfig === 'object' && column.filterConfig.type === 'option'){
-        column.filterConfig.value = "";
+      column.sortConfig = {'key': column.key, 'value': 'none'};
+      if (typeof column.filterConfig === 'object' && column.filterConfig.type === 'option'){
+        column.filterConfig.value = '';
       }
     });
   }
@@ -174,8 +174,8 @@ export class DataGridComponent implements OnInit {
     this.gridConfig.columns.forEach((column: any) => {
       column.sorted = false;
       column.sortConfig = {
-        "key": column.key,
-        "value": "none"
+        'key': column.key,
+        'value': 'none'
       };
     });
   }

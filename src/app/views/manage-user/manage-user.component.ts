@@ -18,13 +18,13 @@ export class ManageUserComponent implements OnInit {
       entitlements: ["VIEW_USER_PROFILE", "UPDATE_USER_PROFILE"],
       active:false,
       route:"/admin/users/users"
-    },
-    {
-      title: 'Users Roles',
-      entitlements: ["VIEW_USER_PROFILE", "UPDATE_USER_PROFILE"],
-      active:false,
-      route:"/admin/users/user-roles"
     }
+    // {
+    //   title: 'Users Roles',
+    //   entitlements: ["VIEW_USER_PROFILE", "UPDATE_USER_PROFILE"],
+    //   active:false,
+    //   route:"/admin/users/user-roles"
+    // }
   ];
 
   public tabs: any[] = [];

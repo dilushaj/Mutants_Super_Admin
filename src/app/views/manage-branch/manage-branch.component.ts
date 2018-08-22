@@ -16,7 +16,7 @@ export class ManageBranchComponent implements OnInit {
 
   private tabList : any[] = [
     {
-      title: 'Branches',
+      title: 'Domains',
       entitlements: ["VIEW_BRANCH_LIST", "ADD_NEW_BRANCH","UPDATE_NEW_BRANCH","UPDATE_BRANCH_STATUS"],
       active:false,
       route:"/admin/manage-branch/branches"

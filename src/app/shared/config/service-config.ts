@@ -24,5 +24,9 @@ export class SevConfig {
         NAME : 'Master Data Services',
         ROUTE_PATH : '/online-shop/master_data_service'
     };
+  public static MASTER_MANG_SEV = {
+        NAME : 'Master Data Management Services',
+        ROUTE_PATH : '/online-shop/master_data_management_service'
+  };
 
 }

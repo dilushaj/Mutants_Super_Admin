@@ -70,6 +70,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private initUserDetails(){
+    // console.log(this.userDetails);
     for(var key in this.cornerTypes){
       for(var i in this.cornerTypes[key].points) {
         switch (this.cornerTypes[key].key) {
@@ -120,7 +121,7 @@ export class UserFormComponent implements OnInit {
         });
       }
     }
-    for(var key in this.cornerTypes){
+    for (var key in this.cornerTypes){
       this.initWorkFlowPoints(this.cornerTypes[key].id,key);
     }
   }
@@ -151,7 +152,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  private changeCountry(countryId){
+  public changeCountry(countryId){
     for(let key in this.countryList){
       if(countryId == this.countryList[key].countryId){
         this.userDetails.formattedPhoneCode = '+ '+ this.countryList[key].phoneCode;
@@ -160,7 +161,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  private onBlurUsername(username){
+  public onBlurUsername(username){
     if(username){
       let req = {
         "loginName": username
@@ -168,7 +169,7 @@ export class UserFormComponent implements OnInit {
       this.userSev.checkUserAvailability(req).then((response : any) => {
         if(response){
           this.user_availability = true;
-        }else{
+        }else {
           this.user_availability = false;
         }
       });

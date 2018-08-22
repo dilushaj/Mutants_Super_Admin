@@ -9,6 +9,6 @@ import { ViewsComponent } from './views.component';
     CommonModule,
     ViewsRoutingModule
   ],
-  declarations: [ViewsComponent]
+  declarations: [ViewsComponent ]
 })
 export class ViewsModule { }

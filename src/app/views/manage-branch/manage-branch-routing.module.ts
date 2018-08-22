@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ManageBranchComponent} from "./manage-branch.component";
-import {BranchListComponent} from "./branch-list/branch-list.component";
+import {BranchListComponent} from "./domain-entitlement-list/branch-list.component";
 
 const routes: Routes = [
   {
