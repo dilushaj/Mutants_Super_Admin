@@ -134,6 +134,21 @@ export class MasterDataService {
     return promise;
 
   }
+  public getMasterData(masterDataId: any) {
+    const masterData = [];
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpGet(SevConfig.MASTER_SEV, '/customMasterData/' + masterDataId, {}, null)
+        .then((data: any) => {
+          if (data) {
+            masterData.push(data[0]);
+            resolve(masterData);
+          } else {
+            resolve(masterData);
+          }
+        });
+    });
+    return promise;
+  }
 
 
 

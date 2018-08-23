@@ -1,3 +1,53 @@
-<p>
-  measurement-unit works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6">
+        <ng-select [items]="domains"
+                   bindLabel="name"
+                   bindValue="categoryId"
+                   placeholder="Select domain"
+                   [(ngModel)]="masterData.masterDataId" name="selectedDomain" #selectedDomain="ngModel" (change)="getMeasurementUnits(masterData.masterDataId)">
+        </ng-select>
+      </div>
+      <div class="col-md-6 text-right">
+        <button class="btn btn-sm btn-default pull-right btn-clear-cart ng-binding">
+          Cancel
+        </button>
+        <button class="btn btn-sm btn-success pull-right btn-clear-cart ng-binding">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="form-group">
+          <label><strong>Measurement Unit</strong></label>
+          <input type="text" class="form-control form-control-sm"
+                 placeholder="Enter measurement unit"
+                 required
+                 [(ngModel)]="newMeasurement" name="newMeasurement1" #newMeasurement1="ngModel">
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="padding-top: 28px;">
+        <button class="btn btn-sm btn-primary btn-clear-cart ng-binding" [disabled]="newMeasurement ===''">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header">Measurement Units</div>
+      <div class="card-body" style="max-height: 250px; overflow-y: scroll;">
+        <li *ngFor="let measurementUnit of measurementUnits">
+          {{measurementUnit}}
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+
+

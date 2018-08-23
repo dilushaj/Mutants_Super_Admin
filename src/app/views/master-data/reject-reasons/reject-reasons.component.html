@@ -1,3 +1,56 @@
-<p>
-  reject-reasons works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6">
+        <ng-select [items]="domains"
+                   bindLabel="name"
+                   bindValue="categoryId"
+                   placeholder="Select domain"
+                   [(ngModel)]="masterData.masterDataId" name="selectedDomain" #selectedDomain="ngModel" (change)="getRejectReasons(masterData.masterDataId)">
+        </ng-select>
+      </div>
+      <div class="col-md-6 text-right">
+        <button class="btn btn-sm btn-default pull-right btn-clear-cart ng-binding">
+          Cancel
+        </button>
+        <button class="btn btn-sm btn-success pull-right btn-clear-cart ng-binding">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="form-group">
+          <label><strong>Reject Reasons</strong></label>
+          <input type="text" class="form-control form-control-sm"
+                 placeholder="Enter reject reason"
+                 required
+                 [(ngModel)]="rejectReason" name="newRejectReason" #newRejectReason="ngModel">
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="padding-top: 28px;">
+        <button class="btn btn-sm btn-primary btn-clear-cart ng-binding" [disabled]="rejectReason ===''" (click)="addRejectReason()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+
+  <div class="card">
+    <div class="card-header">Reject Reasons</div>
+    <div class="card-body" style="max-height: 250px; overflow-y: scroll;">
+      <li *ngFor="let rejectReason of rejectReasons; index as i;" class="ng-scope">
+        <button type="button" class="btn btn-danger btn-xs" (click)="removeRejectReason(i);">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        {{rejectReason}}
+      </li>
+    </div>
+  </div>
+</div>
+</div>
+
+

@@ -6,8 +6,6 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class OrderBy implements PipeTransform {
 
   transform(array, orderBy, asc = true) {
-    console.log(orderBy);
-    console.log(array);
     if (!orderBy || orderBy.trim() === '') {
       return array;
     }
