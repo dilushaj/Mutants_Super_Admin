@@ -3,3 +3,4 @@ export * from './nav-dropdown';
 export * from './replace';
 export * from './sidebar';
 export * from './my-focus/my-focus.module';
+export * from './custom-object';

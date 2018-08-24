@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {DataGridModule, FileUploadModule, MessageBoxModule} from '../../shared';
+import { CustomObjectDirective } from '../../directives';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import {DataGridModule, FileUploadModule, MessageBoxModule} from '../../shared';
     NgSelectModule,
     DataGridModule
   ],
-  declarations: [MasterDataComponent, ProductGroupsComponent, RejectReasonsComponent, MeasurementUnitComponent]
+  declarations: [MasterDataComponent, ProductGroupsComponent, RejectReasonsComponent, MeasurementUnitComponent, CustomObjectDirective]
 })
 export class MasterDataModule { }

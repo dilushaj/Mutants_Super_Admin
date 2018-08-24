@@ -87,23 +87,23 @@ export class MasterDataManagementService {
     return promise;
 
   }
-  public addProductGroupForDomain(req) {
+  public addNewMasterData(req) {
       const promise = new Promise((resolve, reject) => {
         return this.apiSev.httpPost(SevConfig.MASTER_MANG_SEV, '/customMasterData', req, null)
           .then((data: any) => {
             if (data) {
-              resolve(promise);
+              resolve(data);
             }
           });
       });
       return promise;
   }
-  public updateProductGroupsOfDomain(req) {
+  public updateMasterData(req) {
     const promise = new Promise((resolve, reject) => {
       return this.apiSev.httpPut(SevConfig.MASTER_MANG_SEV, '/customMasterData', req, null)
         .then((data: any) => {
           if (data) {
-            resolve(promise);
+            resolve(data);
           }
         });
     });
