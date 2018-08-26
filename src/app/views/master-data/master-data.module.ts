@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {DataGridModule, FileUploadModule, MessageBoxModule} from '../../shared';
 import { CustomObjectDirective } from '../../directives';
+import { KeysPipe } from './product-groups/keys.pipe';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { CustomObjectDirective } from '../../directives';
     NgSelectModule,
     DataGridModule
   ],
-  declarations: [MasterDataComponent, ProductGroupsComponent, RejectReasonsComponent, MeasurementUnitComponent, CustomObjectDirective]
+  declarations: [MasterDataComponent, ProductGroupsComponent, RejectReasonsComponent, MeasurementUnitComponent, CustomObjectDirective, KeysPipe]
 })
 export class MasterDataModule { }

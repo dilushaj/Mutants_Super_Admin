@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MasterDataService } from '../../../module-services';
 import {MasterDataManagementService } from '../../../module-services';
 import { MasterData } from '../../../module-classes';
+import * as CloneDeep from 'lodash/CloneDeep';
+import { ToastNotificationService } from '../../../shared';
 
 @Component({
   selector: 'app-measurement-unit',
@@ -9,14 +11,16 @@ import { MasterData } from '../../../module-classes';
   styleUrls: ['./measurement-unit.component.scss']
 })
 export class MeasurementUnitComponent implements OnInit {
-  public masterData= {};
+  public masterDataId = 0;
+  public masterData: any = {};
   public domains = [];
-  public measurementUnits = [];
+  public measurementUnits: any = [];
   public newMeasurement = '';
   constructor(
     private masterService: MasterDataService,
     private masterMngService: MasterDataManagementService,
-    private masterObj: MasterData
+    private masterObj: MasterData,
+    private toastNot: ToastNotificationService
   ) { }
 
   ngOnInit() {
@@ -38,14 +42,59 @@ export class MeasurementUnitComponent implements OnInit {
       this.masterService.getMasterData(masterDataId).then((response: any) => {
         if (response) {
           if (response.length !== 0) {
-            this.masterData = response[0];
-            this.measurementUnits = response[0].measurement_unit;
+            this.masterData = CloneDeep(response[0]);
+            if (typeof response[0].measurement_unit === 'undefined') {
+              this.measurementUnits = [];
+            } else {
+              this.measurementUnits = response[0].measurement_unit;
+            }
+          } else {
+            this.masterData = {};
+            this.measurementUnits = [];
           }
-        } else {
-          this.masterData = {};
-          this.measurementUnits = [];
         }
       });
+    }
+  }
+  addMeasurementUnit() {
+    this.measurementUnits.push(this.newMeasurement);
+    this.newMeasurement = '';
+  }
+
+  removeMeasurementUnit(index) {
+    this.measurementUnits.splice(index, 1);
+  }
+
+  onClickReset() {
+    this.measurementUnits = CloneDeep(this.masterData.measurement_unit);
+  }
+
+  onClickSave() {
+    if (typeof(this.masterData._id) === 'undefined') {
+      const req = {
+        'masterDataId': this.masterDataId,
+        'measurement_unit': this.measurementUnits,
+        'status': 2
+      };
+      this.masterMngService.addNewMasterData(req).then((response: any) => {
+        if (response) {
+          this.toastNot.toastSuccess('Master Data Succesfully Added');
+          this.getMeasurementUnits(this.masterDataId);
+        }
+      });
+    } else {
+      const req = {
+        'masterDataId': this.masterDataId,
+        'measurement_unit': this.measurementUnits,
+        'status': this.masterData.status,
+        '_id': this.masterData._id
+      };
+      this.masterMngService.updateMasterData(req).then((response: any) => {
+        if (response) {
+          this.toastNot.toastSuccess('Master Data Successfully Updated');
+        }
+      });
+
     }
   }
 

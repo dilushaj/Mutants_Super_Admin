@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <ng-select [items]="domains"
                    bindLabel="name"
                    bindValue="categoryId"
@@ -10,7 +10,7 @@
                    (change)="getRejectReasons(masterDataId)">
         </ng-select>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-md-7 text-right">
         <button class="btn btn-sm btn-default pull-right btn-clear-cart ng-binding" (click)="onClickReset()">
           Reset
         </button>
@@ -25,7 +25,7 @@
       <div class="col-sm-8">
         <div class="form-group">
           <label><strong>Reject Reasons</strong></label>
-          <input type="text" class="form-control form-control-sm"
+          <input type="text" class="form-control form-control-sm" [disabled]="masterDataId === 0"
                  placeholder="Enter reject reason"
                  required
                  [(ngModel)]="rejectReason" name="newRejectReason" #newRejectReason="ngModel">
@@ -44,7 +44,7 @@
     <div class="card">
       <div class="card-header">Reject Reasons</div>
       <div class="card-body" style="max-height: 250px; overflow-y: scroll;">
-        <ul style="padding-left: 0;">
+        <ul class="custom-list-group" style="padding-left: 0;">
           <li *ngFor="let rejectReason of rejectReasons; index as i;" style="padding:5px 0;">
                                             <span style="margin: 0 15px 0 0;">
                                                 <button type="button" class="btn btn-danger btn-xs"

@@ -1,19 +1,20 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <ng-select [items]="domains"
                    bindLabel="name"
                    bindValue="categoryId"
                    placeholder="Select domain"
-                   [(ngModel)]="masterData.masterDataId" name="selectedDomain" #selectedDomain="ngModel" (change)="getProductGroups(masterData.masterDataId)">
+                   [(ngModel)]="masterDataId" name="selectedDomain" #selectedDomain="ngModel"
+                   (change)="getProductGroups(masterDataId)">
         </ng-select>
       </div>
-      <div class="col-md-6 text-right">
-        <button class="btn btn-sm btn-default pull-right btn-clear-cart ng-binding">
-          Cancel
+      <div class="col-md-7 text-right">
+        <button class="btn btn-sm btn-default pull-right btn-clear-cart ng-binding" (click)="onClickReset()">
+          Reset
         </button>
-        <button class="btn btn-sm btn-success pull-right btn-clear-cart ng-binding">
+        <button class="btn btn-sm btn-success pull-right btn-clear-cart ng-binding" (click)="onClickSave()">
           Save
         </button>
       </div>
@@ -36,11 +37,12 @@
           <input type="text" class="form-control form-control-sm"
                  placeholder="Enter Value"
                  required
-                 [(ngModel)]="record.value" name="value" #value="ngModel">
+                 [(ngModel)]="record.value.name" name="value" #value="ngModel">
         </div>
       </div>
       <div class="col-sm-2" style="padding-top: 28px;">
-        <button class="btn btn-sm btn-primary btn-clear-cart ng-binding" [disabled]="record.key ==='' || record.value ==='' ">
+        <button class="btn btn-sm btn-primary btn-clear-cart ng-binding"
+                [disabled]="record.key ==='' || record.value.name ==='' " (click)="addProductGroup(record.key, record.value)">
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </button>
       </div>
@@ -48,12 +50,45 @@
     </div>
 
     <div class="card">
-          <div class="card-header">Product Groups</div>
-          <div class="card-body" style="max-height: 250px; overflow-y: scroll;">
-            <li *ngFor="let productGroup of  productGroups">
-              {{productGroup.key + " - " + productGroup.value}}
-            </li>
-          </div>
+      <div class="card-header">Product Groups</div>
+      <div class="card-body" style="max-height: 250px; overflow-y: scroll;">
+        <ul class="custom-list-group" style="padding-left: 0;">
+          <li *ngFor="let productGroup of productGroups | keys" style="padding:5px 0;">
+              <span style="margin: 0 15px 0 0;">
+                  <button type="button" class="btn btn-danger btn-xs"
+                          (click)="removeGroup(productGroup.key);">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+              </span>
+            <span style="margin: 0 15px 0 0;">
+              <button type="button" class="btn btn-primary btn-xs"
+                      (click)="productGroup.value.edit = true;"
+                      *ngIf="!productGroup.value.edit">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn btn-success btn-xs"
+                      (click)="productGroup.value.edit = false;"
+                      *ngIf="productGroup.value.edit">
+                  <i class="fa fa-floppy-o" aria-hidden="true">save</i>
+              </button>
+          </span>
+            <span>
+                <span *ngIf="!productGroup.value.edit">{{productGroup.key}} : </span>
+                <input *ngIf="productGroup.value.edit" type="text" [disabled]="true"
+                       class="form-control" value={{productGroup.key}}
+                       placeholder="Enter New Value"
+                       style="display: inline;width: auto;"/>
+            </span>
+            <span>
+                <span *ngIf="!productGroup.value.edit">{{productGroup.value.name}}</span>
+                <input *ngIf="productGroup.value.edit" type="text" class="form-control"
+                       [(ngModel)]="productGroup.value.name" placeholder="Enter New Value"
+                       style="display: inline;width: auto;"/>
+            </span>
+
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

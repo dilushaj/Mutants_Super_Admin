@@ -75,12 +75,12 @@
                       </div>
                     </div>
                     <br>
-                    <ul class="filter-select">
-                      <li *ngFor="let entitlement of  AvailableFunctions | filter : searchText | orderBy: entitlementId: true">
+                    <ul class="custom-list-group" style="padding-left: 0;">
+                      <li *ngFor="let entitlement of  AvailableFunctions | filter : searchText | orderBy: entitlementId: true" style="padding:5px 0;">
                         {{entitlement.entitlementId + " - " + entitlement.name}}
-                        <div class="col-sm-12 text-right">
+                        <span style="float: right; padding-right: 20px;">
                           <input type="checkbox" (change)="onChange(entitlement)">
-                        </div>
+                        </span>
                       </li>
                     </ul>
                     <br>
@@ -118,12 +118,12 @@
                       </div>
                     </div>
                     <br>
-                    <ul class="filter-select">
-                      <li *ngFor="let entitlement of  AssignedFunctions | filter : searchText1 | orderBy: entitlementId: true">
+                    <ul class="custom-list-group" style="padding-left: 0;">
+                      <li *ngFor="let entitlement of  AssignedFunctions | filter : searchText1 | orderBy: entitlementId: true" style="padding:5px 0;">
                         {{entitlement.entitlementId + " - " + entitlement.name}}
-                        <div class="col-md-12 text-right">
+                        <span style="float: right; padding-right: 20px;">
                           <input type="checkbox" (change)="onChange(entitlement)">
-                        </div>
+                        </span>
                       </li>
                     </ul>
                     <br>
@@ -138,30 +138,4 @@
     </div>
   </div>
 </div>
-
-
-<!--<li ng-repeat="(key,value) in masterData.product_groups" style="padding: 5px 0px;" class="ng-scope">-->
-                                                    <!--<span style="margin: 0 15px 0 0;">-->
-                                                        <!--<button type="button" class="btn btn-danger btn-xs" data-ng-click="removeGroup(key);">-->
-                                                            <!--<i class="fa fa-times" aria-hidden="true"></i>-->
-                                                        <!--</button>-->
-                                                    <!--</span>-->
-                                                    <!--<span style="margin: 0 15px 0 0;">-->
-                                                        <!--<button type="button" class="btn btn-primary btn-xs" data-ng-click="value.edit = true;" ng-show="!value.edit" aria-hidden="false">-->
-                                                            <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
-                                                        <!--</button>-->
-                                                        <!--<button type="button" class="btn btn-success btn-xs ng-hide" data-ng-click="value.edit = false;saveGroup(key,value);" ng-show="value.edit" aria-hidden="true">-->
-                                                            <!--<i class="fa fa-floppy-o" aria-hidden="true"> save</i>-->
-                                                        <!--</button>-->
-                                                    <!--</span>-->
-            <!--<span>-->
-                                                        <!--<span ng-show="!value.edit" class="ng-binding" aria-hidden="false">new_arrival : </span>-->
-                                                        <!--<input ng-show="value.edit" type="text" ng-disabled="true" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required ng-hide" ng-init="value.editedKey=key" ng-model="value.editedKey" placeholder="Enter New Value" style="display: inline;width: auto;" ng-required="value.edit" aria-hidden="true" disabled="disabled" aria-invalid="false">-->
-                                                    <!--</span>-->
-  <!--<span>-->
-                                                        <!--<span ng-show="!value.edit" class="ng-binding" aria-hidden="false">New Arrival</span>-->
-                                                        <!--<input ng-show="value.edit" type="text" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required ng-hide" ng-model="value.name" placeholder="Enter New Value" style="display: inline;width: auto;" ng-required="value.edit" aria-hidden="true" aria-invalid="false">-->
-                                                    <!--</span>-->
-
-<!--</li>-->
 

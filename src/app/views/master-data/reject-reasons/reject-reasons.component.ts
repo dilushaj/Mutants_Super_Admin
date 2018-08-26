@@ -84,6 +84,7 @@ export class RejectReasonsComponent implements OnInit {
       this.masterMngService.addNewMasterData(req).then((response: any) => {
         if (response) {
           this.toastNot.toastSuccess('Master Data Succesfully Added');
+          this.getRejectReasons(this.masterDataId);
         }
       });
     } else {
