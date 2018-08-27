@@ -138,7 +138,7 @@
                       <li *ngFor="let entitlement of  AssignedFunctions | filter : searchText1" style="padding:5px 0;">
                         {{entitlement.entitlementId + " - " + entitlement.name}}
                         <span style="float: right; padding-right: 20px;">
-                          <input type="checkbox" (change)="onChange(entitlement)">
+                           <input type="checkbox" (change)="onChange(entitlement)">
                         </span>
                       </li>
                     </ul>

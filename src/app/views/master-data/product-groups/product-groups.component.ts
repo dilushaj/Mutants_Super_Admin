@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MasterDataService } from '../../../module-services';
-import {MasterDataManagementService } from '../../../module-services';
-import { MasterData } from '../../../module-classes';
+import {Component, OnInit} from '@angular/core';
+import {MasterDataService} from '../../../module-services';
+import {MasterDataManagementService} from '../../../module-services';
+import {MasterData} from '../../../module-classes';
 import * as CloneDeep from 'lodash/CloneDeep';
-import { ToastNotificationService } from '../../../shared';
+import {ToastNotificationService} from '../../../shared';
 
 @Component({
   selector: 'app-product-groups',
@@ -11,15 +11,16 @@ import { ToastNotificationService } from '../../../shared';
   styleUrls: ['./product-groups.component.scss']
 })
 export class ProductGroupsComponent implements OnInit {
-public masterData: any = {};
-public productGroups1 = [];
-public productGroups: any = {};
-public domains = [];
-public record: any= {
-  'key': '',
-  'value': {}
-};
-public masterDataId = 0;
+  public masterData: any = {};
+  public productGroups1 = [];
+  public productGroups: any = {};
+  public domains = [];
+  public record: any = {
+    'key': '',
+    'value': {'name': ''}
+  };
+  public existingKey = false;
+  public masterDataId = 0;
 
 
   constructor(
@@ -27,12 +28,14 @@ public masterDataId = 0;
     private masterMngService: MasterDataManagementService,
     private masterObj: MasterData,
     private toastNot: ToastNotificationService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getMasterDataCategories();
   }
-  private getMasterDataCategories () {
+
+  private getMasterDataCategories() {
     this.masterService.getShopCategories().then((response: any) => {
       if (response) {
         this.domains = response;
@@ -42,8 +45,9 @@ public masterDataId = 0;
       }
     });
   }
+
   getProductGroups(masterDataId) {
-    this.productGroups = {} ;
+    this.productGroups = {};
     if (masterDataId !== null) {
       this.masterService.getMasterData(masterDataId).then((response: any) => {
         if (response) {
@@ -62,10 +66,12 @@ public masterDataId = 0;
       });
     }
   }
+
   removeGroup(key) {
-     delete this.productGroups[key];
-     this.productGroups = CloneDeep(this.productGroups);
+    delete this.productGroups[key];
+    this.productGroups = CloneDeep(this.productGroups);
   }
+
   onClickSave() {
     this.productGroups = this.getFinalProductGroups(this.productGroups);
     if (typeof(this.masterData._id) === 'undefined') {
@@ -96,23 +102,36 @@ public masterDataId = 0;
 
     }
   }
+
   onClickReset() {
     this.productGroups = CloneDeep(this.masterData.product_groups);
   }
-  addProductGroup(key, value) {
-    const prodVal = {'name': value.name};
-    this.productGroups[key] = prodVal;
-    this.productGroups = CloneDeep(this.productGroups);
-    this.record.key = '';
-    this.record.value.name = '';
+  onChangeKeyCheckDuplicate(key) {
+    if (this.productGroups.hasOwnProperty(key)) {
+      this.existingKey = true;
+    }else {
+      this.existingKey = false;
+    }
   }
+
+  addProductGroup(key, value) {
+    if (!this.existingKey) {
+      const prodVal = {'name': value.name};
+      this.productGroups[key] = prodVal;
+      this.productGroups = CloneDeep(this.productGroups);
+      this.record.key = '';
+      this.record.value.name = '';
+    }
+
+  }
+
   private getFinalProductGroups(productGroups) {
     const groupkeys = Object.keys(productGroups);
-      for (const group of groupkeys) {
-        if (productGroups[group].hasOwnProperty('edit')) {
-          delete productGroups[group]['edit'];
-        }
-        }
-        return productGroups;
+    for (const group of groupkeys) {
+      if (productGroups[group].hasOwnProperty('edit')) {
+        delete productGroups[group]['edit'];
+      }
+    }
+    return productGroups;
   }
 }

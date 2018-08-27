@@ -26,15 +26,22 @@
         <div class="form-group">
           <label><strong>Key</strong></label>
           <input type="text" class="form-control form-control-sm"
-                 placeholder="Enter Key"
+                 [disabled]="masterDataId === 0"
+                 placeholder= "Enter Key"
                  required
-                 [(ngModel)]="record.key" name="key" #key="ngModel">
+                 [(ngModel)]="record.key" name="key" #key="ngModel" (input)="onChangeKeyCheckDuplicate($event.target.value)">
+          <div *ngIf="existingKey" class="required-alert alert alert-danger">
+                          <span>
+                            Key Already Exists.
+                          </span>
+          </div>
         </div>
       </div>
       <div class="col-sm-5">
         <div class="form-group">
           <label><strong>Value</strong></label>
-          <input type="text" class="form-control form-control-sm"
+          <input type="text" class="form-control form-control-sm" [disabled]="masterDataId === 0"
+
                  placeholder="Enter Value"
                  required
                  [(ngModel)]="record.value.name" name="value" #value="ngModel">
@@ -42,7 +49,8 @@
       </div>
       <div class="col-sm-2" style="padding-top: 28px;">
         <button class="btn btn-sm btn-primary btn-clear-cart ng-binding"
-                [disabled]="record.key ==='' || record.value.name ==='' " (click)="addProductGroup(record.key, record.value)">
+                [disabled]="record.key ==='' || record.value.name ==='' || existingKey"
+                (click)="addProductGroup(record.key, record.value)">
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </button>
       </div>

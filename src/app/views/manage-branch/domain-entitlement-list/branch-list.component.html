@@ -76,7 +76,9 @@
                     </div>
                     <br>
                     <ul class="custom-list-group" style="padding-left: 0;">
-                      <li *ngFor="let entitlement of  AvailableFunctions | filter : searchText | orderBy: entitlementId: true" style="padding:5px 0;">
+                      <li
+                        *ngFor="let entitlement of  AvailableFunctions | filter : searchText | orderBy: entitlementId: true"
+                        style="padding:5px 0;">
                         {{entitlement.entitlementId + " - " + entitlement.name}}
                         <span style="float: right; padding-right: 20px;">
                           <input type="checkbox" (change)="onChange(entitlement)">
@@ -119,7 +121,9 @@
                     </div>
                     <br>
                     <ul class="custom-list-group" style="padding-left: 0;">
-                      <li *ngFor="let entitlement of  AssignedFunctions | filter : searchText1 | orderBy: entitlementId: true" style="padding:5px 0;">
+                      <li
+                        *ngFor="let entitlement of  AssignedFunctions | filter : searchText1 | orderBy: entitlementId: true"
+                        style="padding:5px 0;">
                         {{entitlement.entitlementId + " - " + entitlement.name}}
                         <span style="float: right; padding-right: 20px;">
                           <input type="checkbox" (change)="onChange(entitlement)">
