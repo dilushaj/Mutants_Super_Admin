@@ -35,17 +35,8 @@ export class NewShopFormComponent implements OnInit {
               private fb: FormBuilder
   ) {
     this.onClose = new Subject();
-    // this.buildForm();
   }
-  // buildForm() {
-  //   this.f = this.fb.group({
-  //     'loginName': ['', [
-  //       Validators.required
-  //     ],
-  //       this.onTypeCheckAvailability(this.shop.loginName) // async Validator passed as 3rd parameter
-  //     ]
-  //   });
-  // }
+
   ngOnInit() {
     this.getShopChatagories();
     this.getCountryList();
@@ -67,13 +58,12 @@ export class NewShopFormComponent implements OnInit {
   onClickReset(form: NgForm) {
     form.onReset();
   }
-  private onTypeCheckAvailability(loginName: any) {
+  private onTypeCheckAvailability(loginName: string) {
     this.authSev.checkLoginNameAvailablity(loginName).then((response: any) => {
       if (response) {
         this.isValidLoginName = response;
       }
     });
-    return this.isValidLoginName;
   }
 
   private addShop(req: any) {
@@ -101,7 +91,6 @@ export class NewShopFormComponent implements OnInit {
     this.countrySev.getCountryList().then((response: any) => {
       if (response) {
         this.countryList = response;
-        console.log(this.countryList.length);
       } else {
         console.log('Eroor');
       }
@@ -112,8 +101,6 @@ export class NewShopFormComponent implements OnInit {
     this.countrySev.getCurrencyList().then((response: any) => {
       if (response) {
         this.currencyList = response;
-        console.log(this.currencyList.length);
-        console.log('Successfull');
       } else {
         console.log('Error');
       }

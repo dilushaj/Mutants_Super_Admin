@@ -23,7 +23,7 @@ export class DataGridComponent implements OnInit {
     this.resetColumnConfig();
   }
 
-  onClickRecord(key, record: any){
+  onClickRecord(key, record: any) {
     this.onGridEvent.emit({action: key, record: record});
   }
 
@@ -109,7 +109,7 @@ export class DataGridComponent implements OnInit {
     //}});
   }
 
-  onClickRefresh(){
+  onClickRefresh() {
     this.gridConfig.isCheckAll = false;
     this.onChangeCheckAll();
     this.resetColumnConfig();

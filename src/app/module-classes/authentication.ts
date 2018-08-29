@@ -44,7 +44,7 @@ export class Authentication {
       'channel': data.channel || 0,
       'shopId': data.shopId || 0,
       'branchId': data.branchId || 0,
-      'loginName': data.loginName || null
+      'loginName': data.loginName || ''
     };
     return LoginName;
   }

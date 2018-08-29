@@ -1,7 +1,7 @@
 import {Component, OnInit, NgZone} from '@angular/core';
 import {AppConfig, MainConfig, GlobalFunction, GlobalData, MessageBoxConfirmComponent} from './../../../shared';
 import {ShopService, MasterDataService, MasterDataManagementService} from './../../../module-services';
-import {Shop} from './../../../module-classes';
+import * as CloneDeep from 'lodash/CloneDeep';
 
 @Component({
   selector: 'app-branch-list',
@@ -55,7 +55,6 @@ export class BranchListComponent implements OnInit {
   private getShopChatagories () {
     this.selectedRows = 0;
     this.gridConfig.records = [];
-    this.gridConfig.waitingHttpSve = true;
     this.shopSev.getShopChatogories().then((response: any) => {
       if (response) {
         this.gridConfig.records = response;
@@ -137,7 +136,6 @@ export class BranchListComponent implements OnInit {
   //   this.sveReq.orderByValue = sort.value;
   //   this.getBranchFindByCriteria();
   // }
-
   private gridPageChange (pagination: any) {
     this.sveReq.offset = (pagination.page - 1) * pagination.itemsPerPage;
     this.sveReq.limit = pagination.itemsPerPage;
@@ -379,13 +377,13 @@ export class BranchListComponent implements OnInit {
     for (let num = 0; num < this.AvailableFunctions.length; num++) {
       if (this.AvailableFunctions[num].isCheck) {
         this.AvailableFunctions[num].isCheck = false;
-          this.updateAssignedEnt.push(this.AvailableFunctions[num]);
-          this.AssignedFunctions.push(this.AvailableFunctions[num]);
-          this.AvailableFunctions.splice(num, 1);
-          num--;
+        this.updateAssignedEnt.push(this.AvailableFunctions[num]);
+        this.AssignedFunctions.push(this.AvailableFunctions[num]);
+        this.AvailableFunctions.splice(num, 1);
+        num--;
       }
     }
-   this.searchText = '';
+    this.searchText = '';
   }
 
   onClickUnassignAll () {
@@ -419,3 +417,4 @@ export class BranchListComponent implements OnInit {
 
   }
 }
+
