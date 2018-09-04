@@ -359,8 +359,12 @@ export class BranchListComponent implements OnInit {
     this.updateAssignedEnt.forEach((obj: any) => {
       addEntIds.push(obj.entitlementId);
     });
-    this.addEntitlement(this.record.categoryId, addEntIds);
-    this.deleteEntitlement(this.record.categoryId, deleteEntIds);
+    if (addEntIds.length !== 0) {
+      this.addEntitlement(this.record.categoryId, addEntIds);
+    }
+    if (deleteEntIds.length !== 0) {
+      this.deleteEntitlement(this.record.categoryId, deleteEntIds);
+    }
     this.editDomainEntitlement = false;
   }
 

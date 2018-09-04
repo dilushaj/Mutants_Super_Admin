@@ -18,7 +18,6 @@ export class DataGridComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // console.log(this.gridConfig);
     this.gridConfig.isCheckAll = false;
     this.resetColumnConfig();
   }

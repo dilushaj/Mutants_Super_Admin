@@ -10,7 +10,7 @@ export const navigation = [
     },
     {
         menu: true,
-        entitlements: [],
+        entitlements: ['VIEW_SHOP_PROFILE', 'UPDATE_SHOP_PROFILE'],
         name: 'Admin',
         url: '/admin',
         icon: 'icon-star',

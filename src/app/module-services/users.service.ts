@@ -15,7 +15,7 @@ export class UsersService {
     let formattedReq = this.userObj.analyzeCreateUser(req);
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpPost(SevConfig.ADMIN_SEV,"/admin",formattedReq,null).then((data : any) => {
+      return this.apiSev.httpPost(SevConfig.ADMIN_SEV,'',formattedReq,null).then((data : any) => {
         if(data){
             const row = this.userObj.analyzeUser(data.data);
             for (var key in this.globalData.domainProperty.CORNER) {
@@ -47,7 +47,7 @@ export class UsersService {
     let formattedReq = this.userObj.analyzeUpdateUser(req);
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpPut(SevConfig.ADMIN_SEV,"/admin",formattedReq,null).then((data : any) => {
+      return this.apiSev.httpPut(SevConfig.ADMIN_SEV,'',formattedReq,null).then((data : any) => {
         if(data){
           // console.log(data);
         }
@@ -63,7 +63,7 @@ export class UsersService {
     let formattedReq = this.userObj.analyzeFindByCriteriaReq(req);
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpPost(SevConfig.ADMIN_SEV,"/admin/findByCriteria",formattedReq,null).then((data : any) => {
+      return this.apiSev.httpPost(SevConfig.ADMIN_SEV,"/findByCriteria",formattedReq,null).then((data : any) => {
         if(data){
           data.data.forEach((obj : any) => {
             const row = this.userObj.analyzeUser(obj);

@@ -76,11 +76,10 @@ export class NewCategoryFormComponent implements OnInit {
       }
     });
   }
-
-   onChangeGetParentCategories() {
+  onChangeGetParentCategories() {
     this.category.parentCategoryId = 0;
     this.Parent_Category_Types = [];
-    if (this.categoryType === 2 && !(this.category.shopCategoryId === null) && !(this.category.shopTypeId === null)) {
+    if (this.categoryType === 2) {
       const req = {
         'statuses': [
           MainConfig.STATUS_LIST.APPROVED.ID
@@ -89,10 +88,20 @@ export class NewCategoryFormComponent implements OnInit {
         'limit': 999,
         'orderByKey': 'categoryId',
         'orderByValue': 'asc',
-        'searchKeys': ['parent', 'shopTypeId', 'shopCategoryId'],
-        'operators': ['eq', 'eq', 'eq'],
-        'values': [true, this.category.shopTypeId, this.category.shopCategoryId]
+        'searchKeys': ['parent'],
+        'operators': ['eq'],
+        'values': [true]
       };
+      if (this.category.shopCategoryId) {
+        req.searchKeys.push('shopCategoryId');
+        req.operators.push('eq');
+        req.values.push(this.category.shopCategoryId);
+      }
+      if (this.category.shopTypeId) {
+        req.searchKeys.push('shopTypeId');
+        req.operators.push('eq');
+        req.values.push(this.category.shopTypeId);
+      }
       this.masterSev.getProductCategories(req).then((response: any) => {
         if (response) {
           this.Parent_Category_Types = response.data;

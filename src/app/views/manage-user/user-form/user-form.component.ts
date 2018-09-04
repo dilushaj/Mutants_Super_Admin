@@ -107,7 +107,7 @@ export class UserFormComponent implements OnInit {
 
   private initCornerTypes() {
     for(let key in this.globalData.domainProperty.CORNER) {
-      if(this.globalData.domainFeatures['USER_'+this.globalData.domainProperty.CORNER[key].KEY]){
+      if(this.globalData.domainFeatures['USER_'+ this.globalData.domainProperty.CORNER[key].KEY]){
         this.cornerTypes.push({
           key : this.globalData.domainProperty.CORNER[key].KEY,
           id: this.globalData.domainProperty.CORNER[key].ID,
@@ -213,7 +213,7 @@ export class UserFormComponent implements OnInit {
             this.bsModalRef.hide();
           }
         });
-      } else{
+      } else if(this.action === 'edit'){
         req.adminId = this.userDetails.adminId;
         req.dateOfBirth = this.datePipe.transform(this.userDetails.dateOfBirth, 'yyyy-MM-dd');
         delete req.loginName;

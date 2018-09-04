@@ -11,45 +11,6 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-
-              <div class="col-sm-6">
-                <label>Shop Category<span class="required-field">*</span></label>
-                <ng-select [items]="shopChategories"
-                           bindLabel="name"
-                           bindValue="categoryId"
-                           placeholder="Select shop Category"
-                           [(ngModel)]="category.shopCategoryId" name="selectedCategory" #selectedCategory="ngModel"
-                           (change)="onChangeGetParentCategories()">
-                </ng-select>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label>Category Name<span class="required-field">*</span></label>
-                  <input type="text" class="form-control form-control-sm"
-                         placeholder="Enter category name"
-                         required
-                         [(ngModel)]="category.value" name="value" #value="ngModel">
-                  <div *ngIf="value.invalid && (f.submitted || value.dirty || value.touched)"
-                       class="required-alert alert alert-danger">
-                          <span *ngIf="value.errors.required">
-                            This field is required.
-                          </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label>Data Type<span class="required-field">*</span></label>
-                  <ng-select [items]="Data_Types"
-                             bindLabel="TypeValue"
-                             bindValue="dataType"
-                             placeholder="Select Data Type"
-                             [(ngModel)]="category.dataType" name="selectedDataType" #selectedDataType="ngModel">
-                  </ng-select>
-                </div>
-              </div>
               <div class="col-sm-6">
                 <div class="form-group">
                   <label>Shop Type<span class="required-field">*</span></label>
@@ -62,11 +23,21 @@
                   </ng-select>
                 </div>
               </div>
+              <div class="col-sm-6">
+                <label>Shop Category<span class="required-field">*</span></label>
+                <ng-select [items]="shopChategories"
+                           bindLabel="name"
+                           bindValue="categoryId"
+                           placeholder="Select shop Category"
+                           [(ngModel)]="category.shopCategoryId" name="selectedCategory" #selectedCategory="ngModel"
+                           (change)="onChangeGetParentCategories()">
+                </ng-select>
+              </div>
             </div>
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label>Category Type<span class="required-field">*</span></label>
+                  <label>Product Category Type<span class="required-field">*</span></label>
                   <ng-select [items]="Product_Category_Types[category.shopCategoryId]"
                              bindLabel="value"
                              bindValue="key"
@@ -75,11 +46,15 @@
                   </ng-select>
                 </div>
               </div>
-              <p>
               <div class="col-sm-6">
-                <label>Is Parent</label>
-                <div class="col-md-6 text-left">
-                  <input type="checkbox" [(ngModel)]="category.parent" name="parent">
+                <div class="form-group">
+                  <label>Data Type<span class="required-field">*</span></label>
+                  <ng-select [items]="Data_Types"
+                             bindLabel="TypeValue"
+                             bindValue="dataType"
+                             placeholder="Select Data Type"
+                             [(ngModel)]="category.dataType" name="selectedDataType" #selectedDataType="ngModel">
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -96,6 +71,23 @@
                   </ng-select>
                 </div>
               </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Value<span class="required-field">*</span></label>
+                  <input type="text" class="form-control form-control-sm"
+                         placeholder="Enter category name"
+                         required
+                         [(ngModel)]="category.value" name="value" #value="ngModel">
+                  <div *ngIf="value.invalid && (f.submitted || value.dirty || value.touched)"
+                       class="required-alert alert alert-danger">
+                          <span *ngIf="value.errors.required">
+                            This field is required.
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-sm-6" *ngIf="categoryType === 2">
                 <div class="form-group">
                   <label>Parent Category<span class="required-field">*</span></label>
@@ -108,10 +100,14 @@
                   </ng-select>
                 </div>
               </div>
+              <div class="col-sm-6">
+                <label>Is Parent</label>
+                <div class="col-md-6 text-left">
+                  <input type="checkbox" [(ngModel)]="category.parent" name="parent">
+                </div>
+              </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>

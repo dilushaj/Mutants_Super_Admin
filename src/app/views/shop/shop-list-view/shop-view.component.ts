@@ -6,7 +6,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ShopService, MasterDataService, MasterDataManagementService} from './../../../module-services';
 import {GlobalData} from './../../../shared';
 import {NewShopFormComponent} from '../new-shop-form/new-shop-form.component';
-import {GlobalFunction, MainConfig} from '../../../shared';
+import {GlobalFunction, MainConfig, MessageBoxConfirmComponent} from '../../../shared';
 import {forEach} from '@angular/router/src/utils/collection';
 
 
@@ -19,6 +19,7 @@ import {forEach} from '@angular/router/src/utils/collection';
 export class ShopViewComponent implements OnInit {
 
   bsModalRef: BsModalRef;
+  msgBox: MessageBoxConfirmComponent;
   public shopDetail: any = {};
   public gridConfig: any = {};
   private sveReq: any = {};
@@ -33,9 +34,14 @@ export class ShopViewComponent implements OnInit {
   public AssignedFunctions = [];
   public updateAssignedEnt = [];
   public updateAvailableEnt = [];
+  public allEntitlements = [];
   searchText: string;
   searchText1: string;
-
+  searchText2: string;
+  public showAll= false;
+  public isDelete= false;
+  public messageBody = '';
+  public messageObj = {};
   constructor (
     private modalService: BsModalService,
     private shopSev: ShopService,
@@ -50,6 +56,7 @@ export class ShopViewComponent implements OnInit {
     this.initGridConfig();
     this.initFindByReq();
     this.getShopsByCriteria();
+    this.getAllEntitlements();
   }
 
   onClickAddBtn () {
@@ -133,6 +140,19 @@ export class ShopViewComponent implements OnInit {
       }
     });
   }
+  onMessageBoxEvent ($event) {
+    switch ($event.value) {
+      case true: {
+        this.isDelete = false;
+        // this.onUpdateStatus (statusDetails, status);
+        break;
+      }
+      case false: {
+        this.isDelete = false;
+        break;
+      }
+    }
+  }
 
   onGridEvent ($event) {
     switch ($event.action) {
@@ -205,6 +225,7 @@ export class ShopViewComponent implements OnInit {
   private editRow (record: any) {
     this.action = 'edit';
     this.record = record;
+    this.showAll = false;
     console.log(this.record.shopId);
     this.updateAssignedEnt = [];
     this.updateAvailableEnt = [];
@@ -384,9 +405,11 @@ export class ShopViewComponent implements OnInit {
   }
 
   public onConfirmUpdateStatus (statusDetails, status) {
-    // prompt the delete staus message box
-    // onUpdateStatus (statusDetails, status)
+    this.isDelete = true;
+    this.messageBody = 'Confirm Delete Selected Shops?';
+    //this.onUpdateStatus(statusDetails, status);
   }
+
 
   private updateStatus (record, StatusId) {
     const req = {
@@ -410,6 +433,13 @@ export class ShopViewComponent implements OnInit {
     }
   }
 
+  private getAllEntitlements () {
+    this.masterSev.getAllEntitlements().then((response: any) => {
+      if (response) {
+        this.allEntitlements = response;
+      }
+    });
+  }
 
   private getShopAssignedEntitle (shopId) {
     this.masterSev.getEntitlementsByShop(shopId).then((response: any) => {
@@ -464,8 +494,12 @@ export class ShopViewComponent implements OnInit {
     this.updateAssignedEnt.forEach((obj: any) => {
       addEntIds.push(obj.entitlementId);
     });
-    this.addEntitlement(this.record.shopId, addEntIds);
-    this.deleteEntitlement(this.record.shopId, deleteEntIds);
+    if (addEntIds.length !== 0 ) {
+      this.addEntitlement(this.record.shopId, addEntIds);
+    }
+    if (deleteEntIds.length !== 0 ) {
+      this.deleteEntitlement(this.record.shopId, deleteEntIds);
+    }
     this.editShopEntitlement = false;
   }
 
@@ -517,10 +551,25 @@ export class ShopViewComponent implements OnInit {
     if (entitlement.isCheck) {
       entitlement.isCheck = false;
     } else {
-      console.log(entitlement.name);
       entitlement.isCheck = true;
     }
 
+  }
+  onClickShowAll() {
+    this.showAll = true;
+  }
+  onClickCollapse() {
+    this.showAll = false;
+  }
+  assignSelectedDirectly() {
+    for (let num = 0; num < this.allEntitlements.length; num++) {
+      if (this.allEntitlements[num].isCheck) {
+        this.allEntitlements[num].isCheck = false;
+        this.updateAssignedEnt.push(this.allEntitlements[num]);
+        this.AssignedFunctions.push(this.allEntitlements[num]);
+      }
+    }
+    this.searchText2 = '';
   }
 }
 

@@ -9,19 +9,25 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class MessageBoxConfirmComponent implements OnInit, OnChanges {
   @Input() body : any;
   @Input() object : any;
-  @ViewChild('messageBoxConfirm') messageBoxConfirm : ModalDirective;
+  @ViewChild('messageBoxConfirm') messageBoxConfirm: ModalDirective;
   @Output() onMsgBoxEvent: EventEmitter<any> = new EventEmitter();
   displayValue : any = {};
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    console.log('came here as well');
+    console.log(this.messageBoxConfirm);
+    console.log(this.body);
+    console.log(this.object);
+    // this.onOpenMessageBox();
   }
 
   ngOnChanges() {
   }
 
-  onOpenMessageBox(){
+  onOpenMessageBox() {
     this.messageBoxConfirm.show();
   }
 
@@ -29,12 +35,12 @@ export class MessageBoxConfirmComponent implements OnInit, OnChanges {
     this.messageBoxConfirm.hide();
   }
 
-  onNoClick(){
+  onNoClick() {
     this.onMsgBoxEvent.emit({value:false,object:this.object});
     this.messageBoxConfirm.hide();
   }
 
-  onYesClick(){
+  onYesClick() {
     this.onMsgBoxEvent.emit({value:true,object:this.object});
     this.messageBoxConfirm.hide();
   }

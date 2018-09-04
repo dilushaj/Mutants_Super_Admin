@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
         );
     }
 
-    private analyzeNavigation(){
+    private analyzeNavigation() {
         let menuList : any = [];
         let childrenList : any = [];
         this.navigation.forEach((obj : any) => {
@@ -129,7 +129,7 @@ export class AppComponent implements OnInit {
                     childrenList = [];
                     obj.children.forEach((childrenObj : any) => {
                         if(this.globalFn.getEntitlementAvailability(EntitlementConfig.ENTITLEMENTS, this.globalData.authObject.entitlements, childrenObj.entitlements).AT_LEAST_ONE){
-                            childrenList.push(childrenObj);
+                          childrenList.push(childrenObj);
                         }
                     });
                     if(childrenList.length > 0){

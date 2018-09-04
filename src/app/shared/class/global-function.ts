@@ -7,6 +7,7 @@ export class GlobalFunction {
             elementsObject[checkList[key]] = availableEntitlementList.indexOf(allEntitlementList[checkList[key]].ENTITLEMENT_ID) > -1;
             elementsObject.AT_LEAST_ONE = elementsObject[checkList[key]] ? true : elementsObject.AT_LEAST_ONE;
         }
+        // console.log(elementsObject.AT_LEAST_ONE);
         return elementsObject;
     }
   public mapShopCategory (shopCategories: any, categoryId: any) {

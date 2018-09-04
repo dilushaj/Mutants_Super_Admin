@@ -10,7 +10,7 @@
                   data-ng-show="entitlement.add_new_user" (click)="onClickAddBtn();" aria-hidden="false">Add New
           </button>
           <button class="btn btn-sm btn-danger pull-right btn-clear-cart ng-binding"
-                  (click)="onConfirmUpdateStatus(STATUS_LIST.DELETED,'Deleted');" [disabled]="!(selectedRows>0)">Delete
+                  (click)="onUpdateStatus(STATUS_LIST.DELETED,'Deleted');" [disabled]="!(selectedRows>0)">Delete
           </button>
           <button class="btn btn-sm btn-warning pull-right btn-clear-cart ng-binding"
                   (click)="onUpdateStatus(STATUS_LIST.SUSPENDED,'Suspend');" [disabled]="!(selectedRows>0)">Hold

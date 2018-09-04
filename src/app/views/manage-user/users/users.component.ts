@@ -274,7 +274,8 @@ export class UsersComponent implements OnInit {
     this.openModalWithComponent();
   }
 
-  private editRow( records: any) {
+  private editRow(records: any) {
+    console.log(records);
     this.action = 'edit';
     this.userDetails = Object.assign({}, records);
     this.openModalWithComponent();

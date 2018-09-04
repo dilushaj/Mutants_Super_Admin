@@ -14,7 +14,7 @@ export class UserRolesService {
   public getUserRoles (){
     const records : any = [];
     let promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpGet(SevConfig.ROLE_SEV,'/role/' + this.globalData.authObject.shopId + '/' + this.globalData.authObject.branchId ,{},null).then((data : any) => {
+      return this.apiSev.httpGet(SevConfig.ROLE_SEV,'/' + this.globalData.authObject.shopId + '/' + this.globalData.authObject.branchId ,{},null).then((data : any) => {
         if(data){
           data.forEach((obj : any) => {
             const row = this.userRolesObj.analyzeUserRoles(obj);
