@@ -19,7 +19,10 @@ export class CategoryListComponent implements OnInit {
   public selectedRows = 0;
   public categoryDetails = {};
   public STATUS_LIST = MainConfig.STATUS_LIST;
+  private Product_Category_Types= MainConfig.PRODUCT_CATEGORY_TYPES;
   private shopCategories = [];
+  private filterCategoryTypes = [];
+  private filterShopCategories= [];
   action: string;
 
   constructor(
@@ -30,6 +33,16 @@ export class CategoryListComponent implements OnInit {
     private comFun: GlobalFunction
   ) {
   this.getShopCategories();
+
+  for (let i = 1; i <= Object.keys(this.Product_Category_Types).length; i++) {
+    this.Product_Category_Types[i].forEach((obj: any) => {
+      const prdCategory = {
+        'text': obj.value,
+        'value': obj.key
+      };
+      this.filterCategoryTypes.push(prdCategory);
+    });
+  }
   }
 
   ngOnInit() {
@@ -42,6 +55,13 @@ export class CategoryListComponent implements OnInit {
     this.masterService.getShopCategories().then((response: any) => {
       if (response) {
         this.shopCategories = response;
+        response.forEach((obj: any) => {
+          const shopCategory = {
+            'text': obj.name,
+            'value': obj.categoryId
+          };
+          this.filterShopCategories.push(shopCategory);
+        });
         console.log('Shop chatogories successfully taken');
       } else {
         console.log('Error occured');
@@ -119,6 +139,12 @@ export class CategoryListComponent implements OnInit {
         filter[i].value = filter[i].value;
       }else if (filter[i].key === 'shopTypeName') {
         filter[i].key = 'shopTypeId';
+        filter[i].value = parseInt(filter[i].value);
+      }else if (filter[i].key === 'type') {
+        filter[i].key = 'type';
+        // filter[i].value = filter[i].value;
+      }else if (filter[i].key === 'shopCategoryName') {
+        filter[i].key = 'shopCategoryId';
         filter[i].value = parseInt(filter[i].value);
       }
       this.sveReq.operators.push(filter[i].operators);
@@ -245,15 +271,16 @@ export class CategoryListComponent implements OnInit {
           'width': 300,
           'column_type': 'data',
           'data_align': 'left',
-          // 'sort': true,
-          // 'filter': true,
-          // 'filterConfig': {
-          //   'operators': {
-          //     'like': true
-          //   },
-          //   'selected_operator': 'like',
-          //   'type': 'option'
-          // }
+          'sort': true,
+          'filter': true,
+          'filterConfig': {
+            'operators': {
+              'eq': true
+            },
+            'selected_operator': 'eq',
+            'type': 'option',
+            'options': this.filterShopCategories
+          }
         },
         {
           'name': 'Data Type',
@@ -277,15 +304,16 @@ export class CategoryListComponent implements OnInit {
           'width': 100,
           'column_type': 'data',
           'data_align': 'left',
-          // 'sort': true,
-          // 'filter': true,
-          // 'filterConfig': {
-          //   'operators': {
-          //     'like': true
-          //   },
-          //   'selected_operator': 'like',
-          //   'type': 'option'
-          // }
+          'sort': true,
+          'filter': true,
+          'filterConfig': {
+            'operators': {
+              'eq': true
+            },
+            'selected_operator': 'eq',
+            'type': 'option',
+            'options': this.filterCategoryTypes
+          }
         },
         {
           'name': 'Is Parent',
@@ -344,9 +372,9 @@ export class CategoryListComponent implements OnInit {
           'filter': true,
           'filterConfig': {
             'operators': {
-              'like': true
+              'eq': true
             },
-            'selected_operator': 'like',
+            'selected_operator': 'eq',
             'type': 'option',
             'options': [
               {text: MainConfig.STATUS_LIST.PENDING.NAME, value: MainConfig.STATUS_LIST.PENDING.ID},
@@ -385,7 +413,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   onClickAddBtn () {
-    this.action = 'edit';
+    this.action = 'add';
     this.categoryDetails = {};
     this.openNewShopModel();
   }
@@ -400,10 +428,17 @@ export class CategoryListComponent implements OnInit {
     this.bsModalRef = null;
     this.bsModalRef = this.modalService.show(NewCategoryFormComponent, modelConfig);
     this.bsModalRef.content.action = this.action;
-    console.log(this.categoryDetails);
-    this.bsModalRef.content.categoryDetails = this.categoryDetails;
+    this.bsModalRef.content.category = this.categoryDetails;
     this.bsModalRef.content.onClose.subscribe(result => {
-      console.log('results', result);
+      const response = result;
+      response.display_format = this.recordFormat(Object.assign({}, result));
+      response.style_format = this.styleFormat(Object.assign({}, result));
+      if (this.action === 'add') {
+        response.tr_class = 'table-success';
+        this.gridConfig.records.unshift(response);
+      }else if (this.action === 'edit') {
+        this.updateGridRow(response);
+      }
     });
   }
   public onConfirmUpdateStatus (statusDetails, status) {

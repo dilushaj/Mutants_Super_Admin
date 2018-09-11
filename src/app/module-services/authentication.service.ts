@@ -39,21 +39,12 @@ export class AuthenticationService {
     return promise;
   }
 
-  public checkLoginNameAvailablity (loginName: string) {
-    const data = {
-      'loginName': loginName
-    };
-    const req = this.authObj.analyzeLoginName(data);
+  public checkLoginNameAvailablity (req) {
     const promise = new Promise((resolve, reject) => {
-      return this.apiSev.httpPut(SevConfig.ADMIN_SEV, '/checkAvailability', req, null).then((response: any) => {
-        console.log(response.body);
-        if (response) {
-          console.log('valid');
-          resolve(response.success);
-        } else {
-          console.log('invalid');
-          resolve(false);
-        }
+      return this.apiSev.httpPut(SevConfig.ADMIN_SEV, '/checkAvailability', req , null).then((data: any) => {
+        resolve(data);
+      }).catch(error => {
+        resolve(null);
       });
     });
     return promise;

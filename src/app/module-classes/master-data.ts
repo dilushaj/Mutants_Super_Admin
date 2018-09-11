@@ -59,6 +59,21 @@ export class MasterData {
     };
     return productCategory;
   }
+  public analyzeUpdateCategory(data: any) {
+    const updatedProductCategory: any = {
+      'categoryId': data.categoryId || 0,
+      'parentCategoryId': data.parentCategoryId || 0,
+      'name': data.name || null,
+      'type': data.type || null,
+      'value': data.value || null,
+      'image': data.image || '',
+      'shopCategoryId': data.shopCategoryId || 0,
+      'dataType': data.dataType || 0,
+      'shopTypeId': data.shopTypeId || 0,
+      'parent': data.parent || false
+    };
+    return updatedProductCategory;
+  }
 
   public analyzeShopCatogory(data: any) {
     const category: any = {
@@ -83,6 +98,7 @@ export class MasterData {
       'parent': data.parent || false,
       'value': data.value || null,
       'parentCategoryId': data.parentCategoryId || 0,
+      'image': data.image || ''
     };
     return category;
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { MainConfig, SevConfig, ApiService, GlobalFunction } from './../shared';
 import { MasterData } from './../module-classes';
+import * as _ from 'lodash';
 
 @Injectable()
 export class MasterDataService {
@@ -37,12 +38,18 @@ export class MasterDataService {
         return this.apiSev.httpGet(SevConfig.MASTER_SEV, '/entitlement', {}, null)
           .then((data: any) => {
             if (data) {
-              resolve(data);
+              const result = this.removeDuplicates(data, 'entitlementId');
+              resolve(result);
             }
           });
       });
       return promise;
     }
+  private removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+      return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+  }
     public getEntitlementsByDomain(domainId: any) {
       const entitlementList = [];
       const promise = new Promise((resolve, reject) => {

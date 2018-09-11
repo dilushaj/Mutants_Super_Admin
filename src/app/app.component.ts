@@ -102,7 +102,8 @@ export class AppComponent implements OnInit {
                         break;
                     case 401:
                         this.toastNot.toastInfo('Unauthorized. Invalid user.');
-                        //ssoAuth.logOut();
+                        this.guard.removeValidLogin();
+                        // ssoAuth.logOut();
                         break;
                     case 404:
                         this.toastNot.toastError('404 Not Found.');

@@ -19,6 +19,7 @@ export class FileUploadComponent implements OnInit {
   constructor(private apiSev : ApiService) { }
 
   ngOnInit() {
+    this.uploadedUrl = this.config.image;
   }
 
     onChooseFile(files: FileList) {

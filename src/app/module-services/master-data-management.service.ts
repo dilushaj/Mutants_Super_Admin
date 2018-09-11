@@ -87,6 +87,20 @@ export class MasterDataManagementService {
     return promise;
 
   }
+  public updateProductCategory(req) {
+    const formattedReq = this.masterDataObj.analyzeUpdateCategory(req);
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpPut(SevConfig.MASTER_MANG_SEV, '/category', formattedReq, null)
+        .then((data: any) => {
+          if (data) {
+            resolve(data);
+          }
+        }).catch(error => {
+          resolve(null);
+        });
+    });
+    return promise;
+  }
   public addNewMasterData(req) {
       const promise = new Promise((resolve, reject) => {
         return this.apiSev.httpPost(SevConfig.MASTER_MANG_SEV, '/customMasterData', req, null)

@@ -69,8 +69,7 @@ export class UserFormComponent implements OnInit {
     },0);
   }
 
-  private initUserDetails(){
-    // console.log(this.userDetails);
+  private initUserDetails() {
     for(var key in this.cornerTypes){
       for(var i in this.cornerTypes[key].points) {
         switch (this.cornerTypes[key].key) {
@@ -92,8 +91,9 @@ export class UserFormComponent implements OnInit {
         }
       }
     }
-    this.userDetails.formattedPhoneCode = this.userDetails.mobile.split('(')[0];
-    this.userDetails.mobile = "(" + this.userDetails.mobile.split('(')[1] ;
+
+    this.userDetails.formattedPhoneCode = this.userDetails.updatedMobile.split('(')[0];
+    this.userDetails.mobile = "(" + this.userDetails.updatedMobile.split('(')[1] ;
     this.userDetails.dateOfBirth = new Date(this.userDetails.dateOfBirth);
   }
 
@@ -177,11 +177,11 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmitAdmin(form: NgForm) {
-    if(form.valid){
+    if (form.valid) {
       const req = form.value;
       req.shopId = this.globalData.authObject.shopId;
       req.branchId = this.globalData.authObject.branchId;
-      req.mobile = req.phoneCode+''+req.mobile;
+      req.mobile = req.phoneCode + '' + req.mobile;
       for(var key in this.cornerTypes){
         switch(this.cornerTypes[key].key){
           case 'PREPARATION':

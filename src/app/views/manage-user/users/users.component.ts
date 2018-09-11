@@ -89,12 +89,11 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  private getUserFindByCriteria(){
+  private getUserFindByCriteria() {
     this.gridConfig.records = [];
     this.gridConfig.waitingHttpSve = true;
     this.userSev.userFindByCriteria(this.sveReq).then((response: any) => {
-      if (response){
-        console.log(response.recordCount);
+      if (response) {
         this.gridConfig.records = response.data;
         this.gridConfig.pagination.bigTotalItems = response.recordCount;
       }
@@ -274,10 +273,10 @@ export class UsersComponent implements OnInit {
     this.openModalWithComponent();
   }
 
-  private editRow(records: any) {
-    console.log(records);
+  private editRow(record: any) {
+    this.userDetails = Object.assign({}, record);
+    this.userDetails.updatedMobile = record.mobile;
     this.action = 'edit';
-    this.userDetails = Object.assign({}, records);
     this.openModalWithComponent();
   }
 
@@ -294,20 +293,19 @@ export class UsersComponent implements OnInit {
     this.bsModalRef.content.action = this.action;
     this.bsModalRef.content.userDetails = this.userDetails;
     this.bsModalRef.content.onClose.subscribe(result => {
-      // console.log('results', result);
       const response = result;
       response.display_format = this.recordFormat(Object.assign({}, result));
       response.style_format = this.styleFormat(Object.assign({}, result));
       if (this.action === 'add') {
         response.tr_class = 'table-success';
         this.gridConfig.records.unshift(response);
-      }else{
+      }else if(this.action === 'edit') {
         this.updateGridRow(result);
       }
     });
   }
 
-  private viewRow( recordView: any){
+  private viewRow(recordView: any){
     this.userDetails = Object.assign({}, recordView);
     this.action = 'view';
     this.openViewModalWithComponent();
@@ -326,7 +324,6 @@ export class UsersComponent implements OnInit {
     this.bsModalRef.content.action = this.action;
     this.bsModalRef.content.userDetails = this.userDetails;
     this.bsModalRef.content.onClose.subscribe(result => {
-      // console.log('results', result);
     });
   }
 

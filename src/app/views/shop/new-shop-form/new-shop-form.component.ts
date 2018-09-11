@@ -22,7 +22,7 @@ export class NewShopFormComponent implements OnInit {
   public currencyList = [];
   public onClose: Subject<boolean>;
   f: FormGroup;
-  public isValidLoginName= false;
+  public loginName_availability= true;
 
   constructor(public bsModalRef: BsModalRef,
               private modalService: BsModalService,
@@ -50,28 +50,38 @@ export class NewShopFormComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    this.shop.password = Md5.hashStr(this.shop.password);
-    this.addShop(this.shop);
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      this.shop.password = Md5.hashStr(this.shop.password);
+      this.addShop(this.shop);
+    }
   }
 
   onClickReset(form: NgForm) {
     form.onReset();
   }
-  private onTypeCheckAvailability(loginName: string) {
-    this.authSev.checkLoginNameAvailablity(loginName).then((response: any) => {
-      if (response) {
-        this.isValidLoginName = response;
-      }
-    });
+  public onBlurLoginName(loginName) {
+    if (loginName) {
+      const req = {
+        'loginName': loginName
+      };
+      this.authSev.checkLoginNameAvailablity(req).then((response: any) => {
+        if (response) {
+          this.loginName_availability = true;
+        }else {
+          this.loginName_availability = false;
+        }
+      });
+    }
   }
+
 
   private addShop(req: any) {
     this.shopSev.createShop(req).then((response: any) => {
       if (response) {
         this.toastNot.toastSuccess('Shop Created Successfully.');
       } else {
-        this.toastNot.toastSuccess('Error occured');
+        this.toastNot.toastError('Error occured');
       }
     });
   }
@@ -92,7 +102,7 @@ export class NewShopFormComponent implements OnInit {
       if (response) {
         this.countryList = response;
       } else {
-        console.log('Eroor');
+        console.log('Error');
       }
     });
   }

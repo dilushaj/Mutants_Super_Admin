@@ -5,7 +5,7 @@ import { ManageUserRoutingModule } from './manage-user-routing.module';
 import { ManageUserComponent } from './manage-user.component';
 import { UsersComponent } from './users/users.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
-import {DataGridModule, MessageBoxModule} from '../../shared';
+import {DataGridModule, MessageBoxModule, FileUploadModule} from '../../shared';
 import { UserRolesComponent } from './user-roles/user-roles.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { UserViewComponent } from './user-view/user-view.component';
     ManageUserRoutingModule,
     TabsModule,
     MessageBoxModule,
+    FileUploadModule,
     DataGridModule,
     FormsModule,
     BsDatepickerModule.forRoot(),

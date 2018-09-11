@@ -1,5 +1,5 @@
 import {Component, OnInit, NgZone} from '@angular/core';
-import {AppConfig, MainConfig, GlobalFunction, GlobalData, MessageBoxConfirmComponent} from './../../../shared';
+import {AppConfig, MainConfig, GlobalFunction, GlobalData, MessageBoxConfirmComponent, ToastNotificationService} from './../../../shared';
 import {ShopService, MasterDataService, MasterDataManagementService} from './../../../module-services';
 import * as CloneDeep from 'lodash/CloneDeep';
 
@@ -29,6 +29,7 @@ export class BranchListComponent implements OnInit {
     public globalData: GlobalData,
     public masterSev: MasterDataService,
     public masterMngSev: MasterDataManagementService,
+    private toastNot: ToastNotificationService,
     private Zone: NgZone) {
   }
 
@@ -365,6 +366,7 @@ export class BranchListComponent implements OnInit {
     if (deleteEntIds.length !== 0) {
       this.deleteEntitlement(this.record.categoryId, deleteEntIds);
     }
+    this.toastNot.toastSuccess('Entitlements Saved Successfully.');
     this.editDomainEntitlement = false;
   }
 

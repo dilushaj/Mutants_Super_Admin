@@ -6,8 +6,9 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ShopService, MasterDataService, MasterDataManagementService} from './../../../module-services';
 import {GlobalData} from './../../../shared';
 import {NewShopFormComponent} from '../new-shop-form/new-shop-form.component';
-import {GlobalFunction, MainConfig, MessageBoxConfirmComponent} from '../../../shared';
+import {GlobalFunction, MainConfig, MessageBoxConfirmComponent, ToastNotificationService} from '../../../shared';
 import {forEach} from '@angular/router/src/utils/collection';
+
 
 
 @Component({
@@ -48,7 +49,8 @@ export class ShopViewComponent implements OnInit {
     public globalData: GlobalData,
     private comFun: GlobalFunction,
     public masterSev: MasterDataService,
-    public masterMngSev: MasterDataManagementService) {
+    public masterMngSev: MasterDataManagementService,
+    private toastNot: ToastNotificationService) {
     this.getShopChatagories();
   }
 
@@ -61,6 +63,7 @@ export class ShopViewComponent implements OnInit {
 
   onClickAddBtn () {
     this.shopDetail = {};
+    this.action = 'add';
     this.openNewShopModel();
   }
 
@@ -77,8 +80,8 @@ export class ShopViewComponent implements OnInit {
       'statuses': [
         MainConfig.STATUS_LIST.PENDING.ID, // 1
         MainConfig.STATUS_LIST.APPROVED.ID, // 2
-        MainConfig.STATUS_LIST.SUSPENDED.ID, // 6
-        MainConfig.STATUS_LIST.DELETED.ID // 8
+        MainConfig.STATUS_LIST.SUSPENDED.ID // 6
+       // MainConfig.STATUS_LIST.DELETED.ID // 8
       ],
       'values': []
     };
@@ -124,7 +127,7 @@ export class ShopViewComponent implements OnInit {
     this.bsModalRef = null;
     this.bsModalRef = this.modalService.show(NewShopFormComponent, modelConfig);
     this.bsModalRef.content.action = this.action;
-    this.bsModalRef.content.shopDetail = this.shopDetail;
+    this.bsModalRef.content.shop = this.shopDetail;
     this.bsModalRef.content.onClose.subscribe(result => {
       console.log('results', result);
     });
@@ -226,7 +229,6 @@ export class ShopViewComponent implements OnInit {
     this.action = 'edit';
     this.record = record;
     this.showAll = false;
-    console.log(this.record.shopId);
     this.updateAssignedEnt = [];
     this.updateAvailableEnt = [];
     this.AvailableFunctions = [];
@@ -312,12 +314,6 @@ export class ShopViewComponent implements OnInit {
           'column_type': 'data',
         },
         {
-          'name': 'Email',
-          'key': 'email',
-          'column_type': 'data',
-          'data_align': 'left'
-        },
-        {
           'name': 'Status',
           'key': 'statusName',
           'width': 100,
@@ -334,8 +330,8 @@ export class ShopViewComponent implements OnInit {
             'options': [
               {text: MainConfig.STATUS_LIST.PENDING.NAME, value: MainConfig.STATUS_LIST.PENDING.ID},
               {text: MainConfig.STATUS_LIST.APPROVED.NAME, value: MainConfig.STATUS_LIST.APPROVED.ID},
-              {text: MainConfig.STATUS_LIST.SUSPENDED.NAME, value: MainConfig.STATUS_LIST.SUSPENDED.ID},
-              {text: MainConfig.STATUS_LIST.DELETED.NAME, value: MainConfig.STATUS_LIST.DELETED.ID} // check this for the logic
+              {text: MainConfig.STATUS_LIST.SUSPENDED.NAME, value: MainConfig.STATUS_LIST.SUSPENDED.ID}
+             // {text: MainConfig.STATUS_LIST.DELETED.NAME, value: MainConfig.STATUS_LIST.DELETED.ID} // check this for the logic
             ]
           }
         },
@@ -500,6 +496,7 @@ export class ShopViewComponent implements OnInit {
     if (deleteEntIds.length !== 0 ) {
       this.deleteEntitlement(this.record.shopId, deleteEntIds);
     }
+    this.toastNot.toastSuccess('Entitlements Saved Successfully.');
     this.editShopEntitlement = false;
   }
 

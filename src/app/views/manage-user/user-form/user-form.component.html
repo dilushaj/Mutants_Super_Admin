@@ -27,6 +27,7 @@
               </div>
               <div class="col-sm-12">
                 <div class="form-group">
+
                   <label for="txtmiddleName">Middle Name</label>
                   <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.middleName" id="txtmiddleName" name="middleName"/>
                 </div>
@@ -50,7 +51,7 @@
                   <div class="input-group">
                     <div class="col-xs-12 col-12 col-md-6 form-group">
                       <input type="text" class="form-control form-control-sm" [(ngModel)]="userDetails.dateOfBirth"
-                             name="dateOfBirth" [minDate]="minDate" #dp="bsDatepicker" [disabled]="action === 'edit'"
+                             name="dateOfBirth" [maxDate]="minDate" #dp="bsDatepicker" [disabled]="action === 'edit'"
                              bsDatepicker
                              #dateOfBirth="ngModel"/>
                     </div>
