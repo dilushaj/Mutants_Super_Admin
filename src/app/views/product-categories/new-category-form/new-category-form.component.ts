@@ -91,7 +91,6 @@ export class NewCategoryFormComponent implements OnInit {
 
 
   onCloseModal() {
-    console.log(this.category);
     const response: any = this.category;
     this.onClose.next(response);
     this.bsModalRef.hide();
@@ -146,7 +145,9 @@ export class NewCategoryFormComponent implements OnInit {
   onFileUploadEvent($event) {
     if ($event.type === 'uploaded') {
       this.category.image = $event.data.fileName;
-    } else if ($event.type === 'error') {
+    } else if ($event.type === 'deleted') {
+      this.category.image = null;
+    }else if ($event.type === 'error') {
       this.category.image = null;
     }
   }

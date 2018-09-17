@@ -3,54 +3,38 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { MasterDataService, MasterDataManagementService} from './../../../module-services';
-import { NewCategoryFormComponent } from '../new-category-form/new-category-form.component';
+import { NewBrandFormComponent } from '../new-brand-form/new-brand-form.component';
 import { AppConfig, MainConfig, GlobalFunction, GlobalData, MessageBoxConfirmComponent } from './../../../shared';
 
 @Component({
-  selector: 'app-corner-list',
-  templateUrl: './category-list.component.html',
-  styleUrls: []
+  selector: 'app-brand-list',
+  templateUrl: './brand-list.component.html',
+  styleUrls: ['./brand-list.component.scss']
 })
-export class CategoryListComponent implements OnInit {
+export class BrandListComponent implements OnInit {
   bsModalRef: BsModalRef;
   public gridConfig: any = {};
   private sveReq: any = {};
   private isCheck = true;
   public selectedRows = 0;
-  public categoryDetails = {};
+  public brandDetails = {};
   public STATUS_LIST = MainConfig.STATUS_LIST;
-  private Product_Category_Types= MainConfig.PRODUCT_CATEGORY_TYPES;
   private shopCategories = [];
-  private filterCategoryTypes = [];
   private filterShopCategories= [];
   action: string;
-
-  constructor(
-    private modalService: BsModalService,
-    private masterService: MasterDataService,
-    private masterMngService: MasterDataManagementService,
-    public globalData: GlobalData,
-    private comFun: GlobalFunction
-  ) {
-  this.getShopCategories();
-
-  for (let i = 1; i <= Object.keys(this.Product_Category_Types).length; i++) {
-    this.Product_Category_Types[i].forEach((obj: any) => {
-      const prdCategory = {
-        'text': obj.value,
-        'value': obj.key
-      };
-      this.filterCategoryTypes.push(prdCategory);
-    });
-  }
+  constructor( private modalService: BsModalService,
+               private masterService: MasterDataService,
+               private masterMngService: MasterDataManagementService,
+               public globalData: GlobalData,
+               private comFun: GlobalFunction) {
+    this.getShopCategories();
   }
 
   ngOnInit() {
     this.initGridConfig();
     this.initFindByReq();
-    this.getProductCategoriesFindByCriteria();
+    this.getBrandsFindByCriteria();
   }
-
   private getShopCategories () {
     this.masterService.getShopCategories().then((response: any) => {
       if (response) {
@@ -103,27 +87,26 @@ export class CategoryListComponent implements OnInit {
 
   private editRow(record: any) {
     this.action = 'edit';
-    this.categoryDetails = Object.assign({}, record);
-     this.openNewProductCategoryModel();
+    this.brandDetails = Object.assign({}, record);
+    this.openNewBrandModel();
   }
 
   private gridRefresh() {
     this.initFindByReq();
-    this.getProductCategoriesFindByCriteria();
+    this.getBrandsFindByCriteria();
   }
 
   private gridSort(sort: any) {
     this.sveReq.orderByKey = sort.key;
     this.sveReq.orderByValue = sort.value;
-    this.getProductCategoriesFindByCriteria();
+    this.getBrandsFindByCriteria();
   }
 
   private gridPageChange(pagination: any) {
     this.sveReq.offset = (pagination.page - 1) * pagination.itemsPerPage;
     this.sveReq.limit = pagination.itemsPerPage;
-    this.getProductCategoriesFindByCriteria();
+    this.getBrandsFindByCriteria();
   }
-
   private gridFilter(filter: any) {
     this.sveReq.operators = [];
     this.sveReq.searchKeys = [];
@@ -134,15 +117,6 @@ export class CategoryListComponent implements OnInit {
       if (filter[i].key === 'statusName') {
         filter[i].key = 'status';
         filter[i].value = parseInt(filter[i].value);
-      }else if (filter[i].key === 'value') {
-        filter[i].key = 'value';
-        filter[i].value = filter[i].value;
-      }else if (filter[i].key === 'shopTypeName') {
-        filter[i].key = 'shopTypeId';
-        filter[i].value = parseInt(filter[i].value);
-      }else if (filter[i].key === 'type') {
-        filter[i].key = 'type';
-        // filter[i].value = filter[i].value;
       }else if (filter[i].key === 'shopCategoryName') {
         filter[i].key = 'shopCategoryId';
         filter[i].value = parseInt(filter[i].value);
@@ -151,9 +125,8 @@ export class CategoryListComponent implements OnInit {
       this.sveReq.searchKeys.push(filter[i].key);
       this.sveReq.values.push(filter[i].value);
     }
-    this.getProductCategoriesFindByCriteria();
+    this.getBrandsFindByCriteria();
   }
-
   private checkList() {
     this.isCheck = true;
     this.selectedRows = 0;
@@ -165,11 +138,11 @@ export class CategoryListComponent implements OnInit {
       }
     }
   }
-  private getProductCategoriesFindByCriteria() {
+  private getBrandsFindByCriteria() {
     this.selectedRows = 0;
     this.gridConfig.records = [];
     this.gridConfig.waitingHttpSve = true;
-    this.masterService.getProductCategories(this.sveReq).then((response: any) => {
+    this.masterService.getBrands(this.sveReq).then((response: any) => {
       if (response) {
         this.gridConfig.records = response.data;
         this.gridConfig.records.forEach((obj: any) => {
@@ -192,7 +165,7 @@ export class CategoryListComponent implements OnInit {
       ],
       'offset': 0,
       'limit': this.gridConfig.pagination.itemsPerPage,
-      'orderByKey': 'categoryId',
+      'orderByKey': 'brandId',
       'orderByValue': 'asc',
       'searchKeys': [],
       'operators': [],
@@ -221,54 +194,16 @@ export class CategoryListComponent implements OnInit {
         },
         {
           'name': 'Id',
-          'key': 'categoryId',
+          'key': 'brandId',
           'column_type': 'data',
           'head_align': 'text-center',
           'data_align': 'text-center',
           'width': 40
         },
-        // {
-        //   'name': 'Name',
-        //   'key': 'name',
-        //   'column_type': 'data',
-        //   'head_align': 'text-left',
-        //   'data_align': 'left',
-        //   'sort': true,
-        //   'filter': true,
-        //   'filterConfig': {
-        //     'operators': {
-        //       'like': true
-        //     },
-        //     'selected_operator': 'like',
-        //     'type': 'text',
-        //   },
-        //   'width': 100
-        // },
-        {
-          'name': 'Shop Type',
-          'key': 'shopTypeName',
-          'column_type': 'data',
-          'head_align': 'text-left',
-          'data_align': 'left',
-          'width': 100,
-          // 'sort': true,
-          'filter': true,
-          'filterConfig': {
-            'operators': {
-              'eq': true
-            },
-            'selected_operator': 'eq',
-            'type': 'option',
-            'options': [
-              {text: MainConfig.SHOP_TYPES['1'], value: '1'},
-              {text: MainConfig.SHOP_TYPES['2'], value: '2'}
-            ]
-          }
-        },
         {
           'name': 'Shop Category',
           'key': 'shopCategoryName',
-          'width': 300,
+          'width': 200,
           'column_type': 'data',
           'data_align': 'left',
           'sort': true,
@@ -283,84 +218,18 @@ export class CategoryListComponent implements OnInit {
           }
         },
         {
-          'name': 'Data Type',
-          'key': 'dataTypeName',
-          'width': 100,
-          'column_type': 'data',
-          'data_align': 'center',
-          // 'sort': true,
-          // 'filter': true,
-          // 'filterConfig': {
-          //   'operators': {
-          //     'like': true
-          //   },
-          //   'selected_operator': 'like',
-          //   'type': 'option'
-          // }
-        },
-        {
-          'name': 'Category Type',
-          'key': 'type',
+          'name': 'Name',
+          'key': 'name',
           'width': 100,
           'column_type': 'data',
           'data_align': 'left',
-          'sort': true,
-          'filter': true,
-          'filterConfig': {
-            'operators': {
-              'eq': true
-            },
-            'selected_operator': 'eq',
-            'type': 'option',
-            'options': this.filterCategoryTypes
-          }
         },
         {
-          'name': 'Is Parent',
-          'key': 'parent',
-          'width': 100,
+          'name': 'Description',
+          'key': 'description',
+          'width': 500,
           'column_type': 'data',
-          'data_align': 'left',
-          // 'sort': true,
-          // 'filter': true,
-          // 'filterConfig': {
-          //   'operators': {
-          //     'like': true
-          //   },
-          //   'selected_operator': 'like',
-          //   'type': 'option'
-          // }
-        },
-        {
-          'name': 'Parent Category',
-          'key': 'parentCategoryId', // --------------------check
-          'width': 100,
-          'column_type': 'data',
-          'data_align': 'center',
-          // 'sort': true,
-          // 'filter': true,
-          // 'filterConfig': {
-          //   'operators': {
-          //     'like': true
-          //   },
-          //   'selected_operator': 'like',
-          //   'type': 'option'
-          // }
-        },
-        {
-          'name': 'Value',
-          'key': 'value',
-          'width': 200,
-          'column_type': 'data',
-          'data_align': 'left',
-          'filter': true,
-            'filterConfig': {
-              'operators': {
-                'like': true
-              },
-              'selected_operator': 'like',
-              'type': 'text',
-            }
+          'data_align': 'left'
         },
         {
           'name': 'Status',
@@ -384,7 +253,7 @@ export class CategoryListComponent implements OnInit {
           }
         },
         {
-          'name': '',
+          'name': 'Action',
           'key': 'edit',
           'title': 'Edit',
           'column_type': 'action',
@@ -397,16 +266,7 @@ export class CategoryListComponent implements OnInit {
             'condition_values': [MainConfig.STATUS_LIST.DELETED.ID],
           }
         }
-        // {
-        //   'name': '',
-        //   'key': 'view',
-        //   'title': 'View',
-        //   'column_type': 'action',
-        //   'data_align': 'center',
-        //   'btn_type': 'btn-info',
-        //   'icon': 'fa-eye',
-        //   'width': 35
-        // },
+
       ],
       records: []
     };
@@ -414,10 +274,10 @@ export class CategoryListComponent implements OnInit {
 
   onClickAddBtn () {
     this.action = 'add';
-    this.categoryDetails = {};
-    this.openNewProductCategoryModel();
+    this.brandDetails = {};
+    this.openNewBrandModel();
   }
-  private openNewProductCategoryModel () {
+  private openNewBrandModel () {
     const modelConfig: any = {
       class: 'modal-lg',
       animated: true,
@@ -426,9 +286,9 @@ export class CategoryListComponent implements OnInit {
       ignoreBackdropClick: true
     };
     this.bsModalRef = null;
-    this.bsModalRef = this.modalService.show(NewCategoryFormComponent, modelConfig);
+    this.bsModalRef = this.modalService.show(NewBrandFormComponent, modelConfig);
     this.bsModalRef.content.action = this.action;
-    this.bsModalRef.content.category = this.categoryDetails;
+    this.bsModalRef.content.brand = this.brandDetails;
     this.bsModalRef.content.onClose.subscribe(result => {
       const response = result;
       response.display_format = this.recordFormat(Object.assign({}, result));
@@ -454,12 +314,12 @@ export class CategoryListComponent implements OnInit {
   }
   private updateStatus (record, StatusId) {
     const req = {
-      'primaryId': record.categoryId,
+      'primaryId': record.brandId,
       'status': StatusId
     };
-    this.masterMngService.updateCategoryStatus(req).then((response: any) => {
+    this.masterMngService.updateBrandStatus(req).then((response: any) => {
       if (response) {
-        this.getProductCategoriesFindByCriteria();
+        this.getBrandsFindByCriteria();
         this.getGridRow(record);
       }
     });
@@ -474,7 +334,7 @@ export class CategoryListComponent implements OnInit {
   }
   private updateGridRow (updatedData: any) {
     for (let i = 0; i < this.gridConfig.records.length; i++) {
-      if (this.gridConfig.records[i].categoryId === updatedData.categoryId) {
+      if (this.gridConfig.records[i].brandId === updatedData.brandId) {
         const record = Object.assign({}, this.gridConfig.records[i], updatedData);
         delete record.display_format;
         delete record.style_format;
@@ -501,3 +361,5 @@ export class CategoryListComponent implements OnInit {
   }
 
 }
+
+

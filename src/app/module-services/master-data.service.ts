@@ -141,6 +141,27 @@ export class MasterDataService {
     return promise;
 
   }
+  public getBrands(req) {
+    const brands = [];
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpPost(SevConfig.MASTER_SEV, '/brand/findByCriteria',  req, null)
+        .then((data: any) => {
+          if (data) {
+            data.data.forEach((obj: any) => {
+              const brand = this.masterDataObj.analyzeResponseBrand(obj);
+              const statusAnalyzeObj: any = this.globalFun.getStatusObject(brand.status, MainConfig.STATUS_LIST);
+              brand.statusName = statusAnalyzeObj.name;
+              brand.rowStyle.status = statusAnalyzeObj.style;
+              brands.push(brand);
+            });
+            data.data = brands;
+          }
+          resolve(data);
+        });
+    });
+    return promise;
+
+  }
   public getMasterData(masterDataId: any) {
     const masterData = [];
     const promise = new Promise((resolve, reject) => {

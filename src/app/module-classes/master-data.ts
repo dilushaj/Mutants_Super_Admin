@@ -59,6 +59,25 @@ export class MasterData {
     };
     return productCategory;
   }
+
+  public analyzeResponseBrand(data: any) {
+    const brand: any = {
+      'brandId': data.brandId || 0,
+      'description': data.description || '',
+      'name': data.name || null,
+      'image': data.image || '',
+      'shopCategoryId': data.shopCategoryId || 0,
+      'status': data.status || 0,
+      'url': data.url || null,
+      'statusName': data.statusName || null,
+      'rowStyle': {
+        'status': {}
+      },
+      'shopCategoryName': data.shopCategoryName || null,
+    };
+    return brand;
+  }
+
   public analyzeUpdateCategory(data: any) {
     const updatedProductCategory: any = {
       'categoryId': data.categoryId || 0,
@@ -101,6 +120,27 @@ export class MasterData {
       'image': data.image || ''
     };
     return category;
+  }
+
+  public analyzeRequestBrand(data: any) {
+    const category: any = {
+      'name': data.name || null,
+      'shopCategoryId': data.shopCategoryId || 0,
+      'description': data.description || '',
+      'image': data.image || null
+    };
+    return category;
+}
+  public analyzeUpdateBrand(data: any) {
+    const updatedBrand: any = {
+      'brandId': data.brandId || 0,
+      'name': data.name || null,
+      'shopCategoryId': data.shopCategoryId || 0,
+      'description': data.description || '',
+      'image': data.image || null,
+      'url': data.url || null
+    };
+    return updatedBrand;
   }
 
   public analyzeNewMasterData(data: any) {

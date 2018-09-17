@@ -27,12 +27,6 @@ export const navigation = [
                 url: '/admin/manage-branch',
                 icon: 'icon-briefcase'
             },
-          {
-            entitlements: ['VIEW_SHOP_PROFILE', 'UPDATE_SHOP_PROFILE'],
-            name: 'Product Categories',
-            url: '/admin/product-categories',
-            icon: 'icon-briefcase'
-          },
             {
                 entitlements: ['VIEW_USER_PROFILE', 'UPDATE_USER_PROFILE'],
                 name: 'Manage Users',
@@ -58,6 +52,18 @@ export const navigation = [
                 url: '/admin/master-data',
                 icon: 'icon-briefcase'
               }]
+          },
+          {
+            entitlements: ['VIEW_SHOP_PROFILE', 'UPDATE_SHOP_PROFILE'],
+            name: 'Product Categories',
+            url: '/admin/product-categories',
+            icon: 'icon-briefcase'
+          },
+          {
+            entitlements: ['VIEW_SHOP_PROFILE', 'UPDATE_SHOP_PROFILE'],
+            name: 'Brands',
+            url: '/admin/brands',
+            icon: 'icon-briefcase'
           }
         ]
     },

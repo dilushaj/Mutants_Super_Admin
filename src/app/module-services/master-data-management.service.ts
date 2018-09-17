@@ -74,6 +74,18 @@ export class MasterDataManagementService {
       return promise;
   }
 
+  public updateBrandStatus(req) {
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpPut(SevConfig.MASTER_MANG_SEV, '/brand/updateStatus', req, null)
+        .then((data: any) => {
+          if (data) {
+            resolve(data);
+          }
+        });
+    });
+    return promise;
+  }
+
   public addProductCategory(req) {
     const formattedReq = this.masterDataObj.analyzeRequestCategory(req);
     const promise = new Promise((resolve, reject) => {
@@ -91,6 +103,32 @@ export class MasterDataManagementService {
     const formattedReq = this.masterDataObj.analyzeUpdateCategory(req);
     const promise = new Promise((resolve, reject) => {
       return this.apiSev.httpPut(SevConfig.MASTER_MANG_SEV, '/category', formattedReq, null)
+        .then((data: any) => {
+          if (data) {
+            resolve(data);
+          }
+        }).catch(error => {
+          resolve(null);
+        });
+    });
+    return promise;
+  }
+  public addBrand(req) {
+    const formattedReq = this.masterDataObj.analyzeRequestBrand(req);
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpPost(SevConfig.MASTER_MANG_SEV, '/brand', formattedReq, null)
+        .then((data: any) => {
+          if (data) {
+            resolve(data);
+          }
+        });
+    });
+    return promise;
+  }
+  public updateBrand(req) {
+    const formattedReq = this.masterDataObj.analyzeUpdateBrand(req);
+    const promise = new Promise((resolve, reject) => {
+      return this.apiSev.httpPut(SevConfig.MASTER_MANG_SEV, '/brand', formattedReq, null)
         .then((data: any) => {
           if (data) {
             resolve(data);
